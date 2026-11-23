@@ -68,7 +68,7 @@ export function buildInterior(hall) {
   const SY = FY + .6;
   // on stage: a speaker at the lectern addressing the hall, others seated beside
   I.stage = [];
-  { const sp = makePerson('m', 31); sp.position.set(0, SY, -17); sp.rotation.y = PI; G.add(sp); I.speaker = sp;
+  { const sp = makePerson('m', 31); sp.position.set(.4, SY, -17); sp.rotation.y = PI; G.add(sp); I.speaker = sp;
     const mic = new THREE.Group(); const mb = new THREE.Mesh(new THREE.CylinderGeometry(.02, .016, .2, 8), std(0x1a1a1a, { metalness: .7, roughness: .3 })); mb.position.y = .06;
     const mh = new THREE.Mesh(new THREE.SphereGeometry(.035, 10, 8), std(0x777777, { metalness: .8, roughness: .3 })); mh.position.y = .17; mic.add(mb, mh); mic.position.set(0, -.6, -.03); sp.userData.arm1.add(mic);
     const chairG = chairGeo(), cm = std(0xfff6ea);
@@ -172,12 +172,10 @@ export function updateInterior(I, t, dt, on, cue) {
   const arm = (p, s, v) => { const a = p.userData['arm' + s]; if (a) a.rotation.z += (v - a.rotation.z) * Math.min(1, dt * 8); };
   // the host chats casually on stage, mic in hand, strolling a little; now and then the hall laughs
   const laugh = Math.pow(Math.max(0, Math.sin(t * .42 - 1)), 10);
-  { const sp = I.speaker, u = sp.userData, walk = Math.sin(t * .16) * 2.2, v = Math.cos(t * .16) * .16 * 2.2;
-    sp.position.x = walk; sp.rotation.y = PI + Math.sin(t * .3) * .35 + Math.sign(v) * Math.min(.5, Math.abs(v) * 1.2);
-    const ph = t * 5; if (u['leg-1']) { u['leg-1'].rotation.x = Math.sin(ph) * Math.abs(v) * 1.6; u['leg1'].rotation.x = -Math.sin(ph) * Math.abs(v) * 1.6; }
-    u.arm1.rotation.x = -2.25; u.arm1.rotation.z = -.35; // mic up near the mouth
-    arm(sp, -1, -.15 - Math.max(0, Math.sin(t * 1.1)) * .55); u['arm-1'].rotation.x = -Math.max(0, Math.sin(t * 1.1)) * .5;
-    u.body.position.y = Math.abs(Math.sin(ph)) * Math.abs(v) * .05; u.body.rotation.x = laugh * .05; }
+  { const sp = I.speaker, u = sp.userData; // stands still and talks, mic held up
+    u.arm1.rotation.x = -2.25; u.arm1.rotation.z = -.35; u['arm-1'].rotation.set(0, 0, -.12);
+    if (u['leg-1']) { u['leg-1'].rotation.x = 0; u['leg1'].rotation.x = 0; }
+    u.body.rotation.y = Math.sin(t * .25) * .18; u.body.rotation.x = laugh * .04; u.body.position.y = 0; }
   I.stage.forEach((p, i) => { const u = p.userData; u.body.rotation.x = -laugh * .08 * (.6 + (i % 3) * .2); u.body.position.y = Math.abs(Math.sin(t * 11 + i)) * .02 * laugh; u.body.rotation.y = Math.sin(t * .2 + i) * .1; });
   // the seated guests listen, and laugh along (quietly) when the host says something funny
   { const o = I.tmpO || (I.tmpO = new THREE.Object3D());

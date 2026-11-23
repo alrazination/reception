@@ -145,6 +145,30 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
 #maker button,#maker .mb{font:700 .9rem 'Mukta';border:0;padding:9px 14px;background:var(--btn);color:#fff;cursor:pointer;text-decoration:none}
 #maker .ghost{background:#efe6d6;color:#2f555a}
 #maker .top{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+
+/* ---------- cards pop up as floating panels ---------- */
+#sheet,#join{position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));width:min(calc(100% - 24px),440px);padding:0!important;opacity:0;transform:translate(-50%,40px) scale(.9);transition:transform .75s cubic-bezier(.2,1.35,.35,1),opacity .45s;pointer-events:none}
+.final #sheet{opacity:1;transform:translate(-50%,0) scale(1);transition-delay:1.2s;pointer-events:auto}
+.final.mini #sheet{transform:translate(-50%,calc(100% - 58px)) scale(1);transition-delay:0s}
+.joinon #join{opacity:1;transform:translate(-50%,0) scale(1);pointer-events:auto}
+.joinon.joinmini #join{transform:translate(-50%,calc(100% - 58px)) scale(1)}
+.card,.jc{clip-path:none!important;border-radius:24px;background:rgba(255,250,243,.93)!important;box-shadow:0 18px 50px rgba(20,10,30,.35),0 0 0 1px rgba(201,162,79,.35) inset!important;padding:30px 22px 18px!important}
+.jc h3{font:700 1.5rem/1.2 'Lora',serif;color:var(--green)}
+.jc p{margin:6px auto 0;font-weight:600;font-size:.98rem;opacity:.85}
+.jc .wa,.card .wa{border-radius:40px;padding:14px 26px;margin-top:14px;box-shadow:0 6px 18px rgba(63,122,133,.35)}
+.jc .info{margin-top:12px;font-size:.86rem;opacity:.85}
+.acts a{font-size:.88rem}
+#cont{display:inline-flex;align-items:center;gap:8px;margin:14px auto 2px;padding:11px 22px;border:0;border-radius:40px;background:linear-gradient(135deg,#1c2350,#3b3f86 60%,#6a5aa0);color:#fff3d2;font:italic 600 1rem 'Lora',serif;cursor:pointer;box-shadow:0 6px 20px rgba(30,30,80,.35),0 0 0 1px rgba(255,230,170,.35) inset}
+#cont .st{color:#ffd98e;font-style:normal;animation:twk 1.6s ease-in-out infinite alternate}
+#cont .st:last-child{animation-delay:-.8s}
+@keyframes twk{from{opacity:.35;transform:scale(.8)}to{opacity:1;transform:scale(1.15)}}
+#eh{font-size:1.22rem;margin-top:2px}
+.dua .ink{margin-bottom:4px}
+.minil{top:24px!important}
+#lanhint{position:fixed;left:50%;top:max(64px,calc(env(safe-area-inset-top) + 56px));transform:translateX(-50%);background:rgba(20,16,40,.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff3d2;font:italic 500 .9rem 'Lora',serif;padding:8px 16px;border-radius:30px;white-space:nowrap;opacity:0;transition:opacity 1s;pointer-events:none}
+.final #lanhint{animation:hint 6s 4.5s both}
+.tapped #lanhint{animation:none;opacity:0}
+@keyframes hint{0%{opacity:0}15%,80%{opacity:1}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.cap>*,#start,#sheet{transition:none!important;animation:none!important}.ink{-webkit-mask-image:none;mask-image:none;-webkit-text-fill-color:currentColor}}
 </style>
 </head>
@@ -169,12 +193,12 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
   <section id="join"><div class="jc">
     <button id="jgrip" aria-label="Show or hide the details"><i></i></button>
     <div class="minil">Show the details</div>
-    <h3>So much is happening all evening</h3>
-    <p>Join our WhatsApp group to take part in the programs and win prizes.</p>
+    <h3>Join the celebration</h3>
+    <p>Take part in the programs and win prizes</p>
     <a class="wa" id="joinwa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#fff"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#3f7a85"/></svg>Join our WhatsApp group</a>
-    <div class="info">Sunday, 10 January 2027 · 5 to 8 PM<br>Evento Auditorium, Athani</div>
+    <div class="info">Sun, 10 Jan 2027 · 5 to 8 PM<br>Evento Auditorium, Athani</div>
     <div class="acts"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Evento+Auditorium+Athani+Amarambalam">Open map</a><a href="#" id="replay2">Watch again</a></div>
-    <button id="cont">Step outside under the stars &rarr;</button>
+    <button id="cont"><span class="st">&#10022;</span> Step outside under the stars <span class="st">&#10022;</span></button>
   </div></section>
 
   <div id="doorhint"><div class="arr"><i></i><i></i></div><p>Slide to open the doors</p><button id="dooropen">or tap here</button></div>
@@ -182,19 +206,17 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
   <section id="sheet"><div class="card">
     <button id="grip" aria-label="Show or hide the details"><i></i></button>
     <div class="minil">Show the details</div>
-    <div class="dua" lang="ar"><span class="ink">بَارَكَ اللهُ لَكُمْ وَبَارَكَ عَلَيْكُمْ<br>وَجَمَعَ بَيْنَكُمْ فِي خَيْرٍ</span><small lang="en">May Allah bless you, shower His blessings upon you, and bring you together in goodness</small></div>
+    <div class="dua" lang="ar"><span class="ink">بَارَكَ اللهُ لَكُمْ وَبَارَكَ عَلَيْكُمْ<br>وَجَمَعَ بَيْنَكُمْ فِي خَيْرٍ</span></div>
     <h2 id="eh">Your presence would make our joy complete</h2>
     <div class="cd"><div><b id="cd0">0</b><small>days</small></div><div><b id="cd1">0</b><small>hours</small></div><div><b id="cd2">0</b><small>mins</small></div><div><b id="cd3">0</b><small>secs</small></div></div>
-    <div class="cdl">until we celebrate together, in shaa Allah</div>
-    <div class="now"><i></i>We are celebrating right now. Come join us!</div>
-    <div class="info">Sunday, 10 January 2027 · 5 to 8 PM<br>Evento Auditorium, Athani</div>
-    <div class="games">Programs and prizes all evening. Join the group to take part!</div>
+    <div class="now"><i></i>Happening now. Come join us!</div>
+    <div class="info">Sun, 10 Jan 2027 · 5 to 8 PM<br>Evento Auditorium, Athani</div>
     <!-- REPLACE the link below with your WhatsApp group invite link -->
     <a class="wa" href="https://chat.whatsapp.com/YOUR_GROUP_LINK" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#fff"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#3f7a85"/></svg>Join our WhatsApp group</a>
     <div class="acts"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Evento+Auditorium+Athani+Amarambalam">Open map</a><a href="#" id="replay">Watch again</a></div>
     <div class="foot">With love, Abdullah Koya &amp; Raseena Kozhimannil</div>
-    <div class="lh">Tap the sky to send up a lantern with your du'a</div>
   </div></section>
+  <div id="lanhint">Tap the sky to send up a lantern &#10022;</div>
 
   <button class="corner" id="snd" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="w" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="x" d="M17 9l5 6M22 9l-5 6"/></svg><span id="sndl">Sound off</span></button>
   <button class="corner" id="skip">Skip</button>
