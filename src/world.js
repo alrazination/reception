@@ -496,7 +496,8 @@ export function buildWorld(scene, renderer, opts) {
 const skin = [0xc99068, 0xb57d55, 0xd9a679, 0x9c6a48];
 const abaya = [0x3b2a4a, 0x5a2a3a, 0x1f2c4a, 0x2a2a2e, 0x2f4a4a, 0x6a4a3a];
 const hijab = [0xf3e6d8, 0xf2c6cf, 0xcfe0d6, 0xe8d3a8, 0xd9c4e8, 0xffffff];
-const thobe = [0xf4f1e8, 0xe9e2d0, 0xdfe6ee, 0xcfc4b0];
+const thobe = [0xffffff, 0xcfe0f2, 0xf3ead6, 0xd9eadf, 0xf2d9de, 0xc9ced6, 0xa9c2de];
+const pants = [0x2b2f3a, 0x3a3a40, 0x4a4036, 0x1f2a3a, 0x5a5650];
 const kidc = [0xff8a65, 0x6fb7a8, 0xf7c948, 0xb08bd6, 0x7fb3e8, 0xf49ab8];
 const std = c => new THREE.MeshStandardMaterial({ color: c, roughness: .85 });
 export function makePerson(kind, i) {
@@ -509,12 +510,16 @@ export function makePerson(kind, i) {
     const f = new THREE.Mesh(new THREE.SphereGeometry(.1, 10, 8), sk); f.position.set(0, 1.55, -.07); f.scale.set(.95, 1.1, .7); body.add(f);
     for (const s of [-1, 1]) { const ar = new THREE.Group(); const am = new THREE.Mesh(new THREE.CylinderGeometry(.05, .06, .6, 8), b.material); am.position.y = -.3; ar.add(am); ar.position.set(s * .23, 1.36, 0); body.add(ar); g.userData['arm' + s] = ar; }
   } else if (kind === 'm') {
-    const b = new THREE.Mesh(new THREE.CylinderGeometry(.21, .27, 1.45, 12), std(thobe[i % thobe.length])); b.position.y = .72; body.add(b);
-    const sh = new THREE.Mesh(new THREE.SphereGeometry(.24, 12, 8), b.material); sh.scale.set(1, .45, .8); sh.position.y = 1.43; body.add(sh);
-    const hd = new THREE.Mesh(new THREE.SphereGeometry(.12, 12, 10), sk); hd.position.y = 1.64; body.add(hd);
-    const cap = new THREE.Mesh(new THREE.SphereGeometry(.122, 12, 6, 0, 2 * PI, 0, PI / 2.3), std(0xffffff)); cap.position.y = 1.66; body.add(cap);
-    const beard = new THREE.Mesh(new THREE.SphereGeometry(.085, 8, 6), std(0x2a201a)); beard.position.set(0, 1.56, -.06); beard.scale.set(1, .8, .7); body.add(beard);
-    for (const s of [-1, 1]) { const a = new THREE.Group(); const am = new THREE.Mesh(new THREE.CylinderGeometry(.055, .06, .62, 8), b.material); am.position.y = -.31; a.add(am); a.position.set(s * .27, 1.42, 0); body.add(a); g.userData['arm' + s] = a; }
+    // shirt and trousers
+    const pm = std(pants[i % pants.length]);
+    for (const s of [-1, 1]) { const l = new THREE.Mesh(new THREE.CylinderGeometry(.08, .075, .86, 8), pm); l.position.set(s * .1, .43, 0); body.add(l); g.userData['leg' + s] = l; }
+    const hip = new THREE.Mesh(new THREE.CylinderGeometry(.19, .19, .16, 12), pm); hip.position.y = .86; body.add(hip);
+    const b = new THREE.Mesh(new THREE.CylinderGeometry(.21, .2, .62, 12), std(thobe[i % thobe.length])); b.position.y = 1.18; body.add(b);
+    const sh = new THREE.Mesh(new THREE.SphereGeometry(.23, 12, 8), b.material); sh.scale.set(1, .4, .8); sh.position.y = 1.46; body.add(sh);
+    const hd = new THREE.Mesh(new THREE.SphereGeometry(.115, 12, 10), sk); hd.position.y = 1.65; body.add(hd);
+    const hair = new THREE.Mesh(new THREE.SphereGeometry(.12, 12, 8, 0, 2 * PI, 0, PI / 2), std(0x1c1410)); hair.position.set(0, 1.67, .012); hair.rotation.x = .25; body.add(hair);
+    if (i % 2) { const beard = new THREE.Mesh(new THREE.SphereGeometry(.08, 8, 6), std(0x1c1410)); beard.position.set(0, 1.58, -.06); beard.scale.set(1, .75, .7); body.add(beard); }
+    for (const s of [-1, 1]) { const a = new THREE.Group(); const am = new THREE.Mesh(new THREE.CylinderGeometry(.055, .06, .6, 8), b.material); am.position.y = -.3; a.add(am); a.position.set(s * .25, 1.44, 0); body.add(a); g.userData['arm' + s] = a; }
   } else {
     const c = kidc[i % kidc.length]; const b = new THREE.Mesh(new THREE.CylinderGeometry(.13, .19, .62, 10), std(c)); b.position.y = .62; body.add(b);
     for (const s of [-1, 1]) { const l = new THREE.Mesh(new THREE.CylinderGeometry(.05, .05, .34, 6), std(0x4a5a7a)); l.position.set(s * .07, .16, 0); body.add(l); g.userData['leg' + s] = l; }
