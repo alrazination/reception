@@ -20,7 +20,8 @@ export function createSound() {
     const lfo = (f, amt, target, type) => { const o = AC.createOscillator(); o.type = type || 'sine'; o.frequency.value = f; const g = AC.createGain(); g.gain.value = amt; o.connect(g); g.connect(target); o.start(); };
     const bus = (name, toRev) => { const g = AC.createGain(); g.gain.value = 0; g.connect(M); if (toRev) g.connect(REV); amb[name] = g; return g; };
     // wind
-    { const f = AC.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 480; f.Q.value = .5; noise().connect(f); f.connect(bus('wind')); lfo(.05, 280, f.frequency); }
+    // a gentle breeze: low, soft and slowly swelling (no hiss)
+    { const f = AC.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 320; f.Q.value = .3; const g = AC.createGain(); g.gain.value = .6; noise().connect(f); f.connect(g); g.connect(bus('wind')); lfo(.04, 90, f.frequency); lfo(.07, .35, g.gain); }
     // high air rushing past (clouds)
     { const f = AC.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 1400; noise(wb).connect(f); const g = AC.createGain(); g.gain.value = .25; f.connect(g); g.connect(bus('air')); lfo(.13, .12, g.gain); }
     // water trickling in the pool
