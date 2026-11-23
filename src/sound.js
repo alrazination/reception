@@ -26,14 +26,11 @@ export function createSound() {
     // the hall: many voices, softly
     { const f = AC.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 650; f.Q.value = 1.1; const g = AC.createGain(); g.gain.value = .5;
       noise().connect(f); f.connect(g); g.connect(bus('hall', true)); lfo(3.1, .28, g.gain); lfo(4.7, .18, g.gain); lfo(.19, 160, f.frequency); }
-    // crickets
-    { const o = AC.createOscillator(); o.frequency.value = 3800; const c1 = AC.createGain(); c1.gain.value = .5; const c2 = AC.createGain(); c2.gain.value = .5;
-      o.connect(c1); c1.connect(c2); c2.connect(bus('night', true)); o.start(); lfo(31, .5, c1.gain, 'square'); lfo(.75, .5, c2.gain, 'square'); }
     birds(); return true;
   }
   let birdy = 0;
   function birds() {
-    setTimeout(birds, 1500 + Math.random() * 4200);
+    setTimeout(birds, 5000 + Math.random() * 8000); // only now and then
     if (!on || birdy < .05) return;
     const t = AC.currentTime, f = 2400 + Math.random() * 1600, n = 2 + (Math.random() * 4 | 0);
     const pn = AC.createStereoPanner ? AC.createStereoPanner() : null; if (pn) { pn.pan.value = Math.random() * 1.6 - .8; pn.connect(M); pn.connect(REV); }
