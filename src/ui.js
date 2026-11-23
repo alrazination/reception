@@ -18,8 +18,8 @@ export function initUI() {
     $('s2').textContent = NAME || (s === 'after' ? 'Dear guest' : 'You are warmly invited');
     $('s3').textContent = s === 'after' ? 'Thank you for celebrating with us' : (NAME ? 'You are warmly invited to our Walimah' : 'to the Walimah of our family');
     $('s4').textContent = s === 'after' ? '' : s === 'live' ? 'We are celebrating right now' : s === 'today' ? 'Today is the day, in shaa Allah' : days <= 1 ? 'Tomorrow, in shaa Allah' : days + ' days to go, in shaa Allah';
-    $('eh').textContent = s === 'after' ? (NAME ? NAME + ', jazakAllahu khairan for sharing our joy' : 'JazakAllahu khairan for sharing our joy')
-      : (NAME ? NAME + ', your presence would make our joy complete' : 'Your presence would make our joy complete');
+    $('eh').textContent = s === 'after' ? (NAME ? 'JazakAllahu khairan, ' + NAME : 'JazakAllahu khairan for celebrating with us')
+      : (NAME ? NAME + ', we would love to see you there' : 'We would love to see you there');
   };
   greet();
   let last = '';
