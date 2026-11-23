@@ -20,11 +20,14 @@ export function createSound() {
     const lfo = (f, amt, target, type) => { const o = AC.createOscillator(); o.type = type || 'sine'; o.frequency.value = f; const g = AC.createGain(); g.gain.value = amt; o.connect(g); g.connect(target); o.start(); };
     const bus = (name, toRev) => { const g = AC.createGain(); g.gain.value = 0; g.connect(M); if (toRev) g.connect(REV); amb[name] = g; return g; };
     // wind
+    // water gently lapping at the pool edge: low and soft, no hiss
+    { const f = AC.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 520; f.Q.value = .4; const pk = AC.createBiquadFilter(); pk.type = 'peaking'; pk.frequency.value = 300; pk.gain.value = 5; pk.Q.value = .8;
+      const g = AC.createGain(); g.gain.value = .55; noise().connect(f); f.connect(pk); pk.connect(g); g.connect(bus('water', true)); lfo(.31, .3, g.gain); lfo(.17, .2, g.gain); lfo(.11, 120, f.frequency); }
     // the hall: many voices, softly
     { const f = AC.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 650; f.Q.value = 1.1; const g = AC.createGain(); g.gain.value = .5;
       noise().connect(f); f.connect(g); g.connect(bus('hall', true)); lfo(3.1, .28, g.gain); lfo(4.7, .18, g.gain); lfo(.19, 160, f.frequency); }
     // crickets
-    { const o = AC.createOscillator(); o.frequency.value = 4400; const c1 = AC.createGain(); c1.gain.value = .5; const c2 = AC.createGain(); c2.gain.value = .5;
+    { const o = AC.createOscillator(); o.frequency.value = 3800; const c1 = AC.createGain(); c1.gain.value = .5; const c2 = AC.createGain(); c2.gain.value = .5;
       o.connect(c1); c1.connect(c2); c2.connect(bus('night', true)); o.start(); lfo(31, .5, c1.gain, 'square'); lfo(.75, .5, c2.gain, 'square'); }
     birds(); return true;
   }
