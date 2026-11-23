@@ -120,7 +120,7 @@ const caps = [...document.querySelectorAll('.cap:not(.in)')].map(e => ({ e, a: +
 const capsIn = [...document.querySelectorAll('.cap.in')].map(e => ({ e, a: +e.dataset.a, b: +e.dataset.b }));
 function begin(withSound) {
   if (phase !== 'intro') return;
-  if (withSound) { sound.enable(true); sound.music(.45); sound.chimes([587.33, 739.99, 880, 1174.66], .16, .05, 3.5); }
+  if (withSound) { sound.enable(true); }
   body.classList.add('go'); phase = 'journey'; motion(); setSoundBtn();
 }
 $('go').onclick = () => begin(true); $('quiet').onclick = () => begin(false);
@@ -131,20 +131,38 @@ $('grip').onclick = () => { body.classList.toggle('mini'); measureSheet(); };
 $('dooropen').onclick = () => openDoors();
 $('cont').onclick = () => { if (phase === 'inside') { phase = 'leaving'; leaveAt = wt; body.classList.remove('joinon'); } };
 $('joinwa').href = document.querySelector('.wa').href;
-$('replay2').onclick = e => { e.preventDefault(); $('replay').click(); };
+function restart() {
+  phase = 'journey'; T = 0; wt = 0; doorP = 0; doorTarget = 0; openAt = insideAt = leaveAt = finalAt = -1; dragYaw = dragPitch = 0;
+  body.classList.remove('door', 'final', 'inside', 'joinon', 'joinmini', 'mini', 'tapped'); body.classList.add('go');
+  W.diyas.list.forEach(l => l.lit = -1); LN.list.length = 0; bgSpawned = 0; bgClock = 0;
+  LN.o.scale.setScalar(0); LN.o.updateMatrix(); for (let i = 0; i < LN.n; i++) LN.mesh.setMatrixAt(i, LN.o.matrix); LN.mesh.instanceMatrix.needsUpdate = true;
+  IN.next = 3; IN.buzz = null; sheetTarget = 0; envD = -1; window.scrollTo(0, 0);
+}
+for (const id of ['replay', 'replay2']) $(id).onclick = e => { e.preventDefault(); e.stopImmediatePropagation(); restart(); };
+// slide the cards down (or back up) with the grip or a swipe
+$('jgrip').onclick = () => body.classList.toggle('joinmini');
+for (const [el, cls] of [[$('sheet'), 'mini'], [$('join'), 'joinmini']]) { let y0 = null;
+  el.addEventListener('pointerdown', e => { y0 = e.clientY; });
+  el.addEventListener('pointerup', e => { if (y0 === null) return; const dy = e.clientY - y0; y0 = null; if (dy > 45) body.classList.add(cls); else if (dy < -45) body.classList.remove(cls); if (cls === 'mini') measureSheet(); }); }
 function measureSheet() { sheetTarget = body.classList.contains('final') ? $('sheet').getBoundingClientRect().height * (body.classList.contains('mini') ? 0 : 1) + (body.classList.contains('mini') ? 64 : 0) : 0; }
 addEventListener('resize', measureSheet);
 
 function openDoors() {
   if (phase !== 'door') return; phase = 'opening'; openAt = wt; doorTarget = 1; body.classList.remove('door');
   try { navigator.vibrate && navigator.vibrate([16, 70, 30]); } catch (_) { }
-  sound.chimes([587.33, 739.99, 880, 1174.66, 1479.98, 1760], .12, .07, 4); sound.swell();
 }
-function musicFor() { sound.music(phase === 'intro' ? 0 : phase === 'journey' ? .45 : phase === 'door' ? .5 : phase === 'final' ? .5 : .6); }
+function musicFor() {
+  if (phase === 'intro') return sound.musicMix(0, 600, .5);
+  if (phase === 'journey' || phase === 'door') { // muffled and distant, slowly drawing nearer to the hall
+    const dist = camera.position.distanceTo(tmp.set(0, 3, -6)), c = 1 - clamp(Math.log(dist / 9) / Math.log(45));
+    return sound.musicMix(.09 + .26 * c * c, 650 + 2400 * c * c, .55 - .25 * c); }
+  if (phase === 'opening') { const e = smooth(0, .6, doorP); return sound.musicMix(lerp(.35, .7, e), lerp(3000, 16000, e), lerp(.3, .12, e)); }
+  if (phase === 'inside' || phase === 'leaving') return sound.musicMix(.7, 16000, .12);
+  return sound.musicMix(.28, 2200, .4); // outside again, heard from the hall
+}
 function toFinal(skip) {
   phase = 'final'; finalAt = wt; T = TJ; doorP = 1; body.classList.remove('door', 'intro', 'joinon', 'inside'); body.classList.add('go', 'final');
   requestAnimationFrame(() => { measureSheet(); });
-  if (!skip) sound.chimes([1760, 1479.98, 1318.5, 1174.66, 987.77, 880], .5, .03, 4.5, .8);
   setSoundBtn();
 }
 
@@ -177,7 +195,6 @@ function release(px, py) {
   v2.set(px / innerWidth * 2 - 1, -(py / innerHeight) * 2 + 1); ray.setFromCamera(v2, camera);
   const p = ray.ray.at(16 + Math.random() * 10, new THREE.Vector3()); p.y = Math.max(p.y, 1.2);
   const i = LN.bg + (LN.next++ % (LN.n - LN.bg)); spawn(i, p.x, p.y, p.z, 1.1 + Math.random() * .4, 1.5, true);
-  sound.bell(sound.PENTA[Math.random() * sound.PENTA.length | 0], .06, 4.5);
   try { navigator.vibrate && navigator.vibrate(8); } catch (_) { }
   body.classList.add('tapped');
 }
@@ -244,7 +261,7 @@ function loop(now) {
   const ang = doorP * 1.85; W.doors[0].rotation.y = ang; W.doors[1].rotation.y = -ang;
   W.inLight.intensity = 10 * smooth(0, .4, doorP); W.doorGlow.material.opacity = smooth(0, .3, doorP) * (1 - smooth(.35, .8, doorP)) * .35;
   const inside = phase === 'opening' ? smooth(.02, .3, doorP) : (phase === 'inside' || phase === 'leaving') ? 1 : 0;
-  updateInterior(IN, wt, dt, inside, c => { if (c === 'buzz') sound.buzz(); if (c === 'cheer') sound.applause(); });
+  updateInterior(IN, wt, dt, inside, () => { });
   if (inside) { exMul *= lerp(1, .72, inside); renderer.toneMappingExposure = exposureBase * exMul; W.hemi.intensity += .45 * inside; W.hemi.color.lerp(tmpC.set(0xffe2c0), inside); W.hemi.groundColor.lerp(tmpC.set(0x7a4a3a), inside); }
   // clouds fade as we sink beneath them
   const cv = smooth(40, 100, camPos.y); W.clouds.grp.visible = cv > .01;
@@ -254,13 +271,11 @@ function loop(now) {
   // captions
   if (phase === 'journey') caps.forEach(c => c.e.classList.toggle('on', T >= c.a && T < c.b)); else caps.forEach(c => c.e.classList.remove('on'));
   // ambience
-  soundClock += dt; if (soundClock > .4) { soundClock = 0; const y = camPos.y, near = smooth(45, 6, camPos.z);
+  soundClock += dt; if (soundClock > .25) { soundClock = 0; musicFor(); const y = camPos.y, near = smooth(45, 6, camPos.z);
     if (phase === 'intro') sound.set({ wind: .1, air: .06, water: 0, hall: 0, night: 0, birds: 0 });
     else if (phase === 'journey' || phase === 'door') sound.set({ wind: .07 * (1 - .5 * d), air: .12 * smooth(60, 130, y), birds: (1 - smooth(.35, .65, d)) * smooth(90, 30, y), water: .07 * smooth(25, 4, y) * smooth(4, 60, camPos.z), night: .02 * smooth(.55, .9, d), hall: .07 * near });
     else if (phase === 'opening' || phase === 'inside' || phase === 'leaving') sound.set({ hall: phase === 'opening' ? .16 : .1, water: .0, night: 0, wind: 0, air: 0, birds: 0 });
     else sound.set({ hall: .035, water: .05, night: .022, wind: .04, air: 0, birds: 0 }); }
-  if (soundClock === 0) musicFor();
-  if (T > 13.2 && T - dt <= 13.2) sound.chimes([1318.5, 1479.98, 1760, 1975.5], .2, .025, 4);
   if (window.__raw) renderer.render(scene, camera); else composer.render(dt);
 }
 requestAnimationFrame(loop);

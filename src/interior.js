@@ -125,7 +125,7 @@ export function buildInterior(hall) {
     const N = 320, pos = new Float32Array(N * 3), col = new Float32Array(N * 3), vel = new Float32Array(N * 3);
     for (let i = 0; i < N; i++) { const cc = new THREE.Color(pal[i % pal.length]); col.set([cc.r * 1.6, cc.g * 1.6, cc.b * 1.6], i * 3); pos[i * 3 + 1] = -99; }
     const cg = new THREE.BufferGeometry(); cg.setAttribute('position', new THREE.BufferAttribute(pos, 3)); cg.setAttribute('color', new THREE.BufferAttribute(col, 3));
-    const cf = new THREE.Points(cg, new THREE.PointsMaterial({ size: .09, vertexColors: true })); cf.frustumCulled = false; G.add(cf); I.confetti = { g: cg, pos, vel, N };
+    const cf = new THREE.Points(cg, new THREE.PointsMaterial({ size: .09, vertexColors: true })); cf.visible = false; I.confetti = { g: cg, pos, vel, N };
   }
   // warm light inside
   const L1 = new THREE.PointLight(0xffd8a8, 0, 30, 1.4); L1.position.set(0, 6.5, -15); G.add(L1);
@@ -152,7 +152,7 @@ export function updateInterior(I, t, dt, on, cue) {
   I.teams.forEach((tm, ti) => { const active = B && B.team === ti && t - B.at < 2.6;
     tm.bz.emissiveIntensity = active ? (Math.sin(t * 30) > 0 ? 4 : 1.5) : .3;
     tm.members.forEach((p, j) => { const up = active && j === B.who; arm(p, 1, up ? 2.8 : 0); p.userData.body.position.y = up ? Math.abs(Math.sin(t * 9)) * .05 : 0; p.userData.body.rotation.z = Math.sin(t * 1.3 + j) * .02; }); });
-  if (B && !B.scored && t - B.at > 1.4) { B.scored = true; const S = I.score; if (B.team) S.b += 10; else S.a += 10; S.q++; S.tex.userData.draw(S.a, S.b, S.q, B.team); burst(I, B.team ? 4.6 : -4.6); cue('cheer'); }
+  if (B && !B.scored && t - B.at > 1.4) { B.scored = true; const S = I.score; if (B.team) S.b += 10; else S.a += 10; S.q++; S.tex.userData.draw(S.a, S.b, S.q, B.team); cue('cheer'); }
   if (B && B.scored && !B.cleared && t - B.at > 3) { B.cleared = true; const S = I.score; S.tex.userData.draw(S.a, S.b, S.q, -1); }
   arm(I.host, -1, -.3 - Math.abs(Math.sin(t * 1.6)) * .5); arm(I.host, 1, .5 + Math.sin(t * 2.1) * .2); I.host.userData.body.rotation.y = Math.sin(t * .7) * .25;
   // audience reacts
