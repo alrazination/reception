@@ -14,12 +14,23 @@ function backdrop() {
     g.fillStyle = gr; g.fillRect(0, 0, w, h);
     gr = g.createRadialGradient(w / 2, h * .62, 10, w / 2, h * .62, 300); gr.addColorStop(0, 'rgba(255,255,240,1)'); gr.addColorStop(1, 'rgba(255,240,220,0)');
     g.fillStyle = gr; g.fillRect(0, 0, w, h);
-    for (let x = 10; x < w; x += 13) for (let y = 4; y < h; y += 15 + Math.random() * 9) { g.fillStyle = 'rgba(255,214,140,.95)'; g.beginPath(); g.arc(x + Math.sin(y) * 2, y, 1.7, 0, 2 * PI); g.fill(); }
-    for (let i = 0; i < 1300; i++) { const a = PI + Math.random() * PI, r = 210 + Math.random() * 34;
-      g.fillStyle = ['#f6a3b9', '#ffffff', '#f9c6d3', '#f6d98f', '#8fbf7f', '#e87d9b'][i % 6]; g.beginPath(); g.arc(w / 2 + Math.cos(a) * r * 1.45, h + 20 + Math.sin(a) * r, 3 + Math.random() * 5, 0, 2 * PI); g.fill(); }
+    for (let x = 10; x < w; x += 13) for (let y = 4; y < h; y += 15 + Math.random() * 9) { g.fillStyle = 'rgba(255,214,140,.9)'; g.beginPath(); g.arc(x + Math.sin(y) * 2, y, 1.6, 0, 2 * PI); g.fill(); }
+    // balloon arch
+    const cx = w / 2, cy = h + 30, rx = 330, ry = 236, pal = ['#f4a9bd', '#ffffff', '#f7c9d6', '#f6d98f', '#cfe0f2', '#e8b4c8', '#fde3b8'];
+    for (let layer = 0; layer < 3; layer++) for (let k = 0; k <= 64; k++) { const a = PI + k / 64 * PI, off = (layer - 1) * 17 + (Math.random() - .5) * 6;
+      const x = cx + Math.cos(a) * (rx + off), y = cy + Math.sin(a) * (ry + off), r = 13 + Math.random() * 8;
+      g.fillStyle = pal[(k * 3 + layer * 2) % pal.length]; g.beginPath(); g.ellipse(x, y, r, r * 1.12, 0, 0, 2 * PI); g.fill();
+      g.strokeStyle = 'rgba(0,0,0,.06)'; g.lineWidth = 1; g.stroke();
+      g.fillStyle = 'rgba(255,255,255,.75)'; g.beginPath(); g.ellipse(x - r * .35, y - r * .4, r * .22, r * .3, -.5, 0, 2 * PI); g.fill(); }
     g.textAlign = 'center'; g.textBaseline = 'middle';
-    g.fillStyle = '#2f555a'; g.font = '700 74px Lora, Georgia, serif'; g.fillText('Walimah', w / 2, 84);
-    g.fillStyle = '#a9803a'; g.font = 'italic 500 30px Lora, Georgia, serif'; g.fillText('Razin & Sahar   ·   Razeen & Naeema', w / 2, 140);
+    g.fillStyle = '#2f555a'; g.font = '700 60px Lora, Georgia, serif'; g.fillText('Walimah', w / 2, 52);
+    const pair = (y, a, b) => { g.font = '700 40px Lora, Georgia, serif'; const s1 = a + ' ', s2 = ' ' + b, amp = '&';
+      const w1 = g.measureText(s1).width, w2 = g.measureText(s2).width; g.font = '500 40px Lora, Georgia, serif'; const wa = g.measureText(amp).width;
+      let x = w / 2 - (w1 + wa + w2) / 2; g.textAlign = 'left';
+      g.font = '700 40px Lora, Georgia, serif'; g.fillStyle = '#2f555a'; g.fillText(s1, x, y); x += w1;
+      g.font = '500 40px Lora, Georgia, serif'; g.fillStyle = '#b8924d'; g.fillText(amp, x, y); x += wa;
+      g.font = '700 40px Lora, Georgia, serif'; g.fillStyle = '#2f555a'; g.fillText(s2, x, y); g.textAlign = 'center'; };
+    pair(178, 'Razin', 'Sahar'); pair(228, 'Razeen', 'Naeema');
   });
 }
 function scoreTex() {
@@ -57,10 +68,9 @@ export function buildInterior(hall) {
   const SY = FY + .6;
   // on stage: a speaker at the lectern addressing the hall, others seated beside
   I.stage = [];
-  { const lect = new THREE.Mesh(new THREE.BoxGeometry(.9, 1.15, .6), std(0xd8b25e, { metalness: .6, roughness: .4 })); lect.position.set(0, SY + .575, -16.75); G.add(lect);
-    const top = new THREE.Mesh(new THREE.BoxGeometry(1, .06, .7), std(0x6b4a2a)); top.position.set(0, SY + 1.18, -16.75); top.rotation.x = .25; G.add(top);
-    const mic = new THREE.Mesh(new THREE.CylinderGeometry(.012, .012, .5, 6), std(0x222222, { metalness: .8 })); mic.position.set(0, SY + 1.42, -16.55); mic.rotation.x = -.5; G.add(mic);
-    const sp = makePerson('m', 31); sp.position.set(0, SY, -17.3); sp.rotation.y = PI; G.add(sp); I.speaker = sp;
+  { const sp = makePerson('m', 31); sp.position.set(0, SY, -17); sp.rotation.y = PI; G.add(sp); I.speaker = sp;
+    const mic = new THREE.Group(); const mb = new THREE.Mesh(new THREE.CylinderGeometry(.02, .016, .2, 8), std(0x1a1a1a, { metalness: .7, roughness: .3 })); mb.position.y = .06;
+    const mh = new THREE.Mesh(new THREE.SphereGeometry(.035, 10, 8), std(0x777777, { metalness: .8, roughness: .3 })); mh.position.y = .17; mic.add(mb, mh); mic.position.set(0, -.6, -.03); sp.userData.arm1.add(mic);
     const chairG = chairGeo(), cm = std(0xfff6ea);
     [[-5.2, 'm'], [-3.8, 'm'], [3.8, 'm'], [5.2, 'm'], [-6.6, 'w'], [6.6, 'w']].forEach(([x, k], j) => {
       const c = new THREE.Mesh(chairG, cm); c.position.set(x, SY, -18.6); c.rotation.y = PI; G.add(c);
@@ -77,15 +87,15 @@ export function buildInterior(hall) {
     filled.forEach(p => (rnd() < .55 ? women : men).push({ x: p[0], z: p[1] + .04, ph: R(0, 9) }));
     const part = (geo, n, col) => { const m = new THREE.InstancedMesh(geo, std(0xffffff), n); col.forEach((c, i) => m.setColorAt(i, new THREE.Color(c))); G.add(m); return m; };
     const pick = (a, n) => Array.from({ length: n }, () => a[(rnd() * a.length) | 0]);
-    const skin = ['#c99068', '#b57d55', '#d9a679', '#9c6a48'], abaya = ['#3b2a4a', '#5a2a3a', '#1f2c4a', '#2a2a2e', '#2f4a4a', '#6a4a3a', '#7a5a8a'], hijab = ['#f3e6d8', '#f2c6cf', '#cfe0d6', '#e8d3a8', '#d9c4e8', '#ffffff', '#f7d9e0'], thobe = ['#f4f1e8', '#e9e2d0', '#dfe6ee', '#cfc4b0', '#ffffff'];
+    const skin = ['#c99068', '#b57d55', '#d9a679', '#9c6a48'], abaya = ['#3b2a4a', '#5a2a3a', '#1f2c4a', '#2a2a2e', '#2f4a4a', '#6a4a3a', '#7a5a8a'], hijab = ['#f3e6d8', '#f2c6cf', '#cfe0d6', '#e8d3a8', '#d9c4e8', '#ffffff', '#f7d9e0'], thobe = ['#ffffff', '#cfe0f2', '#f3ead6', '#d9eadf', '#f2d9de', '#c9ced6', '#a9c2de'];
     const wT = new THREE.CylinderGeometry(.16, .27, .66, 12); wT.translate(0, .81, 0);
     const wH = mergeChairs([(() => { const g = new THREE.SphereGeometry(.145, 12, 10); g.scale(1, 1.08, 1.05); g.translate(0, 1.27, 0); return g; })(), (() => { const g = new THREE.ConeGeometry(.25, .34, 12); g.translate(0, 1.08, 0); return g; })()]);
     const mT = mergeChairs([(() => { const g = new THREE.CylinderGeometry(.2, .26, .66, 12); g.translate(0, .81, 0); return g; })(), (() => { const g = new THREE.SphereGeometry(.24, 12, 8); g.scale(1, .45, .8); g.translate(0, 1.13, 0); return g; })()]);
     const mHd = new THREE.SphereGeometry(.115, 12, 10); mHd.translate(0, 1.33, 0);
-    const mCap = new THREE.SphereGeometry(.118, 12, 6, 0, 2 * PI, 0, PI / 2.3); mCap.translate(0, 1.35, 0);
+    const mCap = new THREE.SphereGeometry(.12, 12, 8, 0, 2 * PI, 0, PI / 2); mCap.rotateX(.25); mCap.translate(0, 1.35, .012);
     I.crowd = [
       { list: women, meshes: [part(wT, women.length, pick(abaya, women.length)), part(wH, women.length, pick(hijab, women.length))] },
-      { list: men, meshes: [part(mT, men.length, pick(thobe, men.length)), part(mHd, men.length, pick(skin, men.length)), part(mCap, men.length, men.map(() => '#ffffff'))] },
+      { list: men, meshes: [part(mT, men.length, pick(thobe, men.length)), part(mHd, men.length, pick(skin, men.length)), part(mCap, men.length, men.map(() => '#1c1410'))] },
     ];
   }
   // games corner: relay race and cheering parents
@@ -107,7 +117,7 @@ export function buildInterior(hall) {
   }
   // families chatting over chai
   I.chat = []; I.bubbles = [];
-  { const bt = [bubbleTex(), heartTex()];
+  { const bt = [bubbleTex(), bubbleTex()];
     [[7.6, -4.4], [11.2, -7.6], [7.4, -10.6], [-4.2, -4.6]].forEach(([x, z], ti) => {
       const top = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.05, .06, 24), std(0xfff6ea)); top.position.set(x, FY + .78, z); G.add(top);
       const cloth = new THREE.Mesh(new THREE.CylinderGeometry(1.08, 1.2, .74, 24, 1, true), std(ti % 2 ? 0xf3c6d1 : 0xcfe3d6, { side: THREE.DoubleSide })); cloth.position.set(x, FY + .41, z); G.add(cloth);
@@ -160,15 +170,19 @@ export function updateInterior(I, t, dt, on, cue) {
   I.group.visible = on > 0; if (!on) return;
   I.lights[0].intensity = 26 * on; I.lights[1].intensity = 12 * on; I.lights[2].intensity = 12 * on;
   const arm = (p, s, v) => { const a = p.userData['arm' + s]; if (a) a.rotation.z += (v - a.rotation.z) * Math.min(1, dt * 8); };
-  // the speaker addresses the hall: turning to each side, hands gesturing as he speaks
-  { const sp = I.speaker, u = sp.userData; u.body.rotation.y = Math.sin(t * .35) * .45;
-    arm(sp, 1, .35 + Math.max(0, Math.sin(t * 1.3)) * .9); arm(sp, -1, -.25 - Math.max(0, Math.sin(t * .9 + 2)) * .5);
-    u.arm1.rotation.x = -.5 - Math.max(0, Math.sin(t * 1.3)) * .5; u.body.position.y = Math.sin(t * 2.2) * .006; }
-  I.stage.forEach((p, i) => { const u = p.userData; u.body.rotation.x = Math.max(0, Math.sin(t * .6 + i * 1.9)) * .06; u.body.rotation.y = Math.sin(t * .2 + i) * .12; });
-  // the seated guests listen, shift a little, turn to a neighbour now and then
+  // the host chats casually on stage, mic in hand, strolling a little; now and then the hall laughs
+  const laugh = Math.pow(Math.max(0, Math.sin(t * .42 - 1)), 10);
+  { const sp = I.speaker, u = sp.userData, walk = Math.sin(t * .16) * 2.2, v = Math.cos(t * .16) * .16 * 2.2;
+    sp.position.x = walk; sp.rotation.y = PI + Math.sin(t * .3) * .35 + Math.sign(v) * Math.min(.5, Math.abs(v) * 1.2);
+    const ph = t * 5; if (u['leg-1']) { u['leg-1'].rotation.x = Math.sin(ph) * Math.abs(v) * 1.6; u['leg1'].rotation.x = -Math.sin(ph) * Math.abs(v) * 1.6; }
+    u.arm1.rotation.x = -2.25; u.arm1.rotation.z = -.35; // mic up near the mouth
+    arm(sp, -1, -.15 - Math.max(0, Math.sin(t * 1.1)) * .55); u['arm-1'].rotation.x = -Math.max(0, Math.sin(t * 1.1)) * .5;
+    u.body.position.y = Math.abs(Math.sin(ph)) * Math.abs(v) * .05; u.body.rotation.x = laugh * .05; }
+  I.stage.forEach((p, i) => { const u = p.userData; u.body.rotation.x = -laugh * .08 * (.6 + (i % 3) * .2); u.body.position.y = Math.abs(Math.sin(t * 11 + i)) * .02 * laugh; u.body.rotation.y = Math.sin(t * .2 + i) * .1; });
+  // the seated guests listen, and laugh along (quietly) when the host says something funny
   { const o = I.tmpO || (I.tmpO = new THREE.Object3D());
-    I.crowd.forEach(gp => { gp.list.forEach((p, i) => { const turn = Math.sin(t * .23 + p.ph * 3) > .93 ? Math.sin(t * 2 + p.ph) * .5 : 0;
-      o.position.set(p.x, FY + .05, p.z); o.rotation.set(Math.sin(t * .5 + p.ph) * .025, turn, Math.sin(t * .4 + p.ph * 1.3) * .025); o.scale.setScalar(1); o.updateMatrix();
+    I.crowd.forEach(gp => { gp.list.forEach((p, i) => { const l = laugh * (.5 + (p.ph % 1) * .5), turn = Math.sin(t * .23 + p.ph * 3) > .95 ? Math.sin(t * 1.2 + p.ph) * .35 : 0;
+      o.position.set(p.x, FY + .05 + Math.abs(Math.sin(t * 10 + p.ph)) * .02 * l, p.z); o.rotation.set(-l * .1 + Math.sin(t * .5 + p.ph) * .015, turn, Math.sin(t * .4 + p.ph * 1.3) * .015 + Math.sin(t * 9 + p.ph) * .02 * l); o.scale.setScalar(1); o.updateMatrix();
       gp.meshes.forEach(m => m.setMatrixAt(i, o.matrix)); }); gp.meshes.forEach(m => m.instanceMatrix.needsUpdate = true); }); }
   // relay race
   I.runners.forEach(r => { const s = (t * r.sp / 8.5 + r.ph) % 2, f = s < 1 ? s : 2 - s; const z = lerp(-10.6, -2.9, f * f * (3 - 2 * f) * .15 + f * .85);
@@ -180,9 +194,8 @@ export function updateInterior(I, t, dt, on, cue) {
   { const c = (t * .55) % 1, k = I.tosser; const a = new THREE.Vector3(-6.4, FY + 1.1, -10.3), b = new THREE.Vector3(-6.4, FY + .5, -12.6);
     I.ring.position.lerpVectors(a, b, c); I.ring.position.y += Math.sin(c * PI) * 1.1; I.ring.rotation.z = c * 8; I.ring.visible = c < .97;
     arm(k, 1, c < .15 ? 2.2 : .5); }
-  // chatting: small nods, laughter, speech bubbles
-  I.chat.forEach((p, i) => { const u = p.userData, laugh = Math.sin(t * .5 + i * 1.7) > .85; u.body.rotation.x = laugh ? -.08 - Math.abs(Math.sin(t * 12)) * .04 : Math.sin(t * .8 + i) * .03;
-    u.body.position.y = laugh ? Math.abs(Math.sin(t * 12 + i)) * .025 : 0; arm(p, i % 2 ? 1 : -1, Math.sin(t * 1.1 + i) * .3 + (laugh ? .5 : 0)); });
+  // chatting: gentle, natural movement only
+  I.chat.forEach((p, i) => { const u = p.userData; u.body.rotation.y = Math.sin(t * .35 + i * 1.7) * .18; u.body.rotation.x = Math.sin(t * .5 + i) * .015; });
   I.bubbles.forEach(b => { const c = ((t + b.ph) % b.per) / b.per; const o = c < .5 ? Math.sin(c / .5 * PI) : 0; b.s.material.opacity = o; b.s.position.y = FY + 2.1 + c * .3; });
   // balloons bob
   const BL = I.balloons; BL.list.forEach((b, i) => { BL.o.position.set(b.p[0] + Math.sin(t * .6 + b.ph) * .06, b.p[1] + Math.sin(t * .9 + b.ph) * .12, b.p[2]); BL.o.scale.set(1, 1.2, 1); BL.o.rotation.z = Math.sin(t * .7 + b.ph) * .1; BL.o.updateMatrix(); BL.m.setMatrixAt(i, BL.o.matrix); });
