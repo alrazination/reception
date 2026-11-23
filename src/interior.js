@@ -55,30 +55,39 @@ export function buildInterior(hall) {
   const stage = new THREE.Mesh(new THREE.BoxGeometry(17, .6, 4.6), std(0x6b2230)); stage.position.set(0, FY + .3, -18.45); G.add(stage);
   const trim = new THREE.Mesh(new THREE.BoxGeometry(17.05, .08, .06), std(0xd8b25e, { metalness: .8, roughness: .3 })); trim.position.set(0, FY + .56, -16.13); G.add(trim);
   const SY = FY + .6;
-  // scoreboard
-  const st = scoreTex(); I.score = { tex: st, a: 35, b: 30, q: 6 }; st.userData.draw(35, 30, 6, -1);
-  const sb = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 1.8), new THREE.MeshBasicMaterial({ map: st, color: hdr(.95, .95, .95) })); sb.position.set(0, FY + 4.65, ZB + .12); G.add(sb);
-  // team tables, buzzers, contestants, quiz host
-  const teams = [];
-  [[-4.6, 0x2f6f73, 'TEAM SABR'], [4.6, 0xb5475f, 'TEAM SHUKR']].forEach(([x, col, name], ti) => {
-    const t = new THREE.Mesh(new THREE.BoxGeometry(4.2, .95, .9), std(col)); t.position.set(x, SY + .475, -17.4); G.add(t);
-        const bz = new THREE.MeshStandardMaterial({ color: 0x220000, emissive: ti ? 0xff5070 : 0x40ffd0, emissiveIntensity: .3 });
-    const b = new THREE.Mesh(new THREE.SphereGeometry(.16, 12, 8, 0, 2 * PI, 0, PI / 2), bz); b.position.set(x, SY + .95, -17.3); G.add(b);
-    const members = [];
-    ['w', 'm', 'w'].forEach((k, j) => { const p = makePerson(ti ? (j === 1 ? 'w' : 'm') : k, 20 + ti * 3 + j); p.position.set(x - 1.3 + j * 1.3, SY, -18.2); p.rotation.y = PI; G.add(p); members.push(p); });
-    teams.push({ bz, members });
-  });
-  I.teams = teams;
-  { const pod = new THREE.Mesh(new THREE.BoxGeometry(.9, 1.15, .6), std(0xd8b25e, { metalness: .6, roughness: .4 })); pod.position.set(0, SY + .575, -16.75); G.add(pod);
-    const host = makePerson('m', 31); host.position.set(0, SY, -17.35); host.rotation.y = PI; G.add(host); I.host = host;
-    const card = new THREE.Mesh(new THREE.PlaneGeometry(.22, .3), std(0xffffff)); card.position.set(0, -.6, -.12); host.userData.arm1.add(card); }
-  // audience seated before the stage
-  I.audience = [];
-  { const chairMat = std(0xd8b25e, { metalness: .5, roughness: .4 }), chairs = [];
-    for (let r = 0; r < 2; r++) for (let i = 0; i < 6; i++) { const x = -5.5 + i * 2.2 + (r ? 1.1 : 0), z = -13.8 + r * 1.4;
-      const seat = new THREE.BoxGeometry(.5, .06, .5); seat.translate(x, FY + .48, z); chairs.push(seat); const back = new THREE.BoxGeometry(.5, .6, .06); back.translate(x, FY + .8, z + .25); chairs.push(back);
-      if ((i + r) % 3 !== 2) { const k = ['w', 'm', 'k', 'w', 'm', 'w'][(i + r * 2) % 6]; const p = makePerson(k, 40 + r * 6 + i); p.scale.set(1, k === 'k' ? .9 : .74, 1); p.position.set(x, FY + .05, z + .05); G.add(p); I.audience.push(p); } }
-    G.add(new THREE.Mesh(mergeChairs(chairs), chairMat)); }
+  // on stage: a speaker at the lectern addressing the hall, others seated beside
+  I.stage = [];
+  { const lect = new THREE.Mesh(new THREE.BoxGeometry(.9, 1.15, .6), std(0xd8b25e, { metalness: .6, roughness: .4 })); lect.position.set(0, SY + .575, -16.75); G.add(lect);
+    const top = new THREE.Mesh(new THREE.BoxGeometry(1, .06, .7), std(0x6b4a2a)); top.position.set(0, SY + 1.18, -16.75); top.rotation.x = .25; G.add(top);
+    const mic = new THREE.Mesh(new THREE.CylinderGeometry(.012, .012, .5, 6), std(0x222222, { metalness: .8 })); mic.position.set(0, SY + 1.42, -16.55); mic.rotation.x = -.5; G.add(mic);
+    const sp = makePerson('m', 31); sp.position.set(0, SY, -17.3); sp.rotation.y = PI; G.add(sp); I.speaker = sp;
+    const chairG = chairGeo(), cm = std(0xfff6ea);
+    [[-5.2, 'm'], [-3.8, 'm'], [3.8, 'm'], [5.2, 'm'], [-6.6, 'w'], [6.6, 'w']].forEach(([x, k], j) => {
+      const c = new THREE.Mesh(chairG, cm); c.position.set(x, SY, -18.6); c.rotation.y = PI; G.add(c);
+      const p = makePerson(k, 33 + j); p.scale.set(1, .74, 1); p.position.set(x, SY + .05, -18.65); p.rotation.y = PI; G.add(p); I.stage.push(p); });
+    const flowers = []; for (const x of [-2, 2]) { const v = new THREE.Mesh(new THREE.CylinderGeometry(.18, .14, .6, 12), std(0xd8b25e, { metalness: .6, roughness: .35 })); v.position.set(x, SY + .3, -16.6); G.add(v);
+      for (let f = 0; f < 26; f++) { const fl = new THREE.Mesh(new THREE.IcosahedronGeometry(.09, 0), std(['#f4a9bd', '#ffffff', '#f7c9d6', '#9ccf9e'][f % 4])); fl.position.set(x + (rnd() - .5) * .45, SY + .7 + rnd() * .35, -16.6 + (rnd() - .5) * .45); G.add(fl); } }
+  }
+  // the hall seated in long rows facing the stage (drawn in batches so phones stay smooth)
+  { const rows = 7, per = 9, seats = [];
+    for (let r = 0; r < rows; r++) for (const side of [-1, 1]) for (let i = 0; i < per; i++) seats.push([side * (.85 + i * .62), -14.7 + r * 1.05]);
+    const chairs = new THREE.InstancedMesh(chairGeo(), std(0xfff6ea), seats.length), o = new THREE.Object3D();
+    seats.forEach((p, i) => { o.position.set(p[0], FY, p[1]); o.rotation.set(0, 0, 0); o.updateMatrix(); chairs.setMatrixAt(i, o.matrix); }); G.add(chairs);
+    const filled = seats.filter(() => rnd() < .88), women = [], men = [];
+    filled.forEach(p => (rnd() < .55 ? women : men).push({ x: p[0], z: p[1] + .04, ph: R(0, 9) }));
+    const part = (geo, n, col) => { const m = new THREE.InstancedMesh(geo, std(0xffffff), n); col.forEach((c, i) => m.setColorAt(i, new THREE.Color(c))); G.add(m); return m; };
+    const pick = (a, n) => Array.from({ length: n }, () => a[(rnd() * a.length) | 0]);
+    const skin = ['#c99068', '#b57d55', '#d9a679', '#9c6a48'], abaya = ['#3b2a4a', '#5a2a3a', '#1f2c4a', '#2a2a2e', '#2f4a4a', '#6a4a3a', '#7a5a8a'], hijab = ['#f3e6d8', '#f2c6cf', '#cfe0d6', '#e8d3a8', '#d9c4e8', '#ffffff', '#f7d9e0'], thobe = ['#f4f1e8', '#e9e2d0', '#dfe6ee', '#cfc4b0', '#ffffff'];
+    const wT = new THREE.CylinderGeometry(.16, .27, .66, 12); wT.translate(0, .81, 0);
+    const wH = mergeChairs([(() => { const g = new THREE.SphereGeometry(.145, 12, 10); g.scale(1, 1.08, 1.05); g.translate(0, 1.27, 0); return g; })(), (() => { const g = new THREE.ConeGeometry(.25, .34, 12); g.translate(0, 1.08, 0); return g; })()]);
+    const mT = mergeChairs([(() => { const g = new THREE.CylinderGeometry(.2, .26, .66, 12); g.translate(0, .81, 0); return g; })(), (() => { const g = new THREE.SphereGeometry(.24, 12, 8); g.scale(1, .45, .8); g.translate(0, 1.13, 0); return g; })()]);
+    const mHd = new THREE.SphereGeometry(.115, 12, 10); mHd.translate(0, 1.33, 0);
+    const mCap = new THREE.SphereGeometry(.118, 12, 6, 0, 2 * PI, 0, PI / 2.3); mCap.translate(0, 1.35, 0);
+    I.crowd = [
+      { list: women, meshes: [part(wT, women.length, pick(abaya, women.length)), part(wH, women.length, pick(hijab, women.length))] },
+      { list: men, meshes: [part(mT, men.length, pick(thobe, men.length)), part(mHd, men.length, pick(skin, men.length)), part(mCap, men.length, men.map(() => '#ffffff'))] },
+    ];
+  }
   // games corner: relay race and cheering parents
   { const lab = new THREE.Mesh(new THREE.PlaneGeometry(3.6, .9), new THREE.MeshBasicMaterial({ map: label('GAMES CORNER', '#f7c948', '#5a3a10', 256, 64), color: hdr(1.1, 1.1, 1.1) }));
     lab.visible = false;
@@ -132,8 +141,13 @@ export function buildInterior(hall) {
   const L2 = new THREE.PointLight(0xffc890, 0, 26, 1.5); L2.position.set(-8, 5.5, -6); G.add(L2);
   const L3 = new THREE.PointLight(0xffc890, 0, 26, 1.5); L3.position.set(8, 5.5, -6); G.add(L3);
   I.lights = [L1, L2, L3];
-  I.next = 3; I.round = 0;
   return I;
+}
+function chairGeo() {
+  const seat = new THREE.BoxGeometry(.5, .07, .5); seat.translate(0, .48, 0);
+  const back = new THREE.BoxGeometry(.5, .38, .05); back.translate(0, .7, .23);
+  const legs = []; for (const x of [-.21, .21]) for (const z of [-.21, .21]) { const l = new THREE.BoxGeometry(.04, .45, .04); l.translate(x, .225, z); legs.push(l); }
+  return mergeChairs([seat, back, ...legs]);
 }
 function mergeChairs(list) { // tiny local merge so this module stays standalone
   const geos = list.map(g => g.index ? g.toNonIndexed() : g); let n = 0; geos.forEach(g => n += g.attributes.position.count);
@@ -145,19 +159,17 @@ function mergeChairs(list) { // tiny local merge so this module stays standalone
 export function updateInterior(I, t, dt, on, cue) {
   I.group.visible = on > 0; if (!on) return;
   I.lights[0].intensity = 26 * on; I.lights[1].intensity = 12 * on; I.lights[2].intensity = 12 * on;
-  // the quiz: every few seconds a team buzzes in, a hand goes up, points and confetti
   const arm = (p, s, v) => { const a = p.userData['arm' + s]; if (a) a.rotation.z += (v - a.rotation.z) * Math.min(1, dt * 8); };
-  if (t > I.next) { I.round++; I.next = t + 4.2; const w = I.round % 3 === 0 ? 1 : (I.round % 2); I.buzz = { team: w, at: t, who: (I.round * 7) % 3 }; cue('buzz'); }
-  const B = I.buzz;
-  I.teams.forEach((tm, ti) => { const active = B && B.team === ti && t - B.at < 2.6;
-    tm.bz.emissiveIntensity = active ? (Math.sin(t * 30) > 0 ? 4 : 1.5) : .3;
-    tm.members.forEach((p, j) => { const up = active && j === B.who; arm(p, 1, up ? 2.8 : 0); p.userData.body.position.y = up ? Math.abs(Math.sin(t * 9)) * .05 : 0; p.userData.body.rotation.z = Math.sin(t * 1.3 + j) * .02; }); });
-  if (B && !B.scored && t - B.at > 1.4) { B.scored = true; const S = I.score; if (B.team) S.b += 10; else S.a += 10; S.q++; S.tex.userData.draw(S.a, S.b, S.q, B.team); cue('cheer'); }
-  if (B && B.scored && !B.cleared && t - B.at > 3) { B.cleared = true; const S = I.score; S.tex.userData.draw(S.a, S.b, S.q, -1); }
-  arm(I.host, -1, -.3 - Math.abs(Math.sin(t * 1.6)) * .5); arm(I.host, 1, .5 + Math.sin(t * 2.1) * .2); I.host.userData.body.rotation.y = Math.sin(t * .7) * .25;
-  // audience reacts
-  const cheering = B && B.scored && t - B.at < 3;
-  I.audience.forEach((p, i) => { const u = p.userData; u.body.position.y = cheering ? Math.abs(Math.sin(t * 8 + i)) * .03 : 0; arm(p, -1, cheering && i % 2 ? -2.6 : 0); arm(p, 1, cheering && i % 3 === 0 ? 2.6 : 0); });
+  // the speaker addresses the hall: turning to each side, hands gesturing as he speaks
+  { const sp = I.speaker, u = sp.userData; u.body.rotation.y = Math.sin(t * .35) * .45;
+    arm(sp, 1, .35 + Math.max(0, Math.sin(t * 1.3)) * .9); arm(sp, -1, -.25 - Math.max(0, Math.sin(t * .9 + 2)) * .5);
+    u.arm1.rotation.x = -.5 - Math.max(0, Math.sin(t * 1.3)) * .5; u.body.position.y = Math.sin(t * 2.2) * .006; }
+  I.stage.forEach((p, i) => { const u = p.userData; u.body.rotation.x = Math.max(0, Math.sin(t * .6 + i * 1.9)) * .06; u.body.rotation.y = Math.sin(t * .2 + i) * .12; });
+  // the seated guests listen, shift a little, turn to a neighbour now and then
+  { const o = I.tmpO || (I.tmpO = new THREE.Object3D());
+    I.crowd.forEach(gp => { gp.list.forEach((p, i) => { const turn = Math.sin(t * .23 + p.ph * 3) > .93 ? Math.sin(t * 2 + p.ph) * .5 : 0;
+      o.position.set(p.x, FY + .05, p.z); o.rotation.set(Math.sin(t * .5 + p.ph) * .025, turn, Math.sin(t * .4 + p.ph * 1.3) * .025); o.scale.setScalar(1); o.updateMatrix();
+      gp.meshes.forEach(m => m.setMatrixAt(i, o.matrix)); }); gp.meshes.forEach(m => m.instanceMatrix.needsUpdate = true); }); }
   // relay race
   I.runners.forEach(r => { const s = (t * r.sp / 8.5 + r.ph) % 2, f = s < 1 ? s : 2 - s; const z = lerp(-10.6, -2.9, f * f * (3 - 2 * f) * .15 + f * .85);
     r.p.position.z = z; r.p.rotation.y = s < 1 ? PI : 0; const ph = t * 13 + r.ph; r.p.userData.body.position.y = Math.abs(Math.sin(ph)) * .1;

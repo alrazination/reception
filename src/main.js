@@ -136,7 +136,7 @@ function restart() {
   body.classList.remove('door', 'final', 'inside', 'joinon', 'joinmini', 'mini', 'tapped'); body.classList.add('go');
   W.diyas.list.forEach(l => l.lit = -1); LN.list.length = 0; bgSpawned = 0; bgClock = 0;
   LN.o.scale.setScalar(0); LN.o.updateMatrix(); for (let i = 0; i < LN.n; i++) LN.mesh.setMatrixAt(i, LN.o.matrix); LN.mesh.instanceMatrix.needsUpdate = true;
-  IN.next = 3; IN.buzz = null; sheetTarget = 0; envD = -1; window.scrollTo(0, 0);
+  sheetTarget = 0; envD = -1; window.scrollTo(0, 0);
 }
 for (const id of ['replay', 'replay2']) $(id).onclick = e => { e.preventDefault(); e.stopImmediatePropagation(); restart(); };
 // slide the cards down (or back up) with the grip or a swipe
@@ -221,7 +221,7 @@ function updateDiyas() {
 // ---------- the loop ----------
 const camPos = new THREE.Vector3(), look = new THREE.Vector3(), tmp = new THREE.Vector3();
 const doorPos = camCurve.getPointAt(1), doorLook = lookCurve.getPoint(1);
-const INPOS0 = new THREE.Vector3(0, 1.95, -3.2), INPOS1 = new THREE.Vector3(.3, 2.05, -8.6);
+const INPOS0 = new THREE.Vector3(0, 2.05, -3), INPOS1 = new THREE.Vector3(0, 2.15, -6.4);
 const inLook = new THREE.CatmullRomCurve3([[0, 2.6, -20], [0, 2.5, -20], [-2, 2.2, -18], [-10, 1.2, -7], [-9, 1.2, -6], [2, 1.4, -9], [9, 1.2, -6], [8, 1.3, -7.5], [0, 2.5, -20], [0, 2.6, -20]].map(p => new THREE.Vector3(...p)));
 let last = performance.now(), soundClock = 0, frames = 0, slow = 0, lastCapIdx = -1;
 const st = P.get('t'); if (st !== null) { body.classList.add('go'); phase = 'journey'; T = parseFloat(st) || 0; wt = T; if (T >= TJ + 5) toFinal(true); }
