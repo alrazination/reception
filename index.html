@@ -25,6 +25,7 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
 #gl{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}
 #ui{position:fixed;inset:0;pointer-events:none;-webkit-user-select:none;user-select:none}
 #ui button,#ui a{pointer-events:auto}
+body:not(.final) #sheet *,body:not(.joinon) #join *{pointer-events:none!important}
 .col{position:absolute;left:50%;width:min(100%,480px);transform:translateX(-50%);text-align:center;padding:0 24px}
 .lora{font-family:'Lora',Georgia,serif}
 @keyframes rise{from{opacity:0;transform:translateY(16px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
@@ -147,10 +148,10 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
 #maker .top{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 
 /* ---------- cards pop up as floating panels ---------- */
-#sheet,#join{position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));width:min(calc(100% - 24px),440px);padding:0!important;opacity:0;transform:translate(-50%,40px) scale(.9);transition:transform .75s cubic-bezier(.2,1.35,.35,1),opacity .45s;pointer-events:none}
-.final #sheet{opacity:1;transform:translate(-50%,0) scale(1);transition-delay:1.2s;pointer-events:auto}
+#sheet,#join{position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));width:min(calc(100% - 24px),440px);padding:0!important;opacity:0;visibility:hidden;transform:translate(-50%,40px) scale(.9);transition:transform .75s cubic-bezier(.2,1.35,.35,1),opacity .45s,visibility 0s .5s;pointer-events:none}
+.final #sheet{opacity:1;visibility:visible;transform:translate(-50%,0) scale(1);transition-delay:1.2s;pointer-events:auto}
 .final.mini #sheet{transform:translate(-50%,calc(100% - 58px)) scale(1);transition-delay:0s}
-.joinon #join{opacity:1;transform:translate(-50%,0) scale(1);pointer-events:auto}
+.joinon #join{opacity:1;visibility:visible;transform:translate(-50%,0) scale(1);transition-delay:0s;pointer-events:auto}
 .joinon.joinmini #join{transform:translate(-50%,calc(100% - 58px)) scale(1)}
 .card,.jc{clip-path:none!important;border-radius:24px;background:rgba(255,250,243,.93)!important;box-shadow:0 18px 50px rgba(20,10,30,.35),0 0 0 1px rgba(201,162,79,.35) inset!important;padding:30px 22px 18px!important}
 .jc h3{font:700 1.5rem/1.2 'Lora',serif;color:var(--green)}
