@@ -272,10 +272,10 @@ function loop(now) {
   if (phase === 'journey') caps.forEach(c => c.e.classList.toggle('on', T >= c.a && T < c.b)); else caps.forEach(c => c.e.classList.remove('on'));
   // ambience
   soundClock += dt; if (soundClock > .25) { soundClock = 0; musicFor(); const y = camPos.y, near = smooth(45, 6, camPos.z);
-    if (phase === 'intro') sound.set({ wind: .1, air: .06, water: 0, hall: 0, night: 0, birds: 0 });
-    else if (phase === 'journey' || phase === 'door') sound.set({ wind: .07 * (1 - .5 * d), air: .12 * smooth(60, 130, y), birds: (1 - smooth(.35, .65, d)) * smooth(90, 30, y), water: .07 * smooth(25, 4, y) * smooth(4, 60, camPos.z), night: .02 * smooth(.55, .9, d), hall: .07 * near });
+    if (phase === 'intro') sound.set({ wind: .03, air: 0, water: 0, hall: 0, night: 0, birds: 0 });
+    else if (phase === 'journey' || phase === 'door') sound.set({ wind: .022 * (1 - .5 * d), air: 0, birds: (1 - smooth(.35, .65, d)) * smooth(90, 30, y), water: .07 * smooth(25, 4, y) * smooth(4, 60, camPos.z), night: .02 * smooth(.55, .9, d), hall: .07 * near });
     else if (phase === 'opening' || phase === 'inside' || phase === 'leaving') sound.set({ hall: phase === 'opening' ? .16 : .1, water: .0, night: 0, wind: 0, air: 0, birds: 0 });
-    else sound.set({ hall: .035, water: .05, night: .022, wind: .04, air: 0, birds: 0 }); }
+    else sound.set({ hall: .035, water: .05, night: .022, wind: .012, air: 0, birds: 0 }); }
   if (window.__raw) renderer.render(scene, camera); else composer.render(dt);
 }
 requestAnimationFrame(loop);
