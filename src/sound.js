@@ -60,9 +60,13 @@ export function createSound() {
       o.connect(g); g.connect(M); g.connect(REV); o.start(t); o.stop(t + 7.2); });
   };
   // the nasheed: streamed from nasheed.mp3 if it is there, mixed in softly
-  const music = new Audio(); music.src = 'nasheed.mp3'; music.loop = true; music.preload = 'auto'; music.setAttribute('playsinline', ''); music.crossOrigin = 'anonymous'; let mg = null, musicLv = 0, musicOk = true;
+  const music = new Audio(); music.src = 'nasheed.mp3'; music.loop = true; music.preload = 'auto'; music.setAttribute('playsinline', ''); music.crossOrigin = 'anonymous'; let mg = null, mf = null, mw = null, musicLv = 0, musicOk = true;
   music.addEventListener('error', () => { musicOk = false; });
-  function hookMusic() { if (mg || !AC || !musicOk) return; try { const src = AC.createMediaElementSource(music); mg = AC.createGain(); mg.gain.value = 0; src.connect(mg); mg.connect(M); } catch (_) { mg = null; } }
+  function hookMusic() { if (mg || !AC || !musicOk) return; try { const src = AC.createMediaElementSource(music); mf = AC.createBiquadFilter(); mf.type = 'lowpass'; mf.frequency.value = 700; mf.Q.value = .5; mg = AC.createGain(); mg.gain.value = 0; mw = AC.createGain(); mw.gain.value = .5; src.connect(mf); mf.connect(mg); mg.connect(M); mg.connect(mw); mw.connect(REV); } catch (_) { mg = null; } }
+  // distance: quieter, duller and more echoing when far; full and clear when near
+  S.musicMix = (lv, cutoff, wet) => { musicLv = lv; if (!AC || !on || !musicOk) return; hookMusic(); const t = AC.currentTime;
+    if (mg) { mg.gain.setTargetAtTime(lv, t, .9); mf.frequency.setTargetAtTime(cutoff, t, .9); mw.gain.setTargetAtTime(wet, t, .9); } else music.volume = Math.min(1, lv);
+    if (lv > 0 && music.paused) music.play().catch(() => { }); };
   S.music = (lv) => { musicLv = lv; if (!AC || !on || !musicOk) return; hookMusic(); if (mg) mg.gain.setTargetAtTime(lv, AC.currentTime, 1.4); else music.volume = Math.min(1, lv); if (lv > 0 && music.paused) music.play().catch(() => { }); };
   S.startMusic = () => { if (!musicOk) return; hookMusic(); if (mg) mg.gain.value = 0; music.play().catch(() => { }); };
   S.applause = (dur = 2.2, v = .05) => { // a burst of clapping and cheering from the hall
