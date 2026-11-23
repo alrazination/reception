@@ -48,6 +48,7 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
 .cap.on>*{opacity:1;transform:none;filter:none}
 .cap.on>:nth-child(2){transition-delay:.35s}.cap.on>:nth-child(3){transition-delay:.7s}.cap.on>:nth-child(4){transition-delay:1.05s}
 .cap .sm{font:italic 500 1.12rem 'Lora',serif;color:#fff0d6}
+.cap .xl{font:700 clamp(3rem,15vw,4.2rem)/1.05 'Lora',serif;margin:6px 0}
 .cap .lg{font:700 clamp(1.9rem,8.6vw,2.6rem)/1.15 'Lora',serif;margin:4px 0}
 .cap .md{font:700 clamp(1.4rem,6.4vw,1.8rem)/1.25 'Lora',serif}
 .cap .md em{font-style:normal;color:#ffd98e;font-weight:500}
@@ -56,7 +57,8 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
 .ink{display:inline-block;font-family:'Amiri',serif;font-weight:700;direction:rtl;color:transparent;-webkit-text-stroke:.8px currentColor;padding:0 .3em;-webkit-mask-image:linear-gradient(to left,#000 42%,transparent 58%);mask-image:linear-gradient(to left,#000 42%,transparent 58%);-webkit-mask-size:280% 100%;mask-size:280% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:0 0;mask-position:0 0}
 @keyframes write{to{-webkit-mask-position:100% 0;mask-position:100% 0}}
 @keyframes fillin{to{-webkit-text-fill-color:currentColor;-webkit-text-stroke-color:transparent}}
-.cap .ink{font-size:clamp(2rem,10vw,2.6rem);line-height:1.5;color:#ffdb8f;filter:none!important}
+.cap .arw{margin-top:18px}
+.cap .ink{font-size:clamp(2.4rem,12vw,3.1rem);line-height:2.1;padding:0 .4em;color:#ffdb8f;filter:none!important}
 .cap.on .ink{animation:write 2.6s 1.4s ease-in-out forwards,fillin 1.2s 3.6s forwards}
 /* ---------- doors ---------- */
 #doorhint{position:absolute;left:0;right:0;bottom:max(12vh,calc(env(safe-area-inset-bottom) + 50px));text-align:center;opacity:0;transform:translateY(12px);transition:opacity 1s,transform 1s;text-shadow:0 2px 16px rgba(40,20,10,.7)}
@@ -78,9 +80,10 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
 .mini .card>*:not(#grip):not(.minil){visibility:hidden}
 .minil{display:none;font:italic 500 .95rem 'Lora',serif;position:absolute;left:0;right:0;top:28px}
 .mini .minil{display:block}
-.dua .ink{font-size:clamp(1.02rem,4.7vw,1.38rem);white-space:nowrap;line-height:1.75;color:var(--ink)}
+.dua{padding:0 6px}
+.dua .ink{font-size:clamp(1.25rem,5.6vw,1.6rem);line-height:2.1;color:var(--ink);white-space:normal;max-width:330px}
 .final .dua .ink{animation:write 3.2s 2.2s ease-in-out forwards,fillin 1.2s 5s forwards}
-.dua small{display:block;font:italic 500 .8rem/1.35 'Lora',serif;opacity:.8;max-width:310px;margin:0 auto 10px}
+.dua small{display:block;font:italic 500 .8rem/1.35 'Lora',serif;opacity:.8;max-width:310px;margin:2px auto 12px}
 #eh{font:700 1.3rem/1.25 'Lora',serif;color:var(--green);max-width:340px;margin:0 auto}
 .cd{display:flex;gap:8px;justify-content:center;margin:12px 0 0}
 .cd div{min-width:58px;padding:7px 4px 5px;background:rgba(255,255,255,.75);box-shadow:inset 0 0 0 1px rgba(169,138,76,.45);clip-path:polygon(9px 0,calc(100% - 9px) 0,100% 9px,100% calc(100% - 9px),calc(100% - 9px) 100%,9px 100%,0 calc(100% - 9px),0 9px)}
@@ -107,6 +110,7 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
 .jc{background:rgba(255,249,240,.9);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);color:var(--deep);text-align:center;padding:22px 20px 16px;clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%,0 16px);box-shadow:0 -10px 40px rgba(0,0,0,.25)}
 .jc h3{font:700 1.45rem/1.2 'Lora',serif;color:var(--green)}
 .jc p{margin:8px auto 0;max-width:330px;font-weight:600;line-height:1.4}
+.jc .info{margin-top:12px}.jc .acts{margin-top:8px}
 #join .wa{animation:nudge 2.6s 1.5s infinite}
 @keyframes nudge{0%,70%,100%{transform:none}80%{transform:scale(1.05)}90%{transform:scale(1)}}
 #cont{display:block;margin:12px auto 0;background:none;border:0;font:italic 500 1rem 'Lora',serif;color:var(--btn);cursor:pointer;padding:6px}
@@ -149,21 +153,18 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
     <div class="tiny">Hold your phone upright. Drag or tilt to look around.</div>
   </div></section>
 
-  <div class="cap" data-a="1.5" data-b="9"><span class="sm">Some evenings</span><span class="lg">are meant to be shared</span></div>
-  <div class="cap" data-a="10.5" data-b="17.5"><span class="sm">As the sun sets on</span><span class="lg">Sunday, 10 January 2027</span></div>
-  <div class="cap" data-a="19" data-b="27"><span class="sm">with grateful hearts, we celebrate the Walimah of</span><span class="md">Razin <em>&amp;</em> Sahar</span><span class="md">Razeen <em>&amp;</em> Naeema</span><span lang="ar"><span class="ink">بَارَكَ اللهُ لَكُمْ</span></span></div>
-  <div class="cap" data-a="28.5" data-b="35"><span class="sm">Join us at</span><span class="lg">Evento Auditorium</span><span class="tx">Athani · 5 to 8 PM</span></div>
-  <div class="cap" data-a="36.5" data-b="43"><span class="sm">Families together, children playing,</span><span class="lg">hearts at peace</span></div>
-  <div class="cap" data-a="44.5" data-b="50"><span class="sm">Come as you are, in shaa Allah.</span><span class="lg">The doors are open for you</span></div>
+  <div class="cap" data-a="1.2" data-b="8"><span class="sm">You are warmly invited to the</span><span class="xl">Walimah</span></div>
+  <div class="cap" data-a="9" data-b="16.5"><span class="md">Razin <em>&amp;</em> Sahar</span><span class="md">Razeen <em>&amp;</em> Naeema</span><span class="arw" lang="ar"><span class="ink">بَارَكَ اللهُ لَكُمْ</span></span></div>
+  <div class="cap" data-a="17.5" data-b="25.5"><span class="sm">Sunday, 10 January 2027</span><span class="lg">5 to 8 PM</span><span class="tx">Evento Auditorium, Athani</span></div>
 
-  <div class="cap in" data-a="1.2" data-b="6.2"><span class="sm">Step inside, where</span><span class="lg">the joy has already begun</span></div>
-  <div class="cap in" data-a="6.8" data-b="11.6"><span class="sm">An Islamic quiz on stage,</span><span class="lg">fun games for all ages</span><span class="tx">and prizes to win!</span></div>
-  <div class="cap in" data-a="12.2" data-b="16.8"><span class="sm">and for some, it is simply</span><span class="lg">chai and good company</span></div>
+  <div class="cap in" data-a="1" data-b="7"><span class="sm">Step inside, the celebration</span><span class="lg">is in full swing</span></div>
 
   <section id="join"><div class="jc">
-    <h3>Would you like to take part?</h3>
-    <p>Join our WhatsApp group to sign up for the Islamic quiz and games, and win prizes.</p>
+    <h3>So much is happening all evening</h3>
+    <p>Join our WhatsApp group to take part in the programs and win prizes.</p>
     <a class="wa" id="joinwa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#fff"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#3f7a85"/></svg>Join our WhatsApp group</a>
+    <div class="info">Sunday, 10 January 2027 · 5 to 8 PM<br>Evento Auditorium, Athani</div>
+    <div class="acts"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Evento+Auditorium+Athani+Amarambalam">Open map</a><a href="#" id="replay2">Watch again</a></div>
     <button id="cont">Step outside under the stars &rarr;</button>
   </div></section>
 
@@ -172,13 +173,13 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
   <section id="sheet"><div class="card">
     <button id="grip" aria-label="Show or hide the details"><i></i></button>
     <div class="minil">Show the details</div>
-    <div class="dua" lang="ar"><span class="ink">بَارَكَ اللهُ لَكُمْ وَبَارَكَ عَلَيْكُمْ وَجَمَعَ بَيْنَكُمْ فِي خَيْرٍ</span><small lang="en">May Allah bless you, shower His blessings upon you, and bring you together in goodness</small></div>
+    <div class="dua" lang="ar"><span class="ink">بَارَكَ اللهُ لَكُمْ وَبَارَكَ عَلَيْكُمْ<br>وَجَمَعَ بَيْنَكُمْ فِي خَيْرٍ</span><small lang="en">May Allah bless you, shower His blessings upon you, and bring you together in goodness</small></div>
     <h2 id="eh">Your presence would make our joy complete</h2>
     <div class="cd"><div><b id="cd0">0</b><small>days</small></div><div><b id="cd1">0</b><small>hours</small></div><div><b id="cd2">0</b><small>mins</small></div><div><b id="cd3">0</b><small>secs</small></div></div>
     <div class="cdl">until we celebrate together, in shaa Allah</div>
     <div class="now"><i></i>We are celebrating right now. Come join us!</div>
     <div class="info">Sunday, 10 January 2027 · 5 to 8 PM<br>Evento Auditorium, Athani</div>
-    <div class="games">Islamic quiz, games and prizes inside. Join the group to take part!</div>
+    <div class="games">Programs and prizes all evening. Join the group to take part!</div>
     <!-- REPLACE the link below with your WhatsApp group invite link -->
     <a class="wa" href="https://chat.whatsapp.com/YOUR_GROUP_LINK" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#fff"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#3f7a85"/></svg>Join our WhatsApp group</a>
     <div class="acts"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Evento+Auditorium+Athani+Amarambalam">Open map</a><a href="#" id="replay">Watch again</a></div>
