@@ -101,6 +101,17 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
 .tapped .lh{opacity:0}
 @media(max-height:740px){.dua small{display:none}.card{padding-top:20px}.cd{margin-top:8px}.wa{margin-top:10px;padding:12px 20px}.info{margin-top:8px}}
 @media(max-height:640px){.lh,.cdl{display:none}}
+/* ---------- invitation to take part (inside the hall) ---------- */
+#join{position:fixed;left:50%;bottom:0;width:min(100%,480px);transform:translate(-50%,110%);transition:transform 1.2s cubic-bezier(.2,.8,.2,1);padding:0 12px max(14px,env(safe-area-inset-bottom));pointer-events:none}
+.joinon #join{transform:translate(-50%,0);pointer-events:auto}
+.jc{background:rgba(255,249,240,.9);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);color:var(--deep);text-align:center;padding:22px 20px 16px;clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%,0 16px);box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+.jc h3{font:700 1.45rem/1.2 'Lora',serif;color:var(--green)}
+.jc p{margin:8px auto 0;max-width:330px;font-weight:600;line-height:1.4}
+#join .wa{animation:nudge 2.6s 1.5s infinite}
+@keyframes nudge{0%,70%,100%{transform:none}80%{transform:scale(1.05)}90%{transform:scale(1)}}
+#cont{display:block;margin:12px auto 0;background:none;border:0;font:italic 500 1rem 'Lora',serif;color:var(--btn);cursor:pointer;padding:6px}
+.games{margin-top:10px;font:italic 500 .92rem 'Lora',serif;color:#b5475f}
+.after .games{display:none}
 /* ---------- corner buttons ---------- */
 .corner{position:fixed;top:max(10px,env(safe-area-inset-top));z-index:5;display:flex;align-items:center;gap:6px;background:rgba(20,16,30,.28);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);color:#fff;font:600 .82rem 'Mukta';padding:6px 12px;cursor:pointer;opacity:0;transition:opacity 1s}
 .go .corner{opacity:1;transition-delay:1.5s}
@@ -145,6 +156,17 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
   <div class="cap" data-a="36.5" data-b="43"><span class="sm">Families together, children playing,</span><span class="lg">hearts at peace</span></div>
   <div class="cap" data-a="44.5" data-b="50"><span class="sm">Come as you are, in shaa Allah.</span><span class="lg">The doors are open for you</span></div>
 
+  <div class="cap in" data-a="1.2" data-b="6.2"><span class="sm">Step inside, where</span><span class="lg">the joy has already begun</span></div>
+  <div class="cap in" data-a="6.8" data-b="11.6"><span class="sm">An Islamic quiz on stage,</span><span class="lg">fun games for all ages</span><span class="tx">and prizes to win!</span></div>
+  <div class="cap in" data-a="12.2" data-b="16.8"><span class="sm">and for some, it is simply</span><span class="lg">chai and good company</span></div>
+
+  <section id="join"><div class="jc">
+    <h3>Would you like to take part?</h3>
+    <p>Join our WhatsApp group to sign up for the Islamic quiz and games, and win prizes.</p>
+    <a class="wa" id="joinwa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#fff"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#3f7a85"/></svg>Join our WhatsApp group</a>
+    <button id="cont">Step outside under the stars &rarr;</button>
+  </div></section>
+
   <div id="doorhint"><div class="arr"><i></i><i></i></div><p>Slide to open the doors</p><button id="dooropen">or tap here</button></div>
 
   <section id="sheet"><div class="card">
@@ -156,6 +178,7 @@ html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',sys
     <div class="cdl">until we celebrate together, in shaa Allah</div>
     <div class="now"><i></i>We are celebrating right now. Come join us!</div>
     <div class="info">Sunday, 10 January 2027 · 5 to 8 PM<br>Evento Auditorium, Athani</div>
+    <div class="games">Islamic quiz, games and prizes inside. Join the group to take part!</div>
     <!-- REPLACE the link below with your WhatsApp group invite link -->
     <a class="wa" href="https://chat.whatsapp.com/YOUR_GROUP_LINK" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#fff"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#3f7a85"/></svg>Join our WhatsApp group</a>
     <div class="acts"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Evento+Auditorium+Athani+Amarambalam">Open map</a><a href="#" id="replay">Watch again</a></div>
