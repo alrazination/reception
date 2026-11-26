@@ -25,7 +25,7 @@ try { renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPrefer
 catch (e) { body.classList.add('nogl', 'final', 'go'); throw e; }
 const mobile = /Android|iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && innerWidth < 900);
 const low = P.has('low') || (mobile && ((navigator.deviceMemory || 4) <= 3 || (navigator.hardwareConcurrency || 4) <= 4));
-let DPR = Math.min(devicePixelRatio || 1, low ? 1 : 1.75);
+let DPR = Math.min(devicePixelRatio || 1, low ? 1 : P.has('hq') ? 2 : 1.75); // ?hq: full resolution, for rendering the poster
 renderer.setPixelRatio(DPR);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.shadowMap.enabled = !low; renderer.shadowMap.type = THREE.PCFShadowMap;
@@ -325,6 +325,7 @@ function loop(now) {
   else if (phase === 'final') { const f = wt - finalAt; white = 1 - smooth(.2, 2.2, f);
     camPos.set(Math.sin(wt * .06) * 5, 2.1 + Math.sin(wt * .11) * .25, 46 + Math.sin(wt * .045) * 3); look.set(0, 8.5, -24); doorTarget = 1; }
   sheetH += (sheetTarget - sheetH) * Math.min(1, dt * 5); if (Math.abs(sheetTarget - sheetH) > .5 || (sheetH > 0 && !camera.view)) frame_();
+  if (window.__shot) { camPos.fromArray(window.__shot.pos); look.fromArray(window.__shot.look); } // fixed framing for rendering the poster
   camera.position.copy(camPos); camera.lookAt(look);
   cx += (gx - cx) * .05; cy += (gy - cy) * .05;
   if (!ptr) { dragYaw *= Math.pow(.25, dt); dragPitch *= Math.pow(.25, dt); }
@@ -380,4 +381,4 @@ window.__app = { begin };
 const st = P.get('t'); if (st !== null) { body.classList.add('go', 'opening'); phase = 'journey'; T = parseFloat(st) || 0; wt = T; if (T >= TJ + 5) toFinal(true); }
 if (reduce && phase === 'intro') toFinal(true);
 if (window.__pending && phase === 'intro') begin(window.__pending === 'sound');
-window.__dbg = { W, IN, scene, renderer, camera, envs, begin, setT: t2 => { T = t2; wt = t2; if (phase === 'intro') { phase = 'journey'; body.classList.add('go', 'opening'); } }, open: openDoors, final: () => toFinal(true), adv: s => { wt += s; }, get phase() { return phase; }, get programs() { return renderer.info.programs.length; } };
+window.__dbg = { W, IN, scene, renderer, camera, envs, begin, setT: t2 => { T = t2; wt = t2; if (phase === 'intro') { phase = 'journey'; body.classList.add('go', 'opening'); } }, open: openDoors, final: () => toFinal(true), adv: s => { wt += s; }, get phase() { return phase; }, get wt() { return wt; }, get programs() { return renderer.info.programs.length; } };
