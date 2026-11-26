@@ -1,6 +1,6 @@
 {
   "name": "walimah-invitation",
   "private": true,
-  "scripts": { "build": "esbuild src/main.js --bundle --minify --format=esm --target=es2020 --outfile=app.js" },
+  "scripts": { "build": "esbuild src/main.js --bundle --minify --format=esm --target=es2022 --outfile=app.js" },
   "devDependencies": { "esbuild": "^0.25.0", "three": "^0.187.0" }
 }

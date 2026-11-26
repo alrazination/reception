@@ -9,7 +9,8 @@ export function createSound() {
     if (AC) return true;
     const C = window.AudioContext || window.webkitAudioContext; if (!C) return false;
     try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (_) { }
-    AC = new C(); M = AC.createGain(); M.gain.value = 0; M.connect(AC.destination);
+    AC = window.__AC || new C(); M = AC.createGain(); M.gain.value = 0; M.connect(AC.destination); // __AC: unlocked by an early tap on the seal
+    try { AC.resume(); } catch (_) { }
     const len = AC.sampleRate * 3.6 | 0, ib = AC.createBuffer(2, len, AC.sampleRate);
     for (let c = 0; c < 2; c++) { const d = ib.getChannelData(c); for (let j = 0; j < len; j++) d[j] = (Math.random() * 2 - 1) * Math.pow(1 - j / len, 3.2); }
     REV = AC.createConvolver(); REV.buffer = ib; const rg = AC.createGain(); rg.gain.value = .6; REV.connect(rg); rg.connect(M);
@@ -54,9 +55,14 @@ export function createSound() {
       o.connect(g); g.connect(M); g.connect(REV); o.start(t); o.stop(t + 7.2); });
   };
   // the nasheed: streamed from nasheed.mp3 if it is there, mixed in softly
-  const music = new Audio(); music.src = 'nasheed.mp3'; music.loop = true; music.preload = 'auto'; music.setAttribute('playsinline', ''); music.crossOrigin = 'anonymous'; let mg = null, mf = null, mw = null, musicLv = 0, musicOk = true;
+  // one shared element: the page may already have created and unlocked it (window.__musicEl) on an early tap
+  const music = window.__musicEl || new Audio(); window.__musicEl = music;
+  if (!music.src) { music.src = 'nasheed.mp3'; music.loop = true; music.preload = 'auto'; music.setAttribute('playsinline', ''); music.crossOrigin = 'anonymous'; }
+  let mg = null, mf = null, mw = null, musicLv = 0, musicOk = true;
   music.addEventListener('error', () => { musicOk = false; });
-  function hookMusic() { if (mg || !AC || !musicOk) return; try { const src = AC.createMediaElementSource(music); mf = AC.createBiquadFilter(); mf.type = 'lowpass'; mf.frequency.value = 700; mf.Q.value = .5; mg = AC.createGain(); mg.gain.value = 0; mw = AC.createGain(); mw.gain.value = .5; src.connect(mf); mf.connect(mg); mg.connect(M); mg.connect(mw); mw.connect(REV); } catch (_) { mg = null; } }
+  function hookMusic() { if (mg || !AC || !musicOk) return; try {
+    let src = window.__musicSrc; if (src && src.context === AC) { try { window.__musicGain.disconnect(); } catch (_) { } } else src = AC.createMediaElementSource(music);
+    music.muted = false; mf = AC.createBiquadFilter(); mf.type = 'lowpass'; mf.frequency.value = 700; mf.Q.value = .5; mg = AC.createGain(); mg.gain.value = 0; mw = AC.createGain(); mw.gain.value = .5; src.connect(mf); mf.connect(mg); mg.connect(M); mg.connect(mw); mw.connect(REV); } catch (_) { mg = null; } }
   // distance: quieter, duller and more echoing when far; full and clear when near
   S.musicMix = (lv, cutoff, wet) => { musicLv = lv; if (!AC || !on || !musicOk) return; hookMusic(); const t = AC.currentTime;
     if (mg) { mg.gain.setTargetAtTime(lv, t, .9); mf.frequency.setTargetAtTime(cutoff, t, .9); mw.gain.setTargetAtTime(wet, t, .9); } else music.volume = Math.min(1, lv);

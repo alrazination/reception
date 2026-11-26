@@ -1,6 +1,7 @@
-// Inside the hall: the Islamic quiz on stage, children's games, families chatting over chai.
+// Inside the hall: the Islamic quiz on stage, children's games, families chatting over chai,
+// the couples' stage, a canopy of fairy lights, and a seat reserved for the guest by name.
 import * as THREE from 'three';
-import { makePerson, rnd, lerp } from './world.js';
+import { makePerson, rnd, lerp, U } from './world.js';
 
 const PI = Math.PI;
 const R = (a, b) => a + rnd() * (b - a);
@@ -57,7 +58,29 @@ function heartTex() {
     g.fillStyle = '#e0566f'; g.beginPath(); g.moveTo(64, 58); g.bezierCurveTo(30, 36, 44, 14, 64, 30); g.bezierCurveTo(84, 14, 98, 36, 64, 58); g.fill(); });
 }
 
-export function buildInterior(hall) {
+// The place card on the reserved chair: "Reserved for" and the guest's name in gold.
+function seatTex() {
+  const t = tex(600, 426, () => { });
+  t.userData.draw = (name, label, labelFont) => { const g = t.userData.ctx, w = 600, h = 426;
+    const bg = g.createLinearGradient(0, 0, 0, h); bg.addColorStop(0, '#fffaf1'); bg.addColorStop(1, '#f5e8d2'); g.fillStyle = bg; g.fillRect(0, 0, w, h);
+    g.strokeStyle = '#c9a24f'; g.lineWidth = 9; g.strokeRect(14, 14, w - 28, h - 28); g.lineWidth = 2.5; g.strokeRect(32, 32, w - 64, h - 64);
+    g.fillStyle = '#c9a24f'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '600 26px Mukta, sans-serif';
+    for (const [x, y] of [[32, 32], [w - 32, 32], [32, h - 32], [w - 32, h - 32]]) g.fillText('✦', x, y + 1);
+    g.fillStyle = '#a07f3e'; g.font = labelFont; try { g.letterSpacing = label === label.toUpperCase() ? '5px' : '0px'; } catch (_) { } g.fillText(label, w / 2, 96); try { g.letterSpacing = '0px'; } catch (_) { }
+    const fam = "'Great Vibes', 'Noto Serif Malayalam', 'Manjari', cursive", gold = g.createLinearGradient(90, 150, w - 90, 290);
+    gold.addColorStop(0, '#9a7128'); gold.addColorStop(.35, '#c99a3e'); gold.addColorStop(.55, '#a77a2c'); gold.addColorStop(1, '#c5953a'); g.fillStyle = gold;
+    const fit = (s, max, min) => { let f = max; do { g.font = `400 ${f}px ${fam}`; } while (g.measureText(s).width > w - 120 && (f -= 3) > min); return f; };
+    const words = name.split(' ');
+    if (fit(name, 104, 62) > 62 || words.length < 2) g.fillText(name, w / 2, 224);
+    else { let best = 1, bw = 1e9; for (let i = 1; i < words.length; i++) { const a = words.slice(0, i).join(' '), b = words.slice(i).join(' '); const d = Math.max(g.measureText(a).width, g.measureText(b).width); if (d < bw) { bw = d; best = i; } }
+      const a = words.slice(0, best).join(' '), b = words.slice(best).join(' '); fit(a.length > b.length ? a : b, 76, 30); g.fillText(a, w / 2, 186); g.fillText(b, w / 2, 268); }
+    g.fillStyle = '#c9a24f'; g.font = '600 30px Mukta, sans-serif'; g.fillText('✦', w / 2, 340);
+    t.needsUpdate = true; };
+  return t;
+}
+export function setSeatCard(I, name, label, labelFont) { I.seatTex.userData.draw(name, label, labelFont); }
+
+export function buildInterior(hall, opts = {}) {
   const I = { anim: [] }; const G = new THREE.Group(); hall.add(G); G.visible = false; I.group = G;
   const std = (c, o = {}) => new THREE.MeshStandardMaterial({ color: c, roughness: .8, ...o });
   // backdrop and stage
@@ -77,12 +100,36 @@ export function buildInterior(hall) {
     const flowers = []; for (const x of [-2, 2]) { const v = new THREE.Mesh(new THREE.CylinderGeometry(.18, .14, .6, 12), std(0xd8b25e, { metalness: .6, roughness: .35 })); v.position.set(x, SY + .3, -16.6); G.add(v);
       for (let f = 0; f < 26; f++) { const fl = new THREE.Mesh(new THREE.IcosahedronGeometry(.09, 0), std(['#f4a9bd', '#ffffff', '#f7c9d6', '#9ccf9e'][f % 4])); fl.position.set(x + (rnd() - .5) * .45, SY + .7 + rnd() * .35, -16.6 + (rnd() - .5) * .45); G.add(fl); } }
   }
+  // the couples' stage: two gold-trimmed sofas among flowers and candles (the couples themselves are not shown)
+  { const ivory = std(0xfff3e4, { roughness: .6 }), goldM = std(0xd8b25e, { metalness: .8, roughness: .3 }), iv = [], gd = [];
+    for (const sx of [-1.62, 1.62]) { const add = (arr, geo, x, y, z) => { geo.translate(sx + x, y, z); arr.push(geo); };
+      add(gd, new THREE.BoxGeometry(1.86, .12, .86), 0, .06, 0); add(iv, new THREE.BoxGeometry(1.7, .22, .74), 0, .25, .04); add(iv, new THREE.BoxGeometry(1.7, .8, .16), 0, .72, -.3);
+      const rail = new THREE.CylinderGeometry(.06, .06, 1.84, 12); rail.rotateZ(PI / 2); add(gd, rail, 0, 1.14, -.3);
+      for (const ax of [-.9, .9]) { add(iv, new THREE.BoxGeometry(.16, .4, .78), ax, .4, .02); const cap = new THREE.CylinderGeometry(.08, .08, .8, 12); cap.rotateX(PI / 2); add(gd, cap, ax, .62, .02); } }
+    const sofaI = new THREE.Mesh(mergeChairs(iv), ivory), sofaG = new THREE.Mesh(mergeChairs(gd), goldM); sofaI.position.set(0, SY, -19.85); sofaG.position.copy(sofaI.position); G.add(sofaI, sofaG);
+    const fl = [], fpal = ['#f4a9bd', '#ffffff', '#f7c9d6', '#fde3b8', '#e8607f', '#9ccf9e'], stand = new THREE.CylinderGeometry(.035, .07, 1.0, 10);
+    for (const x of [0, -2.9, 2.9]) { const st = new THREE.Mesh(stand, goldM); st.position.set(x, SY + .5, -19.75); G.add(st);
+      for (let k = 0; k < 50; k++) { const u = rnd() * 2 - 1, a = rnd() * 2 * PI, r = .32 * Math.cbrt(rnd()), q = Math.sqrt(1 - u * u); fl.push([x + q * Math.cos(a) * r, SY + 1.2 + u * r * .8, -19.75 + q * Math.sin(a) * r]); } }
+    for (let x = -8.35; x <= 8.36; x += .15) fl.push([x, SY + .03 + rnd() * .04, -16.1 + rnd() * .04]); // a garland along the stage edge
+    const fm = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(.075, 0), std(0xffffff, { roughness: .7 }), fl.length), o = new THREE.Object3D(), c = new THREE.Color();
+    fl.forEach((p, i) => { o.position.set(p[0], p[1], p[2]); o.scale.setScalar(.8 + rnd() * .6); o.rotation.set(rnd() * 6, rnd() * 6, 0); o.updateMatrix(); fm.setMatrixAt(i, o.matrix); fm.setColorAt(i, c.set(fpal[i % fpal.length])); }); G.add(fm);
+    const cand = new THREE.CylinderGeometry(.03, .07, 1.5, 10), flame = new THREE.SphereGeometry(.05, 10, 8), flameM = new THREE.MeshBasicMaterial({ color: hdr(4, 2.4, 1.1) });
+    for (const x of [-4.55, 4.55]) { const cm = new THREE.Mesh(cand, goldM); cm.position.set(x, SY + .75, -19.8); const f = new THREE.Mesh(flame, flameM); f.position.set(x, SY + 1.56, -19.8); f.scale.set(1, 1.6, 1); G.add(cm, f); }
+  }
   // the hall seated in long rows facing the stage (drawn in batches so phones stay smooth)
   { const rows = 7, per = 9, seats = [];
     for (let r = 0; r < rows; r++) for (const side of [-1, 1]) for (let i = 0; i < per; i++) seats.push([side * (.85 + i * .62), -14.7 + r * 1.05]);
-    const chairs = new THREE.InstancedMesh(chairGeo(), std(0xfff6ea), seats.length), o = new THREE.Object3D();
-    seats.forEach((p, i) => { o.position.set(p[0], FY, p[1]); o.rotation.set(0, 0, 0); o.updateMatrix(); chairs.setMatrixAt(i, o.matrix); }); G.add(chairs);
-    const filled = seats.filter(() => rnd() < .88), women = [], men = [];
+    // front row, on the aisle: the guest's reserved seat (and the seat behind it is kept clear so the card can be seen)
+    const near = (p, x, z) => Math.abs(p[0] - x) < .01 && Math.abs(p[1] - z) < .01, RX = -.85, RZ = -14.7;
+    const chairSeats = seats.filter(p => !near(p, RX, RZ));
+    const chairs = new THREE.InstancedMesh(chairGeo(), std(0xfff6ea), chairSeats.length), o = new THREE.Object3D();
+    chairSeats.forEach((p, i) => { o.position.set(p[0], FY, p[1]); o.rotation.set(0, 0, 0); o.updateMatrix(); chairs.setMatrixAt(i, o.matrix); }); G.add(chairs);
+    const kept = [[RX, RZ], [RX - .62, RZ], [RX, RZ + 1.05], [RX - .62, RZ + 1.05]]; // the reserved seat, one beside it for family, and the two behind so it can be seen
+    const filled = seats.filter(p => !kept.some(k => near(p, k[0], k[1])) && rnd() < .88), women = [], men = [];
+    { const goldM = std(0xd8b25e, { metalness: .75, roughness: .32 }); const gc = new THREE.Mesh(chairGeo(), goldM); gc.position.set(RX, FY, RZ); G.add(gc);
+      I.seatTex = seatTex(); const card = new THREE.Mesh(new THREE.PlaneGeometry(.62, .44), new THREE.MeshStandardMaterial({ map: I.seatTex, emissive: 0xffffff, emissiveMap: I.seatTex, emissiveIntensity: .32, roughness: .75 }));
+      card.position.set(RX, FY + .76, RZ + .265); card.rotation.x = -.07; G.add(card); I.seat = { x: RX, y: FY + .76, z: RZ + .265 };
+      const rose = new THREE.IcosahedronGeometry(.055, 0); for (let k = 0; k < 9; k++) { const r = new THREE.Mesh(rose, std(['#c4234f', '#e8607f', '#fffaf2'][k % 3], { roughness: .6 })); r.position.set(RX - .12 + (k % 3) * .11 + (rnd() - .5) * .04, FY + .55 + (k > 5 ? .04 : 0), RZ - .1 + Math.floor(k / 3) * .06); G.add(r); } }
     filled.forEach(p => (rnd() < .55 ? women : men).push({ x: p[0], z: p[1] + .04, ph: R(0, 9) }));
     const part = (geo, n, col) => { const m = new THREE.InstancedMesh(geo, std(0xffffff), n); col.forEach((c, i) => m.setColorAt(i, new THREE.Color(c))); G.add(m); return m; };
     const pick = (a, n) => Array.from({ length: n }, () => a[(rnd() * a.length) | 0]);
@@ -145,8 +192,18 @@ export function buildInterior(hall) {
     const cg = new THREE.BufferGeometry(); cg.setAttribute('position', new THREE.BufferAttribute(pos, 3)); cg.setAttribute('color', new THREE.BufferAttribute(col, 3));
     const cf = new THREE.Points(cg, new THREE.PointsMaterial({ size: .09, vertexColors: true })); cf.visible = false; I.confetti = { g: cg, pos, vel, N };
   }
-  // warm light inside
-  const L1 = new THREE.PointLight(0xffd8a8, 0, 30, 1.4); L1.position.set(0, 6.5, -15); G.add(L1);
+  // a canopy of fairy lights draped from the centre of the dark ceiling to the walls
+  { const pos = [], ph = [], cx = 0, cy = 8.86, cz = -10.8;
+    for (let k = 0; k < 32; k++) { const a = k / 32 * 2 * PI + .05, dx = Math.cos(a), dz = Math.sin(a), t = Math.min(dx ? 14.8 / Math.abs(dx) : 1e9, dz ? 9.85 / Math.abs(dz) : 1e9);
+      const ex = dx * t, ez = cz + dz * t, L = Math.hypot(ex - cx, ez - cz), n = Math.round(L / .4);
+      for (let i = 2; i <= n; i++) { const f = i / n; pos.push(lerp(cx, ex, f), lerp(cy, 8.2, f) - Math.sin(f * PI) * .8, lerp(cz, ez, f)); ph.push(rnd() * 9); } }
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('ph', new THREE.Float32BufferAttribute(ph, 1));
+    const m = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uTime: U.time, uPx: { value: opts.dpr || 1 } },
+      vertexShader: 'attribute float ph;uniform float uTime,uPx;varying float vA;void main(){vec4 mv=modelViewMatrix*vec4(position,1.);float z=-mv.z;vA=.55+.45*sin(uTime*(1.1+fract(ph)*1.6)+ph*7.);gl_PointSize=clamp(uPx*15./z,uPx*1.6,uPx*8.);gl_Position=projectionMatrix*mv;}',
+      fragmentShader: 'varying float vA;void main(){float d=length(gl_PointCoord-.5);gl_FragColor=vec4(vec3(1.5,1.22,.78)*2.2,smoothstep(.5,.06,d)*vA);}' });
+    const pts = new THREE.Points(g, m); pts.frustumCulled = false; G.add(pts); }
+  // warm light inside (kept low so the ceiling stays dark and starry)
+  const L1 = new THREE.PointLight(0xffd8a8, 0, 30, 1.4); L1.position.set(0, 5.2, -14.5); G.add(L1);
   const L2 = new THREE.PointLight(0xffc890, 0, 26, 1.5); L2.position.set(-8, 5.5, -6); G.add(L2);
   const L3 = new THREE.PointLight(0xffc890, 0, 26, 1.5); L3.position.set(8, 5.5, -6); G.add(L3);
   I.lights = [L1, L2, L3];
@@ -167,7 +224,7 @@ function mergeChairs(list) { // tiny local merge so this module stays standalone
 
 export function updateInterior(I, t, dt, on, cue) {
   I.group.visible = on > 0; if (!on) return;
-  I.lights[0].intensity = 26 * on; I.lights[1].intensity = 12 * on; I.lights[2].intensity = 12 * on;
+  I.lights[0].intensity = 22 * on; I.lights[1].intensity = 11 * on; I.lights[2].intensity = 11 * on;
   const arm = (p, s, v) => { const a = p.userData['arm' + s]; if (a) a.rotation.z += (v - a.rotation.z) * Math.min(1, dt * 8); };
   // the host chats casually on stage, mic in hand, strolling a little; now and then the hall laughs
   const laugh = Math.pow(Math.max(0, Math.sin(t * .42 - 1)), 10);

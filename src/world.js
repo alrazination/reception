@@ -110,18 +110,63 @@ function signTexture() {
   return canvasTex(512, 96, (g, w, h) => {
     g.fillStyle = '#23484d'; g.fillRect(0, 0, w, h);
     g.strokeStyle = '#d8b867'; g.lineWidth = 4; g.strokeRect(6, 6, w - 12, h - 12);
-    g.fillStyle = '#f0d58f'; g.font = '700 44px Lora, Georgia, serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
-    g.fillText('EVENTO AUDITORIUM', w / 2, h / 2 + 2);
+    g.fillStyle = '#f0d58f'; g.font = '700 42px Lora, Georgia, serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText('EVENTO AUDITORIUM', w / 2, h / 2 + 2, w - 40);
   });
 }
-function doorTexture() {
-  return canvasTex(128, 256, (g, w, h) => {
-    const gr = g.createLinearGradient(0, 0, w, 0); gr.addColorStop(0, '#e8d6b0'); gr.addColorStop(1, '#f7ecd4');
-    g.fillStyle = gr; g.fillRect(0, 0, w, h);
-    g.strokeStyle = '#b08a45'; g.lineWidth = 3;
-    for (let i = 0; i < 3; i++) g.strokeRect(14, 20 + i * 76, w - 28, 64);
-    g.fillStyle = '#b8924d'; for (let y = 10; y < h; y += 16) for (let x = 8; x < w; x += 24) { g.beginPath(); g.arc(x, y, 1.8, 0, 2 * PI); g.fill(); }
-  });
+// The doors: deep teal lacquer with raised gold inlay, a medallion with each couple's initials and an
+// eight-point star split down the seam. One drawing spans both doors (left door u 0-.5, right door u .5-1).
+// The 'data' pass packs bump height (R), roughness (G) and metalness (B) for the same drawing.
+function doorTextures() {
+  const Wc = 768, Hc = 1152, C = Wc / 2;
+  const hs = (1 - (5.8 - 3.8 * .72) / 5.8) * Hc, cy = (1 - (5.8 - 3.8 * .18) / 5.8) * Hc; // where the arch starts at the hinges, and its curve control
+  const arch = (g, d) => { g.beginPath(); g.moveTo(d, Hc - d); g.lineTo(d, hs + d * .3); g.quadraticCurveTo(d, cy + d * 1.1, C, d * 1.9); g.quadraticCurveTo(Wc - d, cy + d * 1.1, Wc - d, hs + d * .3); g.lineTo(Wc - d, Hc - d); g.closePath(); };
+  const star = (g, x, y, R, ri) => { g.beginPath(); for (let k = 0; k < 16; k++) { const a = k * PI / 8 - PI / 2, r = k % 2 ? R * ri : R; g.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r); } g.closePath(); };
+  const dot = (g, x, y, r) => { g.beginPath(); g.arc(x, y, r, 0, 2 * PI); g.fill(); };
+  const paint = (g, M) => {
+    const gold = M.gold(g);
+    g.fillStyle = M.base; g.fillRect(0, 0, Wc, Hc);
+    if (M.grain) for (let i = 0; i < 1100; i++) { g.fillStyle = Math.random() < .5 ? 'rgba(255,255,255,.035)' : 'rgba(0,0,0,.1)'; g.fillRect(Math.random() * Wc, Math.random() * Hc, 1 + Math.random() * 1.5, 30 + Math.random() * 160); }
+    g.lineJoin = g.lineCap = 'round';
+    // outer beading
+    g.strokeStyle = gold; g.lineWidth = 9; arch(g, 16); g.stroke(); g.lineWidth = 2.5; arch(g, 31); g.stroke();
+    // upper panel: a lattice of eight-point stars inside the arch
+    g.save(); arch(g, 46); g.clip(); g.beginPath(); g.rect(0, 0, Wc, 572); g.clip();
+    g.fillStyle = M.recess; g.fillRect(0, 0, Wc, 572);
+    g.strokeStyle = gold; g.lineWidth = 3.4; const c = 64;
+    for (let y = 572 - c * 9; y < 620; y += c) for (let x = C - c * 7; x < Wc + c; x += c) { star(g, x, y, c * .5, .62); g.stroke(); }
+    g.lineWidth = 9; arch(g, 46); g.stroke(); g.restore();
+    g.lineWidth = 5; g.beginPath(); g.moveTo(44, 572); g.lineTo(Wc - 44, 572); g.stroke();
+    // medallions with each couple's initials, and the rosette that parts with the doors
+    for (const [mx, ini] of [[C / 2, M.ini[0]], [C * 1.5, M.ini[1]]]) {
+      g.fillStyle = M.recess; g.beginPath(); g.arc(mx, 668, 82, 0, 2 * PI); g.fill();
+      g.strokeStyle = gold; g.lineWidth = 10; g.beginPath(); g.arc(mx, 668, 86, 0, 2 * PI); g.stroke();
+      g.lineWidth = 2.5; g.beginPath(); g.arc(mx, 668, 71, 0, 2 * PI); g.stroke();
+      g.fillStyle = gold; for (let k = 0; k < 18; k++) { const a = k / 18 * 2 * PI; dot(g, mx + Math.cos(a) * 99, 668 + Math.sin(a) * 99, 4.6); }
+      g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.font = '700 60px Lora, Georgia, serif'; g.fillText(ini[0], mx - 36, 672); g.fillText(ini[1], mx + 36, 672);
+      g.font = 'italic 500 34px Lora, Georgia, serif'; g.fillText('&', mx, 677);
+    }
+    g.fillStyle = gold; star(g, C, 668, 54, .55); g.fill(); g.fillStyle = M.recess; star(g, C, 668, 31, .55); g.fill(); g.fillStyle = gold; dot(g, C, 668, 9);
+    // lower panels: a finer star lattice, then a panel of studs
+    for (const [x0, x1] of [[58, C - 26], [C + 26, Wc - 58]]) {
+      g.save(); g.beginPath(); g.rect(x0, 800, x1 - x0, 168); g.clip(); g.fillStyle = M.recess; g.fillRect(x0, 800, x1 - x0, 168);
+      g.strokeStyle = gold; g.lineWidth = 2.5; const k = 42, ox = x0 + ((x1 - x0) % k) / 2;
+      for (let y = 800 - k / 2; y < 990; y += k) for (let x = ox - k / 2; x < x1 + k; x += k) { star(g, x, y, k / 2, .62); g.stroke(); }
+      g.restore(); g.strokeStyle = gold; g.lineWidth = 6; g.strokeRect(x0, 800, x1 - x0, 168);
+      g.fillStyle = M.recess; g.fillRect(x0, 992, x1 - x0, 120); g.strokeRect(x0, 992, x1 - x0, 120); g.fillStyle = gold;
+      for (let y = 1016; y < 1100; y += 25) for (let x = x0 + 22; x < x1 - 12; x += 25) dot(g, x, y, 5.2);
+    }
+    g.fillStyle = gold; for (let y = 606; y < Hc - 40; y += 36) for (const x of [41, Wc - 41]) dot(g, x, y, 4.6);
+    // the seam where the two doors meet
+    g.strokeStyle = M.seam; g.lineWidth = 3; g.beginPath(); g.moveTo(C, 0); g.lineTo(C, Hc); g.stroke();
+  };
+  const ini = [['R', 'S'], ['R', 'N']];
+  const map = canvasTex(Wc, Hc, g => paint(g, { base: '#1c4246', recess: '#14333a', seam: '#071315', grain: true, ini,
+    gold: g => { const gr = g.createLinearGradient(0, 0, Wc, Hc); gr.addColorStop(0, '#f7df9c'); gr.addColorStop(.35, '#d6ae5a'); gr.addColorStop(.6, '#f2d48a'); gr.addColorStop(1, '#b98d3c'); return gr; } }));
+  const data = canvasTex(Wc, Hc, g => paint(g, { base: 'rgb(128,116,0)', recess: 'rgb(66,140,0)', seam: 'rgb(8,200,0)', grain: false, ini, gold: () => 'rgb(242,70,255)' }), false);
+  map.anisotropy = data.anisotropy = 8;
+  return { map, data };
 }
 function cloudTexture() {
   // a soft cumulus puff: bright top, shaded base
@@ -401,7 +446,7 @@ export function buildWorld(scene, renderer, opts) {
     // interior
     const carpet = canvasTex(256, 256, (g2, w, h) => { g2.fillStyle = '#5e1822'; g2.fillRect(0, 0, w, h); g2.strokeStyle = 'rgba(230,180,90,.55)'; g2.lineWidth = 3; for (let i = 0; i < 4; i++) { g2.strokeRect(20 + i * 6, 20 + i * 6, w - 40 - i * 12, h - 40 - i * 12); } });
     const floor = new THREE.Mesh(new THREE.PlaneGeometry(Wd - .2, D), new THREE.MeshStandardMaterial({ map: rep(carpet, 3, 2), roughness: .9 })); floor.rotation.x = -PI / 2; floor.position.set(0, DY, -FD - D / 2); body.add(floor);
-    const ceil = new THREE.Mesh(new THREE.PlaneGeometry(Wd, D), new THREE.MeshStandardMaterial({ color: 0xf6e2c4, roughness: .9 })); ceil.rotation.x = PI / 2; ceil.position.set(0, Ht - .05, -FD - D / 2); body.add(ceil);
+    const ceil = new THREE.Mesh(new THREE.PlaneGeometry(Wd, D), new THREE.MeshStandardMaterial({ color: 0x3a1c27, roughness: 1 })); ceil.rotation.x = PI / 2; ceil.position.set(0, Ht - .05, -FD - D / 2); body.add(ceil);
     const chand = []; for (const z of [-5, -10, -15]) for (const x of [-7, 0, 7]) for (let k = 0; k < 10; k++) { const a = k / 10 * 2 * PI, s = new THREE.SphereGeometry(.09, 6, 4); s.translate(x + Math.cos(a) * .7, 7.2 - (k % 2) * .25, z + Math.sin(a) * .7); chand.push(s); }
     body.add(new THREE.Mesh(mergeGeometries(chand), new THREE.MeshBasicMaterial({ color: hdr(3, 2.2, 1.2) })));
     const inLight = new THREE.PointLight(0xffc27a, 0, 34, 1.6); inLight.position.set(0, 5, -8); body.add(inLight); W.inLight = inLight;
@@ -413,7 +458,7 @@ export function buildWorld(scene, renderer, opts) {
     up.forEach(w => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w[2], w[3]), winMat[1]); m.position.set(w[0], w[1] + w[3] / 2, -FD + .12); hall.add(m); });
     W.winMats = winMat; }
   // sign
-  { const m = new THREE.Mesh(new THREE.PlaneGeometry(5.4, 1), new THREE.MeshStandardMaterial({ map: signTexture(), roughness: .6, emissive: 0xffffff, emissiveMap: signTexture(), emissiveIntensity: .05 }));
+  { const st = signTexture(); const m = new THREE.Mesh(new THREE.PlaneGeometry(4.6, .86), new THREE.MeshStandardMaterial({ map: st, roughness: .6, emissive: 0xffffff, emissiveMap: st, emissiveIntensity: .05 }));
     m.position.set(0, 7.55, .26); hall.add(m); W.signMat = m.material; }
   // dome, drum, finial with crescent, corner kiosks
   { const drum = new THREE.Mesh(new THREE.CylinderGeometry(4.2, 4.2, 2.2, 32), plaster); drum.position.set(0, 10.6, -10.8); drum.castShadow = true; hall.add(drum);
@@ -439,18 +484,33 @@ export function buildWorld(scene, renderer, opts) {
     hall.add(new THREE.Mesh(mergeGeometries(pots), new THREE.MeshStandardMaterial({ color: 0xb06a3e, roughness: .8 })));
     const flm = new THREE.Mesh(mergeGeometries(fl), new THREE.MeshStandardMaterial({ color: 0xf4a6bd, roughness: .7 })); flm.castShadow = true; hall.add(flm); }
   // the doors
-  { const dt = doorTexture();
+  { const T = doorTextures();
     const half = new THREE.Shape(); const w = DW / 2, h = DH, hs = h - DW * .72;
     half.moveTo(0, 0); half.lineTo(w, 0); half.lineTo(w, h); half.quadraticCurveTo(0, h - DW * .18, 0, hs); half.lineTo(0, 0);
-    const geo = new THREE.ExtrudeGeometry(half, { depth: .12, bevelEnabled: false, curveSegments: 12 });
-    { const p = geo.attributes.position, uv = geo.attributes.uv; for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / w, p.getY(i) / h); }
-    const mat = new THREE.MeshStandardMaterial({ map: dt, roughness: .55, metalness: .1, side: THREE.DoubleSide });
-    const L = new THREE.Group(), Rr = new THREE.Group(); const ml = new THREE.Mesh(geo, mat), mr = new THREE.Mesh(geo, mat); mr.scale.x = -1;
+    const geoL = new THREE.ExtrudeGeometry(half, { depth: .12, bevelEnabled: false, curveSegments: 16 }), geoR = geoL.clone();
+    // both doors share one drawing: the left door shows its left half, the (mirrored) right door its right half
+    for (const [geo, f] of [[geoL, x => .5 * x / w], [geoR, x => 1 - .5 * x / w]]) { const p = geo.attributes.position, uv = geo.attributes.uv; for (let i = 0; i < p.count; i++) uv.setXY(i, f(p.getX(i)), p.getY(i) / h); }
+    const mat = new THREE.MeshStandardMaterial({ map: T.map, bumpMap: T.data, bumpScale: 2.2, roughnessMap: T.data, metalnessMap: T.data, roughness: 1, metalness: 1, envMapIntensity: 1.5, side: THREE.DoubleSide });
+    const L = new THREE.Group(), Rr = new THREE.Group(); const ml = new THREE.Mesh(geoL, mat), mr = new THREE.Mesh(geoR, mat); mr.scale.x = -1;
     ml.position.z = mr.position.z = -.06; ml.castShadow = mr.castShadow = true;
     L.add(ml); Rr.add(mr); L.position.set(-w, DY, -.35); Rr.position.set(w, DY, -.35); hall.add(L, Rr);
-    W.doors = [L, Rr];
+    // gold ring pulls that swing with the doors
+    const ringG = new THREE.TorusGeometry(.12, .019, 10, 32), plateG = new THREE.CylinderGeometry(.06, .06, .03, 24); plateG.rotateX(PI / 2);
+    for (const [grp, sx] of [[L, 1], [Rr, -1]]) { const x = sx * (w - .26), pl = new THREE.Mesh(plateG, gold), rg = new THREE.Mesh(ringG, gold);
+      pl.position.set(x, 1.62, .075); rg.position.set(x, 1.62 - .12, .1); grp.add(pl, rg); }
+    W.doors = [L, Rr]; W.doorMat = mat;
     const glow = new THREE.Mesh(new THREE.PlaneGeometry(DW, DH), new THREE.MeshBasicMaterial({ color: hdr(1.6, 1.1, .6), transparent: true, opacity: 0, depthWrite: false }));
     glow.position.set(0, DY + DH / 2, -.5); hall.add(glow); W.doorGlow = glow;
+    // warm light leaking through the gap between the doors and under them
+    const seamMat = new THREE.MeshBasicMaterial({ color: hdr(4.4, 2.6, 1.1), transparent: true, opacity: 0, depthWrite: false, fog: false });
+    const seam = new THREE.Mesh(new THREE.PlaneGeometry(.03, DH - .05), seamMat); seam.position.set(0, DY + DH / 2, -.281); hall.add(seam);
+    const sill = new THREE.Mesh(new THREE.PlaneGeometry(DW - .16, .032), seamMat); sill.position.set(0, DY + .018, -.281); hall.add(sill);
+    const haloTex = canvasTex(64, 256, (g, cw, ch) => { const gr = g.createLinearGradient(0, 0, cw, 0); gr.addColorStop(0, 'rgba(255,190,110,0)'); gr.addColorStop(.5, 'rgba(255,214,150,1)'); gr.addColorStop(1, 'rgba(255,190,110,0)');
+      g.fillStyle = gr; g.fillRect(0, 0, cw, ch); const v = g.createLinearGradient(0, 0, 0, ch); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(.18, 'rgba(0,0,0,1)'); v.addColorStop(.96, 'rgba(0,0,0,1)'); v.addColorStop(1, 'rgba(0,0,0,0)');
+      g.globalCompositeOperation = 'destination-in'; g.fillStyle = v; g.fillRect(0, 0, cw, ch); });
+    const haloMat = new THREE.MeshBasicMaterial({ map: haloTex, color: hdr(1.3, .9, .5), transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending, fog: false });
+    const halo = new THREE.Mesh(new THREE.PlaneGeometry(.9, DH), haloMat); halo.position.set(0, DY + DH / 2, -.276); hall.add(halo);
+    W.seam = { mat: seamMat, halo: haloMat };
   }
   // string lights
   { const pts = [];
@@ -480,7 +540,7 @@ export function buildWorld(scene, renderer, opts) {
     for (let i = 0; i < n; i++) { p[i * 3] = R(-26, 26); p[i * 3 + 1] = R(.3, 3.2); p[i * 3 + 2] = R(-4, 120); ph[i] = R(0, 100); }
     const gg = new THREE.BufferGeometry(); gg.setAttribute('position', new THREE.BufferAttribute(p, 3)); gg.setAttribute('ph', new THREE.BufferAttribute(ph, 1));
     const m = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uTime: U.time, uOp: { value: 0 }, uPx: { value: opts.dpr } },
-      vertexShader: 'attribute float ph;uniform float uTime,uPx;varying float vA;void main(){vec3 q=position+vec3(sin(uTime*.3+ph)*1.4,sin(uTime*.5+ph*1.3)*.5,cos(uTime*.25+ph*.7)*1.4);vA=pow(max(0.,sin(uTime*1.3+ph*3.)),6.);vec4 mv=modelViewMatrix*vec4(q,1.);gl_PointSize=uPx*90./-mv.z;gl_Position=projectionMatrix*mv;}',
+      vertexShader: 'attribute float ph;uniform float uTime,uPx;varying float vA;void main(){vec3 q=position+vec3(sin(uTime*.3+ph)*1.4,sin(uTime*.5+ph*1.3)*.5,cos(uTime*.25+ph*.7)*1.4);vec4 mv=modelViewMatrix*vec4(q,1.);float z=-mv.z;vA=pow(max(0.,sin(uTime*1.3+ph*3.)),6.)*smoothstep(2.5,7.,z);gl_PointSize=min(uPx*90./z,uPx*26.);gl_Position=projectionMatrix*mv;}',
       fragmentShader: 'uniform float uOp;varying float vA;void main(){float d=length(gl_PointCoord-.5);float a=pow(smoothstep(.5,0.,d),2.);gl_FragColor=vec4(vec3(1.4,1.3,.45)*2.,a*vA*uOp);}' });
     const pts = new THREE.Points(gg, m); pts.frustumCulled = false; scene.add(pts); W.fireflyMat = m; }
   // ---------- sky lanterns ----------
@@ -489,8 +549,41 @@ export function buildWorld(scene, renderer, opts) {
     m.frustumCulled = false; scene.add(m);
     const o = new THREE.Object3D(); o.scale.setScalar(0); o.updateMatrix(); for (let i = 0; i < n; i++) m.setMatrixAt(i, o.matrix);
     W.lanterns = { mesh: m, list: [], o, n, next: 0, bg: 90 }; }
+  // ---------- rose petals and jasmine, showered when the doors open ----------
+  { const n = low ? 140 : 260, sh = new THREE.Shape(); sh.absellipse(0, 0, .058, .038, 0, 2 * PI, false, 0);
+    const g = new THREE.ShapeGeometry(sh, 8); { const p = g.attributes.position; for (let i = 0; i < p.count; i++) { const x = p.getX(i), y = p.getY(i); p.setZ(i, -(x * x) * 9 - (y * y) * 6); } g.computeVertexNormals(); }
+    const m = new THREE.InstancedMesh(g, new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: .5, emissive: 0x501622, emissiveIntensity: .8 }), n), c = new THREE.Color();
+    const pal = ['#d0234f', '#e8607f', '#b3123e', '#fffaf2', '#ffffff', '#f08aa5', '#fff3e0', '#c81e4b'];
+    for (let i = 0; i < n; i++) m.setColorAt(i, c.set(pal[i % pal.length]));
+    m.frustumCulled = false; m.visible = false; scene.add(m);
+    W.petals = { mesh: m, n, list: [], o: new THREE.Object3D() }; }
   return W;
 }
+
+// ---------- petals ----------
+const RR = (a, b) => a + Math.random() * (b - a);
+const floorAt = z => z < .5 ? .462 : z < 1 ? .312 : z < 1.5 ? .162 : .045; // hall floor, the three steps, then the plaza
+export function spawnPetals(P, t) {
+  P.list = [];
+  for (let i = 0; i < P.n; i++) { const jasmine = [3, 4, 6].includes(i % 8);
+    const near = i % 3 !== 0; // most fall in front of the doors and just inside, where the camera passes
+    P.list.push({ x: near ? RR(-2.4, 2.4) : RR(-3.2, 3.2), y: RR(3.2, 8.2), z: near ? RR(-3.5, 6.2) : RR(-9, -3.5), born: t + Math.random() * 1.8, vy: RR(.5, .95), a: RR(.25, .6), f: RR(1.2, 2.4), ph: Math.random() * 9,
+      rx: Math.random() * 6, ry: Math.random() * 6, rz: Math.random() * 6, wx: RR(-3, 3), wy: RR(-2, 2), wz: RR(-3, 3), s: jasmine ? RR(.5, .75) : RR(.85, 1.3), rest: false }); }
+  P.mesh.visible = true;
+}
+export function updatePetals(P, t, dt) {
+  if (!P.mesh.visible) return;
+  const o = P.o;
+  P.list.forEach((s, i) => {
+    if (t < s.born) { o.scale.setScalar(0); o.updateMatrix(); P.mesh.setMatrixAt(i, o.matrix); return; }
+    if (!s.rest) { s.y -= s.vy * dt; s.x += Math.sin(t * s.f + s.ph) * s.a * dt; s.z += Math.cos(t * s.f * .7 + s.ph) * s.a * .6 * dt;
+      s.rx += s.wx * dt; s.ry += s.wy * dt; s.rz += s.wz * dt;
+      const fl = floorAt(s.z); if (s.y <= fl) { s.y = fl; s.rest = true; s.rx = -PI / 2 + RR(-.2, .2); s.ry = RR(-.2, .2); } }
+    o.position.set(s.x, s.y, s.z); o.rotation.set(s.rx, s.ry, s.rz); o.scale.setScalar(s.s * Math.min(1, (t - s.born) * 4)); o.updateMatrix(); P.mesh.setMatrixAt(i, o.matrix);
+  });
+  P.mesh.instanceMatrix.needsUpdate = true;
+}
+export function clearPetals(P) { P.list = []; P.mesh.visible = false; }
 
 // ---------- families walking toward the hall ----------
 const skin = [0xc99068, 0xb57d55, 0xd9a679, 0x9c6a48];
