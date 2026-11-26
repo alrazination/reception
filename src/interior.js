@@ -130,7 +130,7 @@ export function buildInterior(hall, opts = {}) {
       I.seatTex = seatTex(); const card = new THREE.Mesh(new THREE.PlaneGeometry(.62, .44), new THREE.MeshStandardMaterial({ map: I.seatTex, emissive: 0xffffff, emissiveMap: I.seatTex, emissiveIntensity: .32, roughness: .75 }));
       card.position.set(RX, FY + .76, RZ + .265); card.rotation.x = -.07; G.add(card); I.seat = { x: RX, y: FY + .76, z: RZ + .265 };
       const rose = new THREE.IcosahedronGeometry(.055, 0); for (let k = 0; k < 9; k++) { const r = new THREE.Mesh(rose, std(['#c4234f', '#e8607f', '#fffaf2'][k % 3], { roughness: .6 })); r.position.set(RX - .12 + (k % 3) * .11 + (rnd() - .5) * .04, FY + .55 + (k > 5 ? .04 : 0), RZ - .1 + Math.floor(k / 3) * .06); G.add(r); } }
-    filled.forEach(p => (rnd() < .55 ? women : men).push({ x: p[0], z: p[1] + .04, ph: R(0, 9) }));
+    filled.forEach(p => (p[0] < 0 ? men : women).push({ x: p[0], z: p[1] + .04, ph: R(0, 9) }));
     const part = (geo, n, col) => { const m = new THREE.InstancedMesh(geo, std(0xffffff), n); col.forEach((c, i) => m.setColorAt(i, new THREE.Color(c))); G.add(m); return m; };
     const pick = (a, n) => Array.from({ length: n }, () => a[(rnd() * a.length) | 0]);
     const skin = ['#c99068', '#b57d55', '#d9a679', '#9c6a48'], abaya = ['#3b2a4a', '#5a2a3a', '#1f2c4a', '#2a2a2e', '#2f4a4a', '#6a4a3a', '#7a5a8a'], hijab = ['#f3e6d8', '#f2c6cf', '#cfe0d6', '#e8d3a8', '#d9c4e8', '#ffffff', '#f7d9e0'], thobe = ['#ffffff', '#cfe0f2', '#f3ead6', '#d9eadf', '#f2d9de', '#c9ced6', '#a9c2de'];
@@ -161,7 +161,7 @@ export function buildInterior(hall, opts = {}) {
     const ring = new THREE.Mesh(new THREE.TorusGeometry(.18, .035, 6, 18), std(0xf49ab8)); ring.rotation.x = PI / 2; G.add(ring); I.ring = ring;
     const tosser = makePerson('k', 66); tosser.position.set(-6.4, FY, -10); G.add(tosser); I.tosser = tosser;
   }
-  // families chatting over chai
+  // families chatting over chai: each table is all women or all men; in the rows, men sit on the left and women on the right
   I.chat = []; I.bubbles = [];
   { const bt = [bubbleTex(), bubbleTex()];
     [[7.6, -4.4], [11.2, -7.6], [7.4, -10.6], [-4.2, -4.6]].forEach(([x, z], ti) => {
@@ -170,7 +170,7 @@ export function buildInterior(hall, opts = {}) {
       const vase = new THREE.Mesh(new THREE.CylinderGeometry(.08, .1, .3, 12), std(0xd8b25e, { metalness: .6, roughness: .35 })); vase.position.set(x, FY + .96, z); G.add(vase);
       for (let f = 0; f < 9; f++) { const fl = new THREE.Mesh(new THREE.IcosahedronGeometry(.07, 0), std(['#f4a9bd', '#ffffff', '#f7c9d6'][f % 3])); fl.position.set(x + (rnd() - .5) * .25, FY + 1.17 + rnd() * .12, z + (rnd() - .5) * .25); G.add(fl); }
       const n = ti === 3 ? 3 : 5;
-      for (let j = 0; j < n; j++) { const a = j / n * 2 * PI + ti; const k = ['w', 'm', 'w', 'w', 'm'][(j + ti) % 5]; const p = makePerson(k, 80 + ti * 5 + j);
+      for (let j = 0; j < n; j++) { const a = j / n * 2 * PI + ti; const k = ['w', 'w', 'm', 'm'][ti]; const p = makePerson(k, 80 + ti * 5 + j);
         p.position.set(x + Math.cos(a) * 1.5, FY, z + Math.sin(a) * 1.5); p.rotation.y = Math.atan2(p.position.x - x, p.position.z - z); G.add(p); I.chat.push(p); }
       for (let b = 0; b < 2; b++) { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: bt[(b + ti) % 2], transparent: true, depthWrite: false, opacity: 0 })); s.scale.set(.6, .45, 1);
         s.position.set(x + R(-1.4, 1.4), FY + 2.2, z + R(-1.2, 1.2)); G.add(s); I.bubbles.push({ s, ph: R(0, 9), per: R(3.5, 6) }); }
