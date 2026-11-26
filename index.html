@@ -29,7 +29,7 @@ button,input,textarea{font-family:inherit}
 .shown #gl{opacity:1}
 #ui{position:fixed;inset:0;pointer-events:none;-webkit-user-select:none;user-select:none;z-index:3}
 #ui button,#ui a{pointer-events:auto}
-body:not(.final) #sheet *,body:not(.joinon) #join *{pointer-events:none!important}
+body:not(.joinon):not(.final) #join *{pointer-events:none!important}
 @keyframes rise{from{opacity:0;transform:translateY(16px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
 @keyframes fadein{from{opacity:0}to{opacity:1}}
 
@@ -128,15 +128,14 @@ html[lang=ml] .gname{font:700 clamp(1.8rem,8.4vw,2.4rem)/1.55 var(--serif)}
 #doorhint .arr i+i{transform:rotate(-135deg);animation-name:pr}
 @keyframes pl{50%{translate:-10px 0}}@keyframes pr{50%{translate:10px 0}}
 #doorhint p{font:italic 500 1.2rem var(--serif)}
-#dooropen{margin-top:10px;font:600 .85rem var(--sans);color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);padding:7px 14px;cursor:pointer;pointer-events:none}
-.door #dooropen{pointer-events:auto}
+#dooropen{margin-top:10px;font:600 .85rem var(--sans);color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);padding:7px 14px;cursor:pointer}
+#ui #dooropen{pointer-events:none}.door #ui #dooropen{pointer-events:auto}
 
 /* ---------- cards ---------- */
-#sheet,#join{position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));width:min(calc(100% - 24px),440px);opacity:0;visibility:hidden;transform:translate(-50%,40px) scale(.9);transition:transform .75s cubic-bezier(.2,1.35,.35,1),opacity .45s,visibility 0s .5s;pointer-events:none;touch-action:pan-x}
-.final #sheet{opacity:1;visibility:visible;transform:translate(-50%,0) scale(1);transition-delay:1.2s;pointer-events:auto}
-.final.mini #sheet{transform:translate(-50%,calc(100% - 58px)) scale(1);transition-delay:0s}
-.joinon #join{opacity:1;visibility:visible;transform:translate(-50%,0) scale(1);transition-delay:0s;pointer-events:auto}
-.joinon.joinmini #join{transform:translate(-50%,calc(100% - 58px)) scale(1)}
+#join{position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));width:min(calc(100% - 24px),440px);opacity:0;visibility:hidden;transform:translate(-50%,40px) scale(.9);transition:transform .75s cubic-bezier(.2,1.35,.35,1),opacity .45s,visibility 0s .5s;pointer-events:none;touch-action:pan-x}
+.joinon #join,.final #join{opacity:1;visibility:visible;transform:translate(-50%,0) scale(1);transition-delay:0s;pointer-events:auto}
+.final #join{transition-delay:1.2s}
+.joinon.joinmini #join,.final.joinmini #join{transform:translate(-50%,calc(100% - 58px)) scale(1);transition-delay:0s}
 .card,.jc{position:relative;border-radius:24px;background:rgba(255,250,243,.95);-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2);box-shadow:0 18px 50px rgba(20,10,30,.35),0 0 0 1px rgba(201,162,79,.35) inset;padding:26px 18px 14px;color:var(--deep);text-align:center}
 .grip{position:absolute;left:50%;top:5px;transform:translateX(-50%);width:84px;height:24px;background:none;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .grip i{width:38px;height:4px;background:rgba(47,85,90,.35);border-radius:2px}
@@ -160,17 +159,9 @@ html[lang=ml] .cd small{letter-spacing:0;font-size:.66rem}
 .info{margin-top:10px;font-weight:600;font-size:.88rem;line-height:1.45}
 .pri{margin:12px auto 0;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:330px;border:0;border-radius:40px;padding:13px 20px;font:700 1rem var(--sans);color:#fff;background:linear-gradient(135deg,#43828d,#2f5f68);box-shadow:0 6px 18px rgba(63,122,133,.35);text-decoration:none;cursor:pointer}
 .pri svg{width:21px;height:21px;flex:none}
-.wa2{margin:9px auto 0;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;max-width:330px;border-radius:40px;padding:10px 18px;font:700 .95rem var(--sans);color:var(--btn);background:#fff;box-shadow:inset 0 0 0 1.5px rgba(63,122,133,.5);text-decoration:none}
-.wa2 svg{width:20px;height:20px;flex:none}
-#dirbtn{display:none}.today #dirbtn,.live #dirbtn{display:flex}.today #rsvp,.live #rsvp,.after #rsvp{display:none}
-.tools{display:flex;justify-content:space-around;margin:12px auto 0;max-width:340px}
-.tools>*{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:2px 0;color:var(--btn);font:600 .74rem var(--sans);text-decoration:none;cursor:pointer}
-.tools svg{width:40px;height:40px;padding:9px;border-radius:50%;background:rgba(63,122,133,.1)}
-.after .tools .tcal{display:none}
 .foot{margin-top:8px;font:italic 500 .9rem var(--serif)}
 html[lang=ml] .foot{font-size:.84rem;line-height:1.5}
-@media(max-height:760px){.card{padding-top:22px}.dua .ink{font-size:1.15rem;line-height:1.7}.cd{margin-top:8px}.cd div{padding:4px 4px 3px}.pri{margin-top:10px;padding:11px 18px}.wa2{margin-top:7px;padding:8px 16px}.tools{margin-top:8px}.tools svg{width:36px;height:36px;padding:8px}}
-@media(max-height:680px){.final .dua{display:none}.info{margin-top:8px}}
+@media(max-height:760px){.jc{padding-top:22px!important}.jc .pri{margin-top:10px;padding:11px 18px}.tools{margin-top:10px}.ic{width:50px;height:50px}.moves{margin-top:10px}}
 /* the hall card */
 .jc h3{font:700 1.45rem/1.2 var(--serif);color:var(--green)}
 .jc p{margin:6px auto 0;max-width:330px;font-weight:600;font-size:.98rem;line-height:1.4;opacity:.85}
@@ -179,11 +170,28 @@ html[lang=ml] .foot{font-size:.84rem;line-height:1.5}
 @keyframes nudge{0%,70%,100%{transform:none}80%{transform:scale(1.05)}90%{transform:scale(1)}}
 .acts{display:flex;gap:18px;justify-content:center;margin-top:8px}
 .acts a{color:var(--btn);font-weight:700;font-size:.88rem}
-#cont{display:inline-flex;align-items:center;gap:8px;margin:12px auto 2px;padding:11px 22px;border:0;border-radius:40px;background:linear-gradient(135deg,#1c2350,#3b3f86 60%,#6a5aa0);color:#fff3d2;font:italic 600 1rem var(--serif);cursor:pointer;box-shadow:0 6px 20px rgba(30,30,80,.35),0 0 0 1px rgba(255,230,170,.35) inset}
-#cont .st{color:#ffd98e;font-style:normal;animation:twk 1.6s ease-in-out infinite alternate}
-#cont .st:last-child{animation-delay:-.8s}
+.star{display:inline-flex;align-items:center;gap:8px;margin:0 auto 2px;padding:11px 22px;border:0;border-radius:40px;background:linear-gradient(135deg,#1c2350,#3b3f86 60%,#6a5aa0);color:#fff3d2;font:italic 600 1rem var(--serif);cursor:pointer;box-shadow:0 6px 20px rgba(30,30,80,.35),0 0 0 1px rgba(255,230,170,.35) inset}
+.star .st{color:#ffd98e;font-style:normal;animation:twk 1.6s ease-in-out infinite alternate}
+.star .st:last-child{animation-delay:-.8s}
 @keyframes twk{from{opacity:.35;transform:scale(.8)}to{opacity:1;transform:scale(1.15)}}
 
+.tools{display:flex;justify-content:center;gap:26px;margin:14px auto 0}
+.tl{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:0;min-width:62px;color:var(--deep);font:700 .82rem var(--sans);text-decoration:none;cursor:pointer}
+.ic{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:#fff;box-shadow:0 4px 12px rgba(40,30,20,.2),0 0 0 1px rgba(0,0,0,.06)}
+.ic svg{width:32px;height:32px}
+.iccal{flex-direction:column;justify-content:flex-start;overflow:hidden}
+.iccal b{display:block;width:100%;background:#e8453c;color:#fff;font:700 .66rem/1.7 var(--sans);letter-spacing:.08em}
+.iccal i{font:700 1.5rem/1.3 var(--sans);font-style:normal;color:#222}
+.icre{background:linear-gradient(135deg,#43828d,#2f5f68)}.icre svg{width:28px;height:28px}
+.moves{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:14px}
+#walk{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border:0;border-radius:40px;background:#fff;box-shadow:inset 0 0 0 1.5px rgba(63,122,133,.55);color:var(--btn);font:700 .96rem var(--sans);cursor:pointer}
+#walk svg{width:20px;height:20px;fill:currentColor}
+#goin,.final #walk,.final #cont{display:none}.final #goin{display:inline-flex}
+#joy{position:fixed;left:50%;bottom:calc(max(12px,env(safe-area-inset-bottom)) + 80px);width:116px;height:116px;margin-left:-58px;border-radius:50%;background:rgba(20,16,30,.32);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1.5px solid rgba(255,255,255,.4);display:none;touch-action:none;pointer-events:auto}
+#joy i{position:absolute;left:50%;top:50%;width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:50%;background:rgba(255,243,220,.9);box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.stroll.joinmini #joy{display:block}
+#strollhint{position:fixed;left:50%;top:max(60px,calc(env(safe-area-inset-top) + 52px));transform:translateX(-50%);width:max-content;max-width:calc(100% - 32px);text-align:center;background:rgba(20,16,40,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff3d2;font:italic 500 .9rem/1.4 var(--serif);padding:8px 16px;border-radius:20px;opacity:0;pointer-events:none}
+.stroll.joinmini #strollhint{animation:hint 7s .4s both}
 /* ---------- corner buttons, lantern hints ---------- */
 .corner{position:fixed;top:max(10px,env(safe-area-inset-top));z-index:5;display:flex;align-items:center;gap:6px;background:rgba(20,16,30,.28);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);color:#fff;font:600 .82rem var(--sans);padding:6px 12px;cursor:pointer;opacity:0;transition:opacity 1s;pointer-events:none!important}
 .go .corner{opacity:1;transition-delay:1.5s;pointer-events:auto!important}
@@ -197,14 +205,6 @@ html[lang=ml] .foot{font-size:.84rem;line-height:1.5}
 .final #lanhint{animation:hint 6s 4.5s both}
 .tapped #lanhint{animation:none;opacity:0}
 @keyframes hint{0%{opacity:0}15%,80%{opacity:1}100%{opacity:0}}
-#duabtn{position:fixed;left:50%;top:max(60px,calc(env(safe-area-inset-top) + 52px));transform:translateX(-50%);display:none;align-items:center;gap:8px;padding:9px 18px;border:0;border-radius:30px;background:linear-gradient(135deg,rgba(28,35,80,.78),rgba(106,90,160,.78));-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff3d2;font:italic 600 .95rem var(--serif);box-shadow:0 6px 20px rgba(20,20,60,.35),0 0 0 1px rgba(255,230,170,.35) inset;cursor:pointer;white-space:nowrap}
-#duabtn .st{color:#ffd98e;font-style:normal}
-.final #duabtn{display:flex;animation:fadein 1s 10.6s both}
-.final.tapped #duabtn{animation-delay:.4s}
-.toasting #duabtn{opacity:0!important;pointer-events:none!important;transition:opacity .3s}
-#duafloats{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden}
-.duafloat{position:absolute;left:0;top:0;width:min(78vw,340px);text-align:center;font:italic 500 1.08rem/1.4 var(--serif);color:#ffe9b8;text-shadow:0 0 14px rgba(255,170,80,.7),0 2px 8px rgba(0,0,0,.65);opacity:0;will-change:transform,opacity}
-
 /* ---------- sheets for RSVP, calendar and duas ---------- */
 .modal{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(12,8,24,.5);opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s;padding:0 10px max(10px,env(safe-area-inset-bottom))}
 .modal.open{opacity:1;visibility:visible;transition-delay:0s}
@@ -212,24 +212,9 @@ html[lang=ml] .foot{font-size:.84rem;line-height:1.5}
 .modal.open .mcard{transform:none}
 .mcard h3{font:700 1.35rem/1.3 var(--serif);color:var(--green);margin:0 30px}
 .mx{position:absolute;right:10px;top:10px;width:36px;height:36px;border:0;border-radius:50%;background:rgba(63,122,133,.1);color:var(--deep);font-size:1.35rem;line-height:1;cursor:pointer}
-.seg{display:flex;gap:8px;margin-top:16px}
-.seg button{flex:1;padding:12px 6px;border-radius:14px;border:0;background:#fff;box-shadow:inset 0 0 0 1.5px rgba(63,122,133,.3);font:700 .92rem/1.3 var(--sans);color:var(--deep);cursor:pointer}
-.seg button.on{background:var(--btn);color:#fff;box-shadow:none}
-.cnt{display:flex;align-items:center;justify-content:space-between;margin-top:14px;font-weight:600}
-.cnt[hidden]{display:none}
-.step{display:flex;align-items:center;gap:6px}
-.step button{width:42px;height:42px;border-radius:50%;border:0;background:rgba(63,122,133,.12);color:var(--deep);font:700 1.3rem var(--sans);cursor:pointer}
-.step b{min-width:34px;font:700 1.35rem var(--serif);color:var(--green)}
-.mcard input,.mcard textarea{display:block;width:100%;margin-top:14px;padding:12px 14px;border-radius:14px;border:1px solid #dccbab;background:#fff;font:1rem var(--sans);color:#2f3b3d;outline-color:var(--btn)}
-.mcard textarea{min-height:96px;resize:none;font:italic 500 1.05rem/1.45 var(--serif)}
-.mcard .hint{margin-top:10px;font-size:.8rem;opacity:.7;line-height:1.4}
 .calopts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
 .calopts a{display:block;padding:14px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1.5px rgba(63,122,133,.3);color:var(--deep);font:700 1rem var(--sans);text-decoration:none}
 .apple .calopts .gc{order:2}
-#toast{position:fixed;left:50%;top:max(56px,calc(env(safe-area-inset-top) + 48px));z-index:15;width:max-content;max-width:calc(100% - 32px);transform:translate(-50%,-10px);display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 18px;border-radius:18px;background:rgba(20,16,40,.62);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff3d2;text-align:center;opacity:0;visibility:hidden;transition:opacity .5s,transform .5s,visibility 0s .5s}
-#toast.on{opacity:1;visibility:visible;transform:translate(-50%,0);transition-delay:0s}
-#toast b{font:italic 600 1rem var(--serif)}
-#toast a{color:#ffd98e;font-weight:700;font-size:.88rem}
 
 /* ---------- no 3D available ---------- */
 .nogl{background:radial-gradient(ellipse at 50% 30%,#4a3f7a,#141830 70%)}
@@ -274,7 +259,7 @@ html[lang=ml] .foot{font-size:.84rem;line-height:1.5}
       <p id="s4"></p>
       <p class="envtap"><span class="p" data-t="envPrep">Preparing your invitation…</span><span class="r" data-t="envTap">Tap the seal to open</span></p>
       <button id="quiet" data-t="envQuiet">Open without sound</button>
-      <p class="tiny" data-t="envTip">Hold your phone upright. Drag or tilt to look around.</p>
+      <p class="tiny" data-t="envTip">Hold your phone upright. Drag to look around.</p>
     </div>
   </div>
 </section>
@@ -294,46 +279,29 @@ html[lang=ml] .foot{font-size:.84rem;line-height:1.5}
     <p data-t="joinP">Take part in the programs and win prizes</p>
     <a class="pri wagroup" id="joinwa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#fff"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#3f7a85"/></svg><span data-t="waJoin">Join our WhatsApp group</span></a>
     <div class="info"><span data-t="infoDate">Sun, 10 Jan 2027 · 5 to 8 PM</span><br><span data-t="venue">Evento Auditorium, Amarambalam</span></div>
-    <div class="acts"><a class="maplink" target="_blank" rel="noopener" href="#" data-t="openMap">Open map</a><a href="#" id="replay2" data-t="watchAgain">Watch again</a></div>
-    <button id="cont"><span class="st">&#10022;</span> <span data-t="stepOut">Step outside under the stars</span> <span class="st">&#10022;</span></button>
+    <div class="tools">
+      <a class="tl maplink" target="_blank" rel="noopener" href="#"><span class="ic icmap"><svg viewBox="0 0 24 24"><path d="M12 1.8C8 1.8 4.8 5 4.8 9c0 5.4 7.2 13.2 7.2 13.2S19.2 14.4 19.2 9c0-4-3.2-7.2-7.2-7.2z" fill="#ea4335"/><circle cx="12" cy="9" r="2.7" fill="#fff"/></svg></span><span data-t="map">Map</span></a>
+      <button class="tl" id="calbtn"><span class="ic iccal"><b data-t="calMon">JAN</b><i>10</i></span><span data-t="cal">Calendar</span></button>
+      <a class="tl" href="#" id="replay2"><span class="ic icre"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 1 0 2.4-5.5"/><path d="M4.5 4v4.4h4.4"/></svg></span><span data-t="watchAgain">Watch again</span></a>
+    </div>
+    <div class="moves">
+      <button id="walk"><svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg><span data-t="walk">Walk around the hall</span></button>
+      <button id="cont" class="star"><span class="st">&#10022;</span> <span data-t="stepOut">Step outside under the stars</span> <span class="st">&#10022;</span></button>
+      <button id="goin" class="star"><span class="st">&#10022;</span> <span data-t="goIn">Go inside</span> <span class="st">&#10022;</span></button>
+    </div>
   </div></section>
+  <div id="joy" aria-hidden="true"><i></i></div>
+  <div id="strollhint" data-t="strollHint">Drag to look around · use the pad to walk · tap the floor to go there</div>
 
   <div id="doorhint"><div class="arr"><i></i><i></i></div><p data-t="slide">Slide to open the doors</p><button id="dooropen" data-t="tapHere">or tap here</button></div>
 
-  <section id="sheet"><div class="card">
-    <button class="grip" id="grip" data-ta="showDetails" aria-label="Show or hide the details"><i></i></button>
-    <div class="minil" data-t="showDetails">Show the details</div>
-    <div class="dua" lang="ar"><span class="ink">بَارَكَ اللهُ لَكُمْ وَبَارَكَ عَلَيْكُمْ<br>وَجَمَعَ بَيْنَكُمْ فِي خَيْرٍ</span></div>
-    <h2 id="eh">We would love to see you there</h2>
-    <div class="cd"><div><b id="cd0">0</b><small data-t="days">days</small></div><div><b id="cd1">0</b><small data-t="hours">hours</small></div><div><b id="cd2">0</b><small data-t="mins">mins</small></div><div><b id="cd3">0</b><small data-t="secs">secs</small></div></div>
-    <div class="now"><i></i><span data-t="happening">Happening now. Come join us!</span></div>
-    <div class="info"><span data-t="infoDate">Sun, 10 Jan 2027 · 5 to 8 PM</span><br><span data-t="venue">Evento Auditorium, Amarambalam</span></div>
-    <button class="pri" id="rsvp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3.5 7l8.5 6.2L20.5 7"/></svg><span id="rsvpl">Will you join us? Reply</span></button>
-    <a class="pri maplink" id="dirbtn" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span data-t="directions">Get directions</span></a>
-    <a class="wa2 wagroup" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#3f7a85"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#fff"/></svg><span data-t="waJoin">Join our WhatsApp group</span></a>
-    <div class="tools">
-      <button class="tcal" id="calbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M12 12.6l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3z" fill="currentColor" stroke="none"/></svg><span data-t="cal">Calendar</span></button>
-      <a class="maplink" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span data-t="map">Map</span></a>
-      <button id="sharebtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/></svg><span data-t="share">Share</span></button>
-      <a href="#" id="replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 1 0 2.4-5.5"/><path d="M4.5 4v4.4h4.4"/></svg><span data-t="replay">Replay</span></a>
-    </div>
-    <div class="foot" data-t="foot">With love, Abdullah Koya &amp; Raseena Kozhimannil</div>
-  </div></section>
   <div id="lanhint" data-t="lantern">Tap the sky to send up a lantern ✦</div>
-  <button id="duabtn"><span class="st">&#10022;</span><span data-t="duaBtn">Send a dua with a lantern</span></button>
 
   <button class="corner" id="snd" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="w" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="x" d="M17 9l5 6M22 9l-5 6"/></svg><span id="sndl">Sound off</span></button>
   <button class="corner" id="skip" data-t="skip">Skip</button>
   <button class="corner" id="lang" lang="ml" data-t="langBtn">മലയാളം</button>
 </div>
-<div id="duafloats"></div>
-<div id="toast" role="status"><b data-t="duaSent">Your dua is on its way ✦</b><a id="toastwa" href="#" target="_blank" rel="noopener" data-t="duaAlso">Also send it to the family</a></div>
 
-<div class="modal" id="rsvpM"><div class="mcard">
-  <button class="mx" data-close data-ta="close" aria-label="Close">&times;</button>
-  <h3 data-t="rsvpQ">Will you join us?</h3>
-  <div class="seg"><button id="ry" class="on" data-t="yes">Yes, in shaa Allah</button><button id="rn" data-t="no">Sorry, we can’t</button></div>
-  <div class="cnt" id="rcount"><span data-t="howMany">How many of you?</span><div class="step"><button id="rminus" aria-label="−">&minus;</button><b id="rnum">2</b><button id="rplus" aria-label="+">+</button></div></div>
   <input id="rname" maxlength="48" autocomplete="name" data-tp="yourName" placeholder="Your name">
   <a class="pri" id="rsend" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#fff"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#3f7a85"/></svg><span data-t="send">Send on WhatsApp</span></a>
 </div></div>
@@ -341,12 +309,6 @@ html[lang=ml] .foot{font-size:.84rem;line-height:1.5}
   <button class="mx" data-close data-ta="close" aria-label="Close">&times;</button>
   <h3 data-t="calTitle">Add to your calendar</h3>
   <div class="calopts"><a class="gc" id="calg" href="#" target="_blank" rel="noopener" data-t="calGoogle">Google Calendar</a><a id="cali" href="walimah.ics" data-t="calApple">Apple or Outlook calendar</a></div>
-</div></div>
-<div class="modal" id="duaM"><div class="mcard">
-  <button class="mx" data-close data-ta="close" aria-label="Close">&times;</button>
-  <h3 data-t="duaTitle">Send a dua with a lantern</h3>
-  <textarea id="duatext" maxlength="90" data-tp="duaPh" placeholder="Write a short dua for the couples"></textarea>
-  <button class="pri" id="duasend" data-t="duaSend">Send it up ✦</button>
 </div></div>
 
 <!-- link maker: open this page with ?make at the end of the address -->
@@ -368,9 +330,6 @@ html[lang=ml] .foot{font-size:.84rem;line-height:1.5}
 window.INVITE = {
   // The WhatsApp group invite link. Both "Join our WhatsApp group" buttons use it.
   whatsappGroup: 'https://chat.whatsapp.com/YOUR_GROUP_LINK',
-  // The WhatsApp number that receives replies (RSVPs) and duas: country code and number, digits only,
-  // for example '919876543210'. Leave it empty and guests pick the contact to send to themselves.
-  rsvpNumber: '',
   // The venue on Google Maps
   map: 'https://maps.app.goo.gl/2S2GhS5KD63ZG9em9'
 };
@@ -380,7 +339,7 @@ window.WORDS = {
     greet: 'Assalamu alaikum', greetAfter: 'With heartfelt thanks',
     envFor: 'Specially for', envGuest: 'you', envGuestAfter: 'our dear guest',
     envPrep: 'Preparing your invitation…', envTap: 'Tap the seal to open', envQuiet: 'Open without sound', openSound: 'Open the invitation with sound',
-    envTip: 'Hold your phone upright. Drag or tilt to look around.',
+    envTip: 'Hold your phone upright. Drag to look around.',
     daysToGo: function (n) { return n + ' days to go, in shaa Allah'; },
     tomorrow: 'Tomorrow, in shaa Allah', today: 'Today is the day, in shaa Allah', liveNow: 'We are celebrating right now', thanks: 'Thank you for celebrating with us',
     c1a: 'You are warmly invited to the', c1b: 'Walimah',
@@ -391,58 +350,42 @@ window.WORDS = {
     slide: 'Slide to open the doors', tapHere: 'or tap here',
     joinH: 'Join the celebration', joinP: 'Take part in the programs and win prizes', waJoin: 'Join our WhatsApp group',
     openMap: 'Open map', watchAgain: 'Watch again', stepOut: 'Step outside under the stars', showDetails: 'Show the details',
-    eh: 'We would love to see you there', ehName: function (n) { return n + ', we would love to see you there'; },
-    ehAfter: 'JazakAllahu khairan for celebrating with us', ehAfterName: function (n) { return 'JazakAllahu khairan, ' + n; },
     days: 'days', hours: 'hours', mins: 'mins', secs: 'secs',
     happening: 'Happening now. Come join us!', infoDate: 'Sun, 10 Jan 2027 · 5 to 8 PM',
-    rsvpBtn: 'Will you join us? Reply', rsvpSent: 'Reply sent ✓ · change', directions: 'Get directions',
-    cal: 'Calendar', map: 'Map', share: 'Share', replay: 'Replay',
+    cal: 'Calendar', map: 'Map',
     foot: 'With love, Abdullah Koya & Raseena Kozhimannil',
-    lantern: 'Tap the sky to send up a lantern ✦', duaBtn: 'Send a dua with a lantern',
+    lantern: 'Tap the sky to send up a lantern ✦', goIn: 'Go inside', walk: 'Walk around the hall', calMon: 'JAN',
+    strollHint: 'Drag to look around · use the pad to walk · tap the floor to go there',
     soundOn: 'Sound on', soundOff: 'Sound off', skip: 'Skip', langBtn: 'മലയാളം',
-    rsvpQ: 'Will you join us?', yes: 'Yes, in shaa Allah', no: 'Sorry, we can’t', howMany: 'How many of you?', yourName: 'Your name', send: 'Send on WhatsApp', close: 'Close',
-    rsvpYes: function (name, n) { return 'Assalamu alaikum! In shaa Allah, ' + (n > 1 ? 'we will attend the Walimah on Sunday, 10 January. We are ' + n + '.' : 'I will attend the Walimah on Sunday, 10 January.') + (name ? '\n— ' + name : ''); },
-    rsvpNo: function (name) { return 'Assalamu alaikum! Sorry, we can’t make it to the Walimah. May Allah bless the couples. Barakallahu lakum!' + (name ? '\n— ' + name : ''); },
     calTitle: 'Add to your calendar', calGoogle: 'Google Calendar', calApple: 'Apple or Outlook calendar',
     calEvent: 'Walimah · Razin & Sahar · Razeen & Naeema',
     calDetails: function (url, map) { return 'You are warmly invited to the Walimah of Razin & Sahar and Razeen & Naeema.\nYour invitation: ' + url + '\nMap: ' + map; },
-    shareText: 'You are warmly invited to the Walimah of Razin & Sahar and Razeen & Naeema. Sunday, 10 January 2027 · 5 to 8 PM · Evento Auditorium, Amarambalam. Open the invitation:',
-    duaTitle: 'Send a dua with a lantern', duaPh: 'Write a short dua for the couples', duaSend: 'Send it up ✦', duaSent: 'Your dua is on its way ✦', duaAlso: 'Also send it to the family',
-    duaMsg: function (dua, name) { return 'A dua for Razin & Sahar and Razeen & Naeema:\n\n“' + dua + '”' + (name ? '\n\n— ' + name : ''); }
   },
   ml: {
     greet: 'അസ്സലാമു അലൈക്കും', greetAfter: 'ഹൃദയം നിറഞ്ഞ നന്ദിയോടെ',
     envFor: 'പ്രിയപ്പെട്ട', envGuest: 'അതിഥിക്ക്', envGuestAfter: 'അതിഥിക്ക്',
     envPrep: 'ക്ഷണക്കത്ത് ഒരുങ്ങുന്നു…', envTap: 'തുറക്കാൻ മുദ്രയിൽ തൊടൂ', envQuiet: 'ശബ്ദമില്ലാതെ തുറക്കുക', openSound: 'ശബ്ദത്തോടെ ക്ഷണക്കത്ത് തുറക്കുക',
-    envTip: 'ഫോൺ നേരെ പിടിക്കൂ. ചുറ്റും കാണാൻ വിരൽ കൊണ്ട് നീക്കുകയോ ഫോൺ ചരിക്കുകയോ ചെയ്യൂ.',
+    envTip: 'ഫോൺ നേരെ പിടിക്കൂ. ചുറ്റും കാണാൻ വിരൽ കൊണ്ട് നീക്കൂ.',
     daysToGo: function (n) { return 'ഇനി ' + n + ' ദിവസം കൂടി, ഇൻ ഷാ അല്ലാഹ്'; },
     tomorrow: 'നാളെയാണ്, ഇൻ ഷാ അല്ലാഹ്', today: 'ഇന്നാണ് ആ ദിനം, ഇൻ ഷാ അല്ലാഹ്', liveNow: 'ആഘോഷം ഇപ്പോൾ നടക്കുന്നു', thanks: 'ഞങ്ങളോടൊപ്പം ആഘോഷിച്ചതിന് നന്ദി',
     c1a: 'സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു', c1b: 'വലീമ',
-    couple1: 'റസിൻ & സഹർ', couple2: 'റസീൻ & നഈമ',
+    couple1: 'റാസിൻ & സഹർ', couple2: 'റസീൻ & നഈമ',
     dateLong: '2027 ജനുവരി 10, ഞായറാഴ്ച', time: 'വൈകിട്ട് 5 മുതൽ 8 വരെ', venue: 'ഇവന്റോ ഓഡിറ്റോറിയം, അമരമ്പലം',
     in1: 'അകത്തേക്ക് വരൂ,', in2: 'ആഘോഷം തുടങ്ങിക്കഴിഞ്ഞു',
     seatCap: 'നിങ്ങളുടെ ഇരിപ്പിടം കാത്തിരിക്കുന്നു', seatAnon: 'നിങ്ങൾക്കായി', seatFor: 'നിങ്ങൾക്കായി', seatGuest: 'പ്രിയ അതിഥി',
     slide: 'വാതിൽ തുറക്കാൻ വശങ്ങളിലേക്ക് നീക്കൂ', tapHere: 'അല്ലെങ്കിൽ ഇവിടെ തൊടൂ',
     joinH: 'ആഘോഷത്തിൽ പങ്കുചേരൂ', joinP: 'പരിപാടികളിൽ പങ്കെടുക്കൂ, സമ്മാനങ്ങൾ നേടൂ', waJoin: 'വാട്ട്സ്ആപ്പ് ഗ്രൂപ്പിൽ ചേരൂ',
     openMap: 'മാപ്പ് തുറക്കുക', watchAgain: 'വീണ്ടും കാണുക', stepOut: 'നക്ഷത്രങ്ങൾക്കു താഴെ പുറത്തേക്ക്', showDetails: 'വിവരങ്ങൾ കാണിക്കുക',
-    eh: 'നിങ്ങളുടെ വരവിനായി ഞങ്ങൾ കാത്തിരിക്കുന്നു', ehName: function (n) { return 'പ്രിയ ' + n + ', നിങ്ങളുടെ വരവിനായി ഞങ്ങൾ കാത്തിരിക്കുന്നു'; },
-    ehAfter: 'ഞങ്ങളോടൊപ്പം ആഘോഷിച്ചതിന് ജസാകല്ലാഹു ഖൈറൻ', ehAfterName: function (n) { return 'ജസാകല്ലാഹു ഖൈറൻ, ' + n; },
     days: 'ദിവസം', hours: 'മണിക്കൂർ', mins: 'മിനിറ്റ്', secs: 'സെക്കൻഡ്',
     happening: 'ആഘോഷം ഇപ്പോൾ നടക്കുന്നു. വരൂ, ഒപ്പം ചേരൂ!', infoDate: '2027 ജനുവരി 10, ഞായർ · വൈകിട്ട് 5 – 8',
-    rsvpBtn: 'വരുമോ? മറുപടി അറിയിക്കൂ', rsvpSent: 'മറുപടി അയച്ചു ✓ · മാറ്റാം', directions: 'വഴി കാണിക്കുക',
-    cal: 'കലണ്ടർ', map: 'മാപ്പ്', share: 'ഷെയർ', replay: 'വീണ്ടും',
+    cal: 'കലണ്ടർ', map: 'മാപ്പ്',
     foot: 'സ്നേഹത്തോടെ, അബ്ദുല്ല കോയ & റസീന കോഴിമണ്ണിൽ',
-    lantern: 'ആകാശത്ത് തൊട്ട് ഒരു വിളക്ക് പറത്തൂ ✦', duaBtn: 'ഒരു വിളക്കിനൊപ്പം ദുആ അയക്കൂ',
+    lantern: 'ആകാശത്ത് തൊട്ട് ഒരു വിളക്ക് പറത്തൂ ✦', goIn: 'അകത്തേക്ക് പോകാം', walk: 'ഹാളിൽ ചുറ്റി നടക്കാം', calMon: 'ജനു',
+    strollHint: 'ചുറ്റും കാണാൻ വിരൽ കൊണ്ട് നീക്കൂ · നടക്കാൻ പാഡ് ഉപയോഗിക്കൂ · പോകേണ്ടിടത്ത് തറയിൽ തൊടൂ',
     soundOn: 'ശബ്ദം ഓൺ', soundOff: 'ശബ്ദം ഓഫ്', skip: 'സ്കിപ്പ്', langBtn: 'English',
-    rsvpQ: 'നിങ്ങൾ വരുമോ?', yes: 'വരും, ഇൻ ഷാ അല്ലാഹ്', no: 'ക്ഷമിക്കണം, വരാൻ കഴിയില്ല', howMany: 'എത്ര പേർ?', yourName: 'നിങ്ങളുടെ പേര്', send: 'വാട്ട്സ്ആപ്പിൽ അയക്കൂ', close: 'അടയ്ക്കുക',
-    rsvpYes: function (name, n) { return 'അസ്സലാമു അലൈക്കും! ജനുവരി 10 ഞായറാഴ്ചയിലെ വലീമയ്ക്ക് ' + (n > 1 ? 'ഞങ്ങൾ ' + n + ' പേർ വരും' : 'ഞാൻ വരും') + ', ഇൻ ഷാ അല്ലാഹ്.' + (name ? '\n— ' + name : ''); },
-    rsvpNo: function (name) { return 'അസ്സലാമു അലൈക്കും! ക്ഷമിക്കണം, വലീമയ്ക്ക് വരാൻ കഴിയില്ല. ദമ്പതികൾക്ക് അല്ലാഹു ബറകത്ത് ചൊരിയട്ടെ. ബാറകല്ലാഹു ലകും!' + (name ? '\n— ' + name : ''); },
     calTitle: 'കലണ്ടറിൽ ചേർക്കുക', calGoogle: 'ഗൂഗിൾ കലണ്ടർ', calApple: 'ആപ്പിൾ / ഔട്ട്‌ലുക്ക് കലണ്ടർ',
-    calEvent: 'വലീമ · റസിൻ & സഹർ · റസീൻ & നഈമ',
-    calDetails: function (url, map) { return 'റസിൻ & സഹർ, റസീൻ & നഈമ എന്നിവരുടെ വലീമയിലേക്ക് സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു.\nക്ഷണക്കത്ത്: ' + url + '\nമാപ്പ്: ' + map; },
-    shareText: 'റസിൻ & സഹർ, റസീൻ & നഈമ എന്നിവരുടെ വലീമ സൽക്കാരത്തിലേക്ക് സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു. 2027 ജനുവരി 10, ഞായർ · വൈകിട്ട് 5 മുതൽ 8 വരെ · ഇവന്റോ ഓഡിറ്റോറിയം, അമരമ്പലം. ക്ഷണക്കത്ത് തുറക്കൂ:',
-    duaTitle: 'ഒരു വിളക്കിനൊപ്പം ദുആ അയക്കൂ', duaPh: 'ദമ്പതികൾക്കായി ഒരു ചെറിയ ദുആ എഴുതൂ', duaSend: 'ഉയർത്തി വിടൂ ✦', duaSent: 'നിങ്ങളുടെ ദുആ യാത്രയായി ✦', duaAlso: 'കുടുംബത്തിനും അയക്കൂ',
-    duaMsg: function (dua, name) { return 'റസിൻ & സഹർ, റസീൻ & നഈമ എന്നിവർക്കായി ഒരു ദുആ:\n\n“' + dua + '”' + (name ? '\n\n— ' + name : ''); }
+    calEvent: 'വലീമ · റാസിൻ & സഹർ · റസീൻ & നഈമ',
+    calDetails: function (url, map) { return 'റാസിൻ & സഹർ, റസീൻ & നഈമ എന്നിവരുടെ വലീമയിലേക്ക് സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു.\nക്ഷണക്കത്ത്: ' + url + '\nമാപ്പ്: ' + map; },
   }
 };
 </script>

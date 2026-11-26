@@ -15,7 +15,7 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const progress = p => { try { window.__boot && window.__boot.set(p); } catch (_) { } };
 const breathe = () => new Promise(r => setTimeout(r, 0)); // let the page paint (and the ring move) between heavy steps
 const hooks = {};
-initUI({ onDua: v => hooks.dua && hooks.dua(v), onLang: () => hooks.lang && hooks.lang() });
+initUI({ onLang: () => hooks.lang && hooks.lang() });
 if (P.has('make')) await new Promise(() => { }); // the link maker needs no 3D
 
 // ---------- renderer ----------
@@ -155,29 +155,30 @@ const capsIn = [...document.querySelectorAll('.cap.in')].map(e => ({ e, a: +e.da
 function begin(withSound) {
   if (phase !== 'intro') return;
   if (withSound) sound.enable(true);
-  phase = 'journey'; T = -1.7; body.classList.add('opening'); motion(); setSoundBtn();
+  phase = 'journey'; T = -1.7; body.classList.add('opening'); setSoundBtn();
   setTimeout(() => body.classList.add('go'), 1500);
 }
 $('skip').onclick = () => { if (phase === 'final') return; sound.prime(); toFinal(true); };
 const setSoundBtn = () => { const on = sound.on(); $('snd').setAttribute('aria-pressed', on); body.classList.toggle('soundon', on); $('sndl').textContent = t(on ? 'soundOn' : 'soundOff'); };
 $('snd').onclick = () => { sound.enable(!sound.on()); setSoundBtn(); musicFor(); };
-$('grip').onclick = () => { body.classList.toggle('mini'); measureSheet(); };
 $('dooropen').onclick = () => openDoors();
-$('cont').onclick = () => { if (phase === 'inside') { phase = 'leaving'; leaveAt = wt; body.classList.remove('joinon'); } };
+$('cont').onclick = () => { if (phase === 'inside') { phase = 'leaving'; leaveAt = wt; stopStroll(); body.classList.remove('joinon'); } };
+$('goin').onclick = () => { if (phase === 'final') { phase = 'entering'; enterAt = wt; body.classList.remove('joinmini'); } };
+$('walk').onclick = () => startStroll();
 function restart() {
-  phase = 'journey'; T = 0; wt = 0; doorP = 0; doorTarget = 0; openAt = insideAt = leaveAt = finalAt = -1; dragYaw = dragPitch = 0;
-  body.classList.remove('door', 'final', 'inside', 'joinon', 'joinmini', 'mini', 'tapped'); body.classList.add('go');
+  phase = 'journey'; T = 0; wt = 0; doorP = 0; doorTarget = 0; openAt = insideAt = leaveAt = finalAt = -1; dragYaw = dragPitch = 0; stopStroll();
+  body.classList.remove('door', 'final', 'inside', 'joinon', 'joinmini', 'tapped'); body.classList.add('go');
   W.diyas.list.forEach(l => l.lit = -1); LN.list.length = 0; bgSpawned = 0; bgClock = 0; clearPetals(W.petals);
   LN.o.scale.setScalar(0); LN.o.updateMatrix(); for (let i = 0; i < LN.n; i++) LN.mesh.setMatrixAt(i, LN.o.matrix); LN.mesh.instanceMatrix.needsUpdate = true;
   sheetTarget = 0; window.scrollTo(0, 0);
 }
-for (const id of ['replay', 'replay2']) $(id).onclick = e => { e.preventDefault(); e.stopImmediatePropagation(); restart(); };
+for (const id of ['replay2']) $(id).onclick = e => { e.preventDefault(); e.stopImmediatePropagation(); restart(); };
 // slide the cards down (or back up) with the grip or a swipe
-$('jgrip').onclick = () => body.classList.toggle('joinmini');
-for (const [el, cls] of [[$('sheet'), 'mini'], [$('join'), 'joinmini']]) { let y0 = null;
+$('jgrip').onclick = () => { body.classList.toggle('joinmini'); measureSheet(); };
+for (const [el, cls] of [[$('join'), 'joinmini']]) { let y0 = null;
   el.addEventListener('pointerdown', e => { y0 = e.clientY; });
-  el.addEventListener('pointerup', e => { if (y0 === null) return; const dy = e.clientY - y0; y0 = null; if (dy > 45) body.classList.add(cls); else if (dy < -45) body.classList.remove(cls); if (cls === 'mini') measureSheet(); }); }
-function measureSheet() { sheetTarget = body.classList.contains('final') ? $('sheet').getBoundingClientRect().height * (body.classList.contains('mini') ? 0 : 1) + (body.classList.contains('mini') ? 64 : 0) : 0; }
+  el.addEventListener('pointerup', e => { if (y0 === null) return; const dy = e.clientY - y0; y0 = null; if (dy > 45) body.classList.add(cls); else if (dy < -45) body.classList.remove(cls); measureSheet(); }); }
+function measureSheet() { const f = body.classList.contains('final'), m = body.classList.contains('joinmini'); sheetTarget = f ? (m ? 64 : $('join').getBoundingClientRect().height + 12) : 0; }
 addEventListener('resize', measureSheet);
 I18N.on(() => requestAnimationFrame(measureSheet));
 
@@ -196,35 +197,77 @@ function musicFor() {
   return sound.musicMix(.28, 2200, .4); // outside again, heard from the hall
 }
 function toFinal(skip) {
-  phase = 'final'; finalAt = wt; T = TJ; doorP = 1; body.classList.remove('door', 'intro', 'joinon', 'inside'); body.classList.add('go', 'final');
+  phase = 'final'; finalAt = wt; T = TJ; doorP = 1; stopStroll(); body.classList.remove('door', 'intro', 'joinon', 'inside', 'joinmini'); body.classList.add('go', 'final');
   clearPetals(W.petals);
   requestAnimationFrame(() => { measureSheet(); });
   setSoundBtn();
 }
 
-// ---------- input: drag to look around, tilt, slide the doors, tap the sky for a lantern ----------
-let yaw = 0, pitch = 0, dragYaw = 0, dragPitch = 0, gx = 0, gy = 0, cx = 0, cy = 0, b0 = null, mot = false, ptr = null;
-function ori(e) { if (e.gamma == null) return; if (b0 === null) b0 = e.beta; gx = clamp(e.gamma / 25, -1, 1); gy = clamp((e.beta - b0) / 25, -1, 1); }
-function motion() { if (mot || reduce) return; mot = true; const D = window.DeviceOrientationEvent; if (!D) return;
-  if (typeof D.requestPermission === 'function') D.requestPermission().then(s => { if (s === 'granted') addEventListener('deviceorientation', ori); }).catch(() => { });
-  else addEventListener('deviceorientation', ori); }
-canvas.addEventListener('pointerdown', e => { ptr = { x: e.clientX, y: e.clientY, t: performance.now(), y0: dragYaw, p0: dragPitch, moved: 0 }; try { canvas.setPointerCapture(e.pointerId); } catch (_) { } });
+// ---------- input: drag to look around, slide the doors, tap the sky for a lantern, walk the hall ----------
+let yaw = 0, pitch = 0, dragYaw = 0, dragPitch = 0, gx = 0, gy = 0, cx = 0, cy = 0, ptr = null;
+canvas.addEventListener('pointerdown', e => { ptr = { x: e.clientX, y: e.clientY, t: performance.now(), y0: dragYaw, p0: dragPitch, sy: sYaw, sp: sPitch, moved: 0 }; try { canvas.setPointerCapture(e.pointerId); } catch (_) { } });
 canvas.addEventListener('pointermove', e => {
   if (e.pointerType === 'mouse' && !ptr) { gx = (e.clientX / innerWidth - .5) * 1.2; gy = (e.clientY / innerHeight - .5) * 1.2; }
   if (!ptr) return; const dx = e.clientX - ptr.x, dy = e.clientY - ptr.y; ptr.moved = Math.max(ptr.moved, Math.hypot(dx, dy));
   if (phase === 'door') { doorTarget = clamp(Math.abs(dx) / (innerWidth * .38)) * .55; if (doorTarget > .5) openDoors(); return; }
+  if (stroll) { sYaw = ptr.sy + dx / innerWidth * 3.2; sPitch = clamp(ptr.sp + dy / innerHeight * 1.6, -.6, .5); walkTo = null; return; }
   dragYaw = clamp(ptr.y0 + dx / innerWidth * 1.6, -.9, .9); dragPitch = clamp(ptr.p0 + dy / innerHeight * .9, -.35, .45);
 });
 const up = e => {
   if (!ptr) return; const tap = ptr.moved < 8 && performance.now() - ptr.t < 500;
   if (phase === 'door') { if (doorTarget > .16 || tap) openDoors(); else doorTarget = 0; }
   else if (phase === 'final' && tap) release(e.clientX, e.clientY);
+  else if (phase === 'inside' && tap) floorTap(e.clientX, e.clientY);
   ptr = null;
 };
 canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', up);
-addEventListener('keydown', e => { if (phase === 'door' && (e.key === 'Enter' || e.key === ' ')) openDoors(); });
+addEventListener('keydown', e => { if (phase === 'door' && (e.key === 'Enter' || e.key === ' ')) openDoors(); held.add(e.key.toLowerCase()); });
+addEventListener('keyup', e => held.delete(e.key.toLowerCase()));
 
-// ---------- lanterns, and the ones that carry a guest's dua ----------
+// ---------- strolling around the hall: drag to look, the pad (or arrow keys) to walk, tap the floor to go there ----------
+const EYE = 2.05, held = new Set(), walker = new THREE.Vector3(), joy = { x: 0, y: 0 };
+let stroll = false, sYaw = 0, sPitch = 0, walkTo = null, stepPh = 0, enterAt = -1, arrivedAt = -99;
+const ROOM = [-14.2, 14.2, -15.7, -1.6], ROWS = [[-6.4, -.55, -15.15, -8], [.55, 6.4, -15.15, -8]], TABLES = [[7.6, -4.4], [11.2, -7.6], [7.4, -10.6], [-4.2, -4.6]];
+function collide(p) {
+  p.x = clamp(p.x, ROOM[0], ROOM[1]); p.z = clamp(p.z, ROOM[2], ROOM[3]);
+  for (const [a, b, c, e] of ROWS) if (p.x > a && p.x < b && p.z > c && p.z < e) { const m = Math.min(p.x - a, b - p.x, p.z - c, e - p.z);
+    if (m === p.x - a) p.x = a; else if (m === b - p.x) p.x = b; else if (m === p.z - c) p.z = c; else p.z = e; }
+  for (const [x, z] of TABLES) { const dx = p.x - x, dz = p.z - z, r = Math.hypot(dx, dz); if (r < 2.05) { const k = 2.05 / Math.max(r, 1e-4); p.x = x + dx * k; p.z = z + dz * k; } }
+}
+function startStroll() {
+  if (phase !== 'inside') return; stroll = true; walkTo = null;
+  walker.copy(camera.position); walker.y = EYE; collide(walker); const f = camera.getWorldDirection(tmp);
+  sYaw = Math.atan2(-f.x, -f.z); sPitch = clamp(Math.asin(clamp(f.y, -1, 1)), -.6, .5); dragYaw = dragPitch = 0;
+  capsIn.forEach(c => c.e.classList.remove('on')); body.classList.add('stroll', 'joinon', 'joinmini');
+}
+function stopStroll() { stroll = false; walkTo = null; joy.x = joy.y = 0; body.classList.remove('stroll'); }
+function floorTap(px, py) {
+  v2.set(px / innerWidth * 2 - 1, -(py / innerHeight) * 2 + 1); ray.setFromCamera(v2, camera);
+  const o = ray.ray.origin, dv = ray.ray.direction; if (dv.y > -.02) return; const k = (.45 - o.y) / dv.y; if (k > 25) return;
+  if (!stroll) startStroll(); walkTo = new THREE.Vector3(o.x + dv.x * k, EYE, o.z + dv.z * k); collide(walkTo);
+}
+function updateWalk(dt) {
+  let fwd = -joy.y, side = joy.x;
+  if (held.has('arrowup') || held.has('w')) fwd = 1; if (held.has('arrowdown') || held.has('s')) fwd = -1;
+  if (held.has('a')) side = -1; if (held.has('d')) side = 1;
+  if (held.has('arrowleft')) sYaw += dt * 1.6; if (held.has('arrowright')) sYaw -= dt * 1.6;
+  const sp = 1.8, fx = -Math.sin(sYaw), fz = -Math.cos(sYaw), rx = Math.cos(sYaw), rz = -Math.sin(sYaw); let mx = 0, mz = 0;
+  if (Math.abs(fwd) + Math.abs(side) > .08) { walkTo = null; mx = (fx * fwd + rx * side) * sp * dt; mz = (fz * fwd + rz * side) * sp * dt; }
+  else if (walkTo) { const dx = walkTo.x - walker.x, dz = walkTo.z - walker.z, dd = Math.hypot(dx, dz);
+    if (dd < .12) walkTo = null; else { const st = Math.min(dd, sp * dt); mx = dx / dd * st; mz = dz / dd * st;
+      let da = Math.atan2(-dx, -dz) - sYaw; da = Math.atan2(Math.sin(da), Math.cos(da)); sYaw += da * Math.min(1, dt * 2.4); } }
+  const px = walker.x, pz = walker.z; walker.x += mx; walker.z += mz; collide(walker);
+  const moved = Math.hypot(walker.x - px, walker.z - pz); if (moved > 1e-4) stepPh += moved * 5.5; else if (walkTo) walkTo = null;
+}
+{ const J = $('joy'), K = J.firstElementChild; let id = null;
+  const mv = e => { const r = J.getBoundingClientRect(); let x = e.clientX - r.left - r.width / 2, y = e.clientY - r.top - r.height / 2; const m = Math.hypot(x, y), RJ = 40;
+    if (m > RJ) { x *= RJ / m; y *= RJ / m; } joy.x = x / RJ; joy.y = y / RJ; K.style.transform = `translate(${x}px,${y}px)`; };
+  const end = e => { if (e.pointerId !== id) return; id = null; joy.x = joy.y = 0; K.style.transform = ''; };
+  J.addEventListener('pointerdown', e => { id = e.pointerId; try { J.setPointerCapture(id); } catch (_) { } mv(e); e.preventDefault(); });
+  J.addEventListener('pointermove', e => { if (e.pointerId === id) mv(e); });
+  J.addEventListener('pointerup', end); J.addEventListener('pointercancel', end); }
+
+// ---------- lanterns ----------
 const LN = W.lanterns, ray = new THREE.Raycaster(), v2 = new THREE.Vector2();
 function spawn(i, x, y, z, v, s, guest) { LN.list[i] = { x, y0: y, z, v, s, born: wt, ph: Math.random() * 9, guest, px: x, py: y, pz: z }; }
 function release(px, py) {
@@ -233,23 +276,6 @@ function release(px, py) {
   const i = LN.bg + (LN.next++ % (LN.n - LN.bg)); spawn(i, p.x, p.y, p.z, 1.1 + Math.random() * .4, 1.5, true);
   try { navigator.vibrate && navigator.vibrate(8); } catch (_) { }
   body.classList.add('tapped');
-}
-const floats = [];
-hooks.dua = text => {
-  if (phase !== 'final') return;
-  v2.set((Math.random() - .5) * .25, .4); ray.setFromCamera(v2, camera);
-  const p = ray.ray.at(10.5, new THREE.Vector3()); p.y = Math.max(p.y, 1.6);
-  const i = LN.bg + (LN.next++ % (LN.n - LN.bg)); spawn(i, p.x, p.y, p.z, .7, 2.2, true);
-  const el = document.createElement('div'); el.className = 'duafloat'; el.textContent = text; $('duafloats').appendChild(el);
-  floats.push({ el, i, born: wt }); body.classList.add('tapped');
-  try { navigator.vibrate && navigator.vibrate([10, 40, 10]); } catch (_) { }
-};
-function updateFloats() {
-  for (let k = floats.length - 1; k >= 0; k--) { const f = floats[k], l = LN.list[f.i], age = wt - f.born;
-    if (!l || age > 12 || phase !== 'final') { f.el.remove(); floats.splice(k, 1); continue; }
-    tmp.set(l.px, l.py - .7, l.pz).project(camera);
-    f.el.style.transform = `translate(${((tmp.x + 1) / 2 * W_).toFixed(1)}px,${((1 - tmp.y) / 2 * H_).toFixed(1)}px) translate(-50%,0)`;
-    f.el.style.opacity = (smooth(0, 1, age) * (1 - smooth(8, 12, age)) * (tmp.z < 1 ? 1 : 0)).toFixed(3); }
 }
 let bgSpawned = 0, bgClock = 0;
 function updateLanterns(dt) {
@@ -305,7 +331,7 @@ function loop(now) {
   if (phase === 'journey') { T += dt; if (T >= TJ) { T = TJ; phase = 'door'; body.classList.add('door'); } }
   // adapt quality if the phone struggles
   if (phase !== 'intro' && frames < 120) { frames++; slow += dt > 1 / 28 ? 1 : 0; if (frames === 120 && slow > 70 && DPR > 1) { DPR = 1; renderer.setPixelRatio(1); resize(); } }
-  d = phase === 'final' ? 1 : phase === 'intro' ? 0 : Math.max(sunsetAt(Math.max(T, 0)), phase === 'door' || phase === 'opening' ? 1 : 0);
+  d = phase === 'final' || phase === 'entering' ? 1 : phase === 'intro' ? 0 : Math.max(sunsetAt(Math.max(T, 0)), phase === 'door' || phase === 'opening' ? 1 : 0);
   applySky(d); setEnv(d);
   // camera
   let white = 0, exMul = 1, tilt = 0;
@@ -315,6 +341,9 @@ function loop(now) {
   else if (phase === 'opening') { const e = clamp((wt - openAt - 1.2) / 4.6); const ee = e * e * (3 - 2 * e);
     camPos.copy(doorPos).lerp(inPos.getPoint(0), ee); look.copy(doorLook).lerp(inLk.getPoint(0), ee);
     exMul = 1 + Math.sin(e * Math.PI) * .9; if (e >= 1) { phase = 'inside'; insideAt = wt; body.classList.add('inside'); } }
+  else if (stroll && phase === 'inside') { updateWalk(dt); camPos.copy(walker); camPos.y += Math.abs(Math.sin(stepPh)) * .025;
+    look.set(walker.x - Math.sin(sYaw) * Math.cos(sPitch), walker.y + Math.sin(sPitch), walker.z - Math.cos(sYaw) * Math.cos(sPitch));
+    tilt = .4; white = 1 - smooth(0, 1.1, wt - arrivedAt); }
   else if (phase === 'inside' || phase === 'leaving') { const it = wt - insideAt, u = inU(it), hold = smooth(6.6, 7.6, it) * (1 - smooth(11.8, 12.8, it));
     camPos.copy(inPos.getPoint(u)); camPos.y += Math.sin(wt * .7) * .02 * (1 - hold);
     look.copy(inLk.getPoint(u)).add(tmp.set(Math.sin(wt * .23) * .35, Math.sin(wt * .31) * .12, 0).multiplyScalar(1 - hold));
@@ -322,21 +351,24 @@ function loop(now) {
     if (it > 12.8 && phase === 'inside') body.classList.add('joinon');
     tilt = smooth(1.2, 3.5, it);
     if (phase === 'leaving') { const l = (wt - leaveAt) / 1.4; white = smooth(0, 1, l); if (l >= 1) toFinal(false); } }
-  else if (phase === 'final') { const f = wt - finalAt; white = 1 - smooth(.2, 2.2, f);
+  else if (phase === 'final' || phase === 'entering') { const f = wt - finalAt; white = phase === 'entering' ? smooth(0, .8, wt - enterAt) : 1 - smooth(.2, 2.2, f);
+    if (phase === 'entering' && wt - enterAt >= .85) { // through the doors again, straight into walking around
+      phase = 'inside'; insideAt = wt - 40; arrivedAt = wt; stroll = true; walkTo = null; walker.set(0, EYE, -3.2); sYaw = 0; sPitch = -.03; sheetTarget = 0;
+      body.classList.remove('final'); body.classList.add('inside', 'joinon', 'stroll', 'joinmini'); }
     camPos.set(Math.sin(wt * .06) * 5, 2.1 + Math.sin(wt * .11) * .25, 46 + Math.sin(wt * .045) * 3); look.set(0, 8.5, -24); doorTarget = 1; }
   sheetH += (sheetTarget - sheetH) * Math.min(1, dt * 5); if (Math.abs(sheetTarget - sheetH) > .5 || (sheetH > 0 && !camera.view)) frame_();
   if (window.__shot) { camPos.fromArray(window.__shot.pos); look.fromArray(window.__shot.look); } // fixed framing for rendering the poster
   camera.position.copy(camPos); camera.lookAt(look);
   cx += (gx - cx) * .05; cy += (gy - cy) * .05;
   if (!ptr) { dragYaw *= Math.pow(.25, dt); dragPitch *= Math.pow(.25, dt); }
-  yaw = dragYaw - cx * .14; pitch = -dragPitch + cy * .08;
+  yaw = stroll ? 0 : dragYaw - cx * .14; pitch = stroll ? 0 : -dragPitch + cy * .08;
   camera.rotateY(yaw); camera.rotateX(pitch);
   renderer.toneMappingExposure = exposureBase * exMul; grade.uniforms.uWhite.value = white;
   // doors, and the warm light leaking through them as we arrive
   doorP += (doorTarget - doorP) * Math.min(1, dt * (phase === 'opening' ? 1.6 : 8));
   const ang = doorP * 1.85; W.doors[0].rotation.y = ang; W.doors[1].rotation.y = -ang;
   W.inLight.intensity = 10 * smooth(0, .4, doorP); W.doorGlow.material.opacity = smooth(0, .3, doorP) * (1 - smooth(.35, .8, doorP)) * .35;
-  const seam = smooth(.5, .95, d) * (1 - smooth(.012, .07, doorP)) * (phase === 'final' ? 0 : 1), pulse = .84 + .16 * Math.sin(tt * 2.2);
+  const seam = smooth(.5, .95, d) * (1 - smooth(.012, .07, doorP)) * (phase === 'final' || phase === 'entering' ? 0 : 1), pulse = .84 + .16 * Math.sin(tt * 2.2);
   W.seam.mat.opacity = seam * pulse; W.seam.halo.opacity = seam * pulse * .6;
   const inside = phase === 'opening' ? smooth(.02, .3, doorP) : (phase === 'inside' || phase === 'leaving') ? 1 : 0;
   updateInterior(IN, wt, dt, inside, () => { });
@@ -345,7 +377,7 @@ function loop(now) {
   // clouds fade as we sink beneath them
   const cv = smooth(40, 100, camPos.y); W.clouds.grp.visible = cv > .01;
   if (W.clouds.grp.visible) W.clouds.grp.children.forEach(s => { s.position.x += dt * 1.4; if (s.position.x > 280) s.position.x = -280; s.material.opacity = s.userData.base * cv; s.material.color.setRGB(1.35, lerp(1.08, .8, d), lerp(.9, .7, d)); });
-  updateBirds(W.birds, T * TS); updatePeople(W.people, wt); updateDiyas(); updateLanterns(dt); updatePetals(W.petals, wt, dt); updateFloats();
+  updateBirds(W.birds, T * TS); updatePeople(W.people, wt); updateDiyas(); updateLanterns(dt); updatePetals(W.petals, wt, dt);
   W.gardenLight.position.set(camPos.x, 2.4, camPos.z - 9);
   // captions
   if (phase === 'journey') caps.forEach(c => c.e.classList.toggle('on', T >= c.a && T < c.b)); else caps.forEach(c => c.e.classList.remove('on'));
