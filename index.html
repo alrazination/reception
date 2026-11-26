@@ -5,62 +5,121 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Walimah · You are invited</title>
 <meta name="theme-color" content="#1b1730">
-<meta name="description" content="You are warmly invited to the Walimah of Razin &amp; Sahar and Razeen &amp; Naeema. Sunday, 10 January 2027, 5 to 8 PM, Evento Auditorium, Athani.">
+<meta name="description" content="You are warmly invited to the Walimah of Razin &amp; Sahar and Razeen &amp; Naeema. Sunday, 10 January 2027, 5 to 8 PM, Evento Auditorium, Amarambalam.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://alrazination.github.io/reception/">
 <meta property="og:title" content="You are invited · Walimah">
-<meta property="og:description" content="Razin &amp; Sahar · Razeen &amp; Naeema. Sunday, 10 January 2027, 5 to 8 PM, Evento Auditorium, Athani. Tap to open your invitation.">
-<meta property="og:image" content="https://alrazination.github.io/reception/og.jpg?v=2">
+<meta property="og:description" content="Razin &amp; Sahar · Razeen &amp; Naeema. Sunday, 10 January 2027, 5 to 8 PM, Evento Auditorium, Amarambalam. Tap to open your invitation.">
+<meta property="og:image" content="https://alrazination.github.io/reception/og.jpg?v=3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Walimah of Razin &amp; Sahar and Razeen &amp; Naeema, Sunday 10 January 2027, 5 to 8 PM, Evento Auditorium, Athani">
+<meta property="og:image:alt" content="Walimah of Razin &amp; Sahar and Razeen &amp; Naeema, Sunday 10 January 2027, 5 to 8 PM, Evento Auditorium, Amarambalam">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,700;1,500&family=Mukta:wght@400;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Mukta:wght@400;600;700&family=Amiri:wght@700&family=Great+Vibes&family=Manjari:wght@400;700&family=Noto+Serif+Malayalam:wght@600;700&display=swap" rel="stylesheet">
+<link rel="modulepreload" href="app.js">
 <style>
-:root{--green:#3f6f73;--deep:#2f555a;--gold:#c9a24f;--ink:#a98a4c;--btn:#3f7a85}
+:root{--green:#3f6f73;--deep:#2f555a;--gold:#c9a24f;--ink:#a98a4c;--btn:#3f7a85;--serif:'Lora','Noto Serif Malayalam',Georgia,serif;--sans:'Mukta','Manjari',system-ui,sans-serif;--script:'Great Vibes','Noto Serif Malayalam',cursive}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:#1b1730;overflow:hidden;font-family:'Mukta',system-ui,sans-serif;color:#fff;font-variant-numeric:lining-nums}
-#gl{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}
-#ui{position:fixed;inset:0;pointer-events:none;-webkit-user-select:none;user-select:none}
+html,body{height:100%;background:#1b1730;overflow:hidden;font-family:var(--sans);color:#fff;font-variant-numeric:lining-nums}
+html[lang=ml]{font-synthesis:none}
+button,input,textarea{font-family:inherit}
+#gl{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none;opacity:0;transition:opacity 1.6s}
+.shown #gl{opacity:1}
+#ui{position:fixed;inset:0;pointer-events:none;-webkit-user-select:none;user-select:none;z-index:3}
 #ui button,#ui a{pointer-events:auto}
 body:not(.final) #sheet *,body:not(.joinon) #join *{pointer-events:none!important}
-.col{position:absolute;left:50%;width:min(100%,480px);transform:translateX(-50%);text-align:center;padding:0 24px}
-.lora{font-family:'Lora',Georgia,serif}
 @keyframes rise{from{opacity:0;transform:translateY(16px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
-/* ---------- start ---------- */
-#start{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:max(9vh,calc(env(safe-area-inset-bottom) + 34px));background:linear-gradient(rgba(40,22,30,0) 30%,rgba(40,22,30,.5) 100%);transition:opacity 1.6s,visibility 0s 1.6s;text-shadow:0 2px 18px rgba(80,30,20,.45)}
-.go #start{opacity:0;visibility:hidden}
-#start .col{position:relative;left:auto;transform:none;margin:0 auto}
-#s1{font:italic 500 1.1rem 'Lora',serif;color:#ffe9c2;animation:rise 1.4s .4s both}
-#s2{font:700 clamp(2.1rem,10vw,2.9rem)/1.12 'Lora',serif;margin:6px 0 8px;animation:rise 1.6s .8s both;overflow-wrap:anywhere}
-#s3{font-weight:600;font-size:1.02rem;animation:rise 1.4s 1.3s both}
-#s4{font:italic 500 .98rem 'Lora',serif;color:#ffe2a8;margin-top:4px;animation:rise 1.4s 1.6s both}
-#s4:empty{display:none}
-.btns{display:flex;flex-direction:column;gap:10px;align-items:center;margin-top:28px;animation:rise 1.4s 2.2s both}
-.b1{font:700 1.08rem 'Mukta';color:#3a2a14;background:linear-gradient(180deg,#ffe7ad,#e8bf6a);border:0;padding:15px 30px;min-width:250px;cursor:pointer;box-shadow:0 8px 30px rgba(255,190,110,.45),inset 0 1px 0 rgba(255,255,255,.7);clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,12px 100%,0 50%);animation:breathe 2.6s ease-in-out infinite}
-@keyframes breathe{50%{filter:brightness(1.08)}}
-.b2{font:600 .95rem 'Mukta';color:#fff3dc;background:none;border:0;padding:8px 16px;cursor:pointer;opacity:.85}
-.tiny{font-size:.78rem;opacity:.75;margin-top:14px;animation:rise 1.4s 2.6s both}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+
+/* ---------- the envelope ---------- */
+#start{position:fixed;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:max(64px,calc(env(safe-area-inset-top) + 52px)) 16px max(20px,calc(env(safe-area-inset-bottom) + 14px));background:radial-gradient(ellipse 90% 62% at 50% 44%,rgba(20,12,32,.08),rgba(14,9,24,.82));text-align:center;transition:opacity 1.2s,visibility 0s 1.2s}
+.go #start{opacity:0;visibility:hidden;pointer-events:none}
+.envwrap{width:min(86vw,350px);display:flex;flex-direction:column;align-items:center}
+.et{transition:opacity .5s;width:100%}
+.opening .et{opacity:0}
+#s1{font:italic 500 1.15rem var(--serif);color:#ffe9c2;text-shadow:0 2px 14px rgba(0,0,0,.55);margin-bottom:20px;animation:rise 1.2s .2s both}
+.env{position:relative;width:100%;aspect-ratio:1.32;perspective:1100px;animation:envIn 1.5s .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes envIn{from{opacity:0;transform:translateY(26px) scale(.92) rotate(-3deg)}to{opacity:1;transform:none}}
+.env>*{position:absolute}
+.e-back{inset:0;border-radius:7px;background:#1f474b;box-shadow:0 28px 60px rgba(0,0,0,.5),0 6px 18px rgba(0,0,0,.35);overflow:hidden;z-index:1}
+.e-back::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(220,180,95,.34) 0 1px,transparent 1px 13px),repeating-linear-gradient(-45deg,rgba(220,180,95,.34) 0 1px,transparent 1px 13px)}
+.e-card{left:5%;right:5%;top:6%;height:88%;z-index:2;border-radius:3px;background:linear-gradient(#fffbf4,#f6ecdc);box-shadow:inset 0 0 0 1px rgba(201,162,79,.55),inset 0 0 0 7px #fffaf2,inset 0 0 0 8px rgba(201,162,79,.5);display:flex;flex-direction:column;align-items:center;padding-top:8%}
+.e-card i{font-style:normal;color:var(--gold);font-size:.95rem}
+.e-card b{font:400 2.5rem/1.15 var(--script);background:linear-gradient(100deg,#a87a2a,#e3bd68 40%,#b5863a 60%,#dcb565);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding:0 .2em}
+html[lang=ml] .e-card b{font:700 1.9rem/1.5 var(--serif)}
+.e-front{inset:0;z-index:3;border-radius:7px;overflow:hidden;clip-path:polygon(0 0,50% 47%,100% 0,100% 100%,0 100%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .4 0 0 0 0 .25 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(172deg,#fffaf1,#f1e4cd);box-shadow:inset 0 0 0 1px rgba(201,162,79,.55)}
+.e-front::before{content:'';position:absolute;inset:0;background:linear-gradient(to top right,transparent calc(50% - .6px),rgba(150,110,50,.26) 50%,transparent calc(50% + .6px)) left bottom/50.2% 47% no-repeat,linear-gradient(to top left,transparent calc(50% - .6px),rgba(150,110,50,.26) 50%,transparent calc(50% + .6px)) right bottom/50.2% 47% no-repeat}
+.e-addr{position:absolute;left:7%;right:7%;bottom:8%;display:flex;flex-direction:column;align-items:center}
+.e-addr small{font:700 .66rem var(--sans);letter-spacing:.24em;text-transform:uppercase;color:#a9894c}
+html[lang=ml] .e-addr small{letter-spacing:0;font-size:.86rem;text-transform:none}
+#envname{display:block;width:100%;white-space:nowrap;overflow:hidden;font:400 2.3rem/1.3 var(--script);background:linear-gradient(100deg,#8a6022 0%,#c49442 35%,#93692a 58%,#bf8f3a 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding:0 .2em}
+.e-flap{left:0;right:0;top:0;height:52%;z-index:5;transform-origin:50% 0;transform-style:preserve-3d}
+.e-flap i{position:absolute;inset:0;clip-path:polygon(0 0,100% 0,50% 100%);-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.e-flap .ff{background:#c9a24f}
+.e-flap .ff::after{content:'';position:absolute;inset:0;clip-path:polygon(1.8% 0,98.2% 0,50% 96%);background:linear-gradient(180deg,#fdf6ea 0%,#f3e7d1 70%,#e9d9bd 100%)}
+.e-flap .fb{transform:rotateX(180deg);background:#1f474b}
+.e-flap .fb::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(220,180,95,.34) 0 1px,transparent 1px 13px),repeating-linear-gradient(-45deg,rgba(220,180,95,.34) 0 1px,transparent 1px 13px)}
+.seal{position:absolute;left:50%;top:52%;width:84px;height:84px;margin:-42px 0 0 -42px;z-index:6;border:0;padding:0;background:none;cursor:pointer;border-radius:50%}
+.seal .wax{position:absolute;inset:10px;border-radius:47% 53% 50% 50%/53% 47% 53% 47%;background:radial-gradient(circle at 35% 30%,#d65d70 0,#9e2539 36%,#6f1426 68%,#4a0a16 100%);box-shadow:0 5px 12px rgba(40,0,10,.5),inset 0 -4px 7px rgba(0,0,0,.35),inset 0 3px 5px rgba(255,180,180,.35)}
+.seal .wax::before{content:'';position:absolute;inset:8px;border-radius:50%;box-shadow:inset 0 2px 3px rgba(0,0,0,.5),inset 0 -1px 2px rgba(255,200,200,.35),0 1px 1px rgba(255,200,200,.22)}
+.seal .wax svg{position:absolute;left:14px;top:14px;width:36px;height:36px;overflow:visible}
+.seal .ring{position:absolute;left:0;top:0;width:84px;height:84px;transform:rotate(-90deg);overflow:visible}
+.seal .ring circle{fill:none;stroke-width:3}
+.seal .ring .tr{stroke:rgba(150,112,52,.22);transition:opacity .8s .4s}
+.seal .ring .pr{stroke:#b8862f;stroke-linecap:round;stroke-dasharray:252;stroke-dashoffset:252;transition:stroke-dashoffset .5s,opacity .8s .4s}
+.ready .seal .ring .tr,.ready .seal .ring .pr{opacity:0}
+.ready .seal::after{content:'';position:absolute;inset:10px;border-radius:50%;animation:sealPulse 2.2s .6s infinite}
+@keyframes sealPulse{0%{box-shadow:0 0 0 0 rgba(255,214,140,.6)}80%,100%{box-shadow:0 0 0 20px rgba(255,214,140,0)}}
+.ready .seal .wax{animation:sealBob 2.2s .6s ease-in-out infinite}
+@keyframes sealBob{50%{transform:scale(1.05)}}
+#s4{margin-top:24px;font:italic 500 1rem var(--serif);color:#ffe2a8;text-shadow:0 2px 12px rgba(0,0,0,.6);min-height:1.45em;animation:rise 1.2s 1s both}
+.envtap{margin-top:6px;font:600 1.05rem var(--sans);color:#fff6e4;text-shadow:0 2px 12px rgba(0,0,0,.6);min-height:1.5em}
+.envtap .r,.ready .envtap .p{display:none}.ready .envtap .r{display:inline;animation:fadein .8s both}.envtap .p{opacity:.75}
+#quiet{margin-top:4px;font:600 .9rem var(--sans);color:#fff3dc;background:none;border:0;padding:8px 14px;cursor:pointer;opacity:.82;text-decoration:underline;text-decoration-color:rgba(255,243,220,.4);text-underline-offset:4px}
+.tiny{font-size:.76rem;opacity:.7;margin:8px auto 0;max-width:300px;text-shadow:0 1px 8px rgba(0,0,0,.6);line-height:1.4}
+.opening .seal{animation:sealOff .6s ease-in forwards;pointer-events:none}
+.opening .seal .ring{display:none}
+@keyframes sealOff{0%{transform:none}30%{transform:scale(1.15)}100%{transform:translateY(34px) scale(.55) rotate(-32deg);opacity:0}}
+.opening .e-flap{animation:flapOpen .95s .2s cubic-bezier(.45,.05,.25,1) forwards}
+@keyframes flapOpen{0%{transform:rotateX(0);z-index:5}49%{z-index:5}51%{z-index:1}100%{transform:rotateX(180deg);z-index:1}}
+.opening .e-card{animation:cardUp 1s .78s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes cardUp{to{transform:translateY(-56%)}}
+.opening .envwrap{animation:envAway 1.15s 1.5s cubic-bezier(.55,0,.8,.2) forwards}
+@keyframes envAway{to{transform:scale(1.55) translateY(-3%);opacity:0;filter:blur(5px)}}
+@media(max-height:640px){.tiny{display:none}#s1{margin-bottom:12px}#s4{margin-top:16px}}
+
 /* ---------- captions ---------- */
 .cap{position:absolute;left:50%;top:max(11vh,calc(env(safe-area-inset-top) + 56px));width:min(100%,480px);transform:translateX(-50%);text-align:center;padding:0 26px;text-shadow:0 2px 22px rgba(40,20,40,.6),0 1px 3px rgba(40,20,40,.4)}
 .cap>*{display:block;opacity:0;transform:translateY(14px);filter:blur(8px);transition:opacity 1.4s,transform 1.6s cubic-bezier(.2,.8,.2,1),filter 1.4s}
 .cap.on>*{opacity:1;transform:none;filter:none}
 .cap.on>:nth-child(2){transition-delay:.35s}.cap.on>:nth-child(3){transition-delay:.7s}.cap.on>:nth-child(4){transition-delay:1.05s}
-.cap .sm{font:italic 500 1.12rem 'Lora',serif;color:#fff0d6}
-.cap .xl{font:700 clamp(3rem,15vw,4.2rem)/1.05 'Lora',serif;margin:6px 0}
-.cap .lg{font:700 clamp(1.9rem,8.6vw,2.6rem)/1.15 'Lora',serif;margin:4px 0}
-.cap .md{font:700 clamp(1.4rem,6.4vw,1.8rem)/1.25 'Lora',serif}
-.cap .md em{font-style:normal;color:#ffd98e;font-weight:500}
+.cap .sm{font:italic 500 1.12rem var(--serif);color:#fff0d6}
+.cap .xl{font:700 clamp(3rem,15vw,4.2rem)/1.05 var(--serif);margin:6px 0}
+.cap .lg{font:700 clamp(1.9rem,8.6vw,2.6rem)/1.15 var(--serif);margin:4px 0}
 .cap .tx{font-weight:600;letter-spacing:.03em;margin-top:4px}
-/* ---------- calligraphy written right to left ---------- */
+.cap.in::before{content:'';position:absolute;left:-6%;right:-6%;top:-26px;bottom:-30px;z-index:-1;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(28,10,20,.42),rgba(28,10,20,0));opacity:0;transition:opacity 1.2s}
+.cap.in.on::before{opacity:1}
+html[lang=ml] .cap .sm{font-size:1.02rem;line-height:1.6}
+html[lang=ml] .cap .xl{font-size:clamp(2.6rem,13vw,3.6rem);line-height:1.3}
+html[lang=ml] .cap .lg{font-size:clamp(1.45rem,6.6vw,1.9rem);line-height:1.45}
+/* names written in gold */
+.gname{font:400 clamp(2.5rem,12.6vw,3.4rem)/1.2 var(--script);background:linear-gradient(100deg,#c08f3a 0%,#fbe9b3 22%,#d9aa4e 40%,#fff5d2 50%,#d29f43 62%,#f6dc94 80%,#c08f3a 100%);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding:0 .35em .06em;margin:0 -.35em;-webkit-mask-image:linear-gradient(to right,#000 42%,transparent 58%);mask-image:linear-gradient(to right,#000 42%,transparent 58%);-webkit-mask-size:280% 100%;mask-size:280% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:100% 0;mask-position:100% 0}
+.cap .gname,.cap.on .gname{filter:drop-shadow(0 2px 5px rgba(30,12,30,.7)) drop-shadow(0 0 16px rgba(255,196,110,.22));text-shadow:none}
+.cap.on .gname{animation:writeR 2.3s .25s ease-in-out forwards,shimmer 5s 2.6s linear infinite}
+.cap.on .gname+.gname{animation-delay:1.15s,3.5s}
+@keyframes writeR{to{-webkit-mask-position:0 0;mask-position:0 0}}
+@keyframes shimmer{from{background-position:100% 0}to{background-position:-140% 0}}
+html[lang=ml] .gname{font:700 clamp(1.8rem,8.4vw,2.4rem)/1.55 var(--serif)}
+/* calligraphy written right to left */
 .ink{display:inline-block;font-family:'Amiri',serif;font-weight:700;direction:rtl;color:transparent;-webkit-text-stroke:.8px currentColor;padding:0 .3em;-webkit-mask-image:linear-gradient(to left,#000 42%,transparent 58%);mask-image:linear-gradient(to left,#000 42%,transparent 58%);-webkit-mask-size:280% 100%;mask-size:280% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:0 0;mask-position:0 0}
 @keyframes write{to{-webkit-mask-position:100% 0;mask-position:100% 0}}
 @keyframes fillin{to{-webkit-text-fill-color:currentColor;-webkit-text-stroke-color:transparent}}
-.cap .arw{margin-top:18px}
+.cap .arw{margin-top:14px}
 .cap .ink{font-size:clamp(2.4rem,12vw,3.1rem);line-height:2.1;padding:0 .4em;color:#ffdb8f;filter:none!important}
-.cap.on .ink{animation:write 2.6s 1.4s ease-in-out forwards,fillin 1.2s 3.6s forwards}
+.cap.on .ink{animation:write 2.6s 2.4s ease-in-out forwards,fillin 1.2s 4.6s forwards}
+
 /* ---------- doors ---------- */
 #doorhint{position:absolute;left:0;right:0;bottom:max(12vh,calc(env(safe-area-inset-bottom) + 50px));text-align:center;opacity:0;transform:translateY(12px);transition:opacity 1s,transform 1s;text-shadow:0 2px 16px rgba(40,20,10,.7)}
 .door #doorhint{opacity:1;transform:none;transition-delay:.6s}
@@ -68,165 +127,234 @@ body:not(.final) #sheet *,body:not(.joinon) #join *{pointer-events:none!importan
 #doorhint .arr i{width:12px;height:12px;border:solid #ffd98e;border-width:0 0 2px 2px;transform:rotate(45deg);animation:pl 1.7s ease-in-out infinite}
 #doorhint .arr i+i{transform:rotate(-135deg);animation-name:pr}
 @keyframes pl{50%{translate:-10px 0}}@keyframes pr{50%{translate:10px 0}}
-#doorhint p{font:italic 500 1.2rem 'Lora',serif}
-#dooropen{margin-top:10px;font:600 .85rem 'Mukta';color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);padding:7px 14px;cursor:pointer;pointer-events:none}
+#doorhint p{font:italic 500 1.2rem var(--serif)}
+#dooropen{margin-top:10px;font:600 .85rem var(--sans);color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);padding:7px 14px;cursor:pointer;pointer-events:none}
 .door #dooropen{pointer-events:auto}
-/* ---------- final card ---------- */
-#sheet{position:fixed;left:50%;bottom:0;width:min(100%,480px);transform:translate(-50%,105%);transition:transform 1.4s cubic-bezier(.2,.8,.2,1);pointer-events:none;padding:0 12px max(12px,env(safe-area-inset-bottom))}
-.final #sheet{transform:translate(-50%,0);transition-delay:1.2s;pointer-events:auto}
-.final.mini #sheet{transform:translate(-50%,calc(100% - 64px));transition-delay:0s}
-.card{position:relative;background:rgba(255,249,240,.88);-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2);color:var(--deep);text-align:center;padding:30px 20px 18px;clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%,0 16px);box-shadow:0 -10px 40px rgba(0,0,0,.25)}
-#grip{position:absolute;left:50%;top:6px;transform:translateX(-50%);width:80px;height:24px;background:none;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
-#grip i{width:38px;height:4px;background:rgba(47,85,90,.35);border-radius:2px}
-.mini .card>*:not(#grip):not(.minil){visibility:hidden}
-.minil{display:none;font:italic 500 .95rem 'Lora',serif;position:absolute;left:0;right:0;top:28px}
-.mini .minil{display:block}
-.dua{padding:0 6px}
-.dua .ink{font-size:clamp(1.25rem,5.6vw,1.6rem);line-height:2.1;color:var(--ink);white-space:normal;max-width:330px}
-.final .dua .ink{animation:write 3.2s 2.2s ease-in-out forwards,fillin 1.2s 5s forwards}
-.dua small{display:block;font:italic 500 .8rem/1.35 'Lora',serif;opacity:.8;max-width:310px;margin:2px auto 12px}
-#eh{font:700 1.3rem/1.25 'Lora',serif;color:var(--green);max-width:340px;margin:0 auto}
-.cd{display:flex;gap:8px;justify-content:center;margin:12px 0 0}
-.cd div{min-width:58px;padding:7px 4px 5px;background:rgba(255,255,255,.75);box-shadow:inset 0 0 0 1px rgba(169,138,76,.45);clip-path:polygon(9px 0,calc(100% - 9px) 0,100% 9px,100% calc(100% - 9px),calc(100% - 9px) 100%,9px 100%,0 calc(100% - 9px),0 9px)}
-.cd b{display:block;font:700 1.4rem/1.1 'Lora',serif;color:var(--green)}
-.cd small{font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
-.cdl{font:italic 500 .84rem 'Lora',serif;margin-top:5px;color:var(--ink)}
-.live .cd,.after .cd,.live .cdl,.after .cdl{display:none}
-.now{display:none;margin:10px auto 0;font-weight:700;color:#b5475f;align-items:center;gap:8px;justify-content:center}
-.live .now{display:flex}.now i{width:9px;height:9px;border-radius:50%;background:#e0566f;animation:pulse 1.2s infinite}
-@keyframes pulse{50%{box-shadow:0 0 0 7px rgba(224,86,111,.15)}}
-.info{margin-top:12px;font-weight:600;font-size:.9rem;line-height:1.45}
-.wa{margin-top:12px;font:700 1.02rem 'Mukta';border:0;padding:14px 22px;display:inline-flex;align-items:center;gap:10px;text-decoration:none;background:var(--btn);color:#fff}
-.wa svg{width:22px;height:22px}
-.acts{display:flex;gap:18px;justify-content:center;margin-top:10px}
-.acts a{color:var(--btn);font-weight:700;font-size:.92rem}
-.foot{margin-top:10px;font:italic 500 .95rem 'Lora',serif}
-.lh{margin-top:6px;font-size:.78rem;opacity:.7;transition:opacity 1s}
-.tapped .lh{opacity:0}
-@media(max-height:740px){.dua small{display:none}.card{padding-top:20px}.cd{margin-top:8px}.wa{margin-top:10px;padding:12px 20px}.info{margin-top:8px}}
-@media(max-height:640px){.lh,.cdl{display:none}}
-/* ---------- invitation to take part (inside the hall) ---------- */
-#join{position:fixed;left:50%;bottom:0;width:min(100%,480px);transform:translate(-50%,110%);transition:transform 1.2s cubic-bezier(.2,.8,.2,1);padding:0 12px max(14px,env(safe-area-inset-bottom));pointer-events:none}
-.joinon #join{transform:translate(-50%,0);pointer-events:auto}
-.joinon.joinmini #join{transform:translate(-50%,calc(100% - 64px))}
-.jc{position:relative}
-#jgrip{position:absolute;left:50%;top:6px;transform:translateX(-50%);width:80px;height:24px;background:none;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
-#jgrip i{width:38px;height:4px;background:rgba(47,85,90,.35);border-radius:2px}
-.joinmini .jc>*:not(#jgrip):not(.minil){visibility:hidden}
-.joinmini .jc .minil{display:block}
-#sheet,#join{touch-action:pan-x}
-.jc{background:rgba(255,249,240,.9);padding-top:30px!important;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);color:var(--deep);text-align:center;padding:22px 20px 16px;clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%,0 16px);box-shadow:0 -10px 40px rgba(0,0,0,.25)}
-.jc h3{font:700 1.45rem/1.2 'Lora',serif;color:var(--green)}
-.jc p{margin:8px auto 0;max-width:330px;font-weight:600;line-height:1.4}
-.jc .info{margin-top:12px}.jc .acts{margin-top:8px}
-#join .wa{animation:nudge 2.6s 1.5s infinite}
-@keyframes nudge{0%,70%,100%{transform:none}80%{transform:scale(1.05)}90%{transform:scale(1)}}
-#cont{display:block;margin:12px auto 0;background:none;border:0;font:italic 500 1rem 'Lora',serif;color:var(--btn);cursor:pointer;padding:6px}
-.games{margin-top:10px;font:italic 500 .92rem 'Lora',serif;color:#b5475f}
-.after .games{display:none}
-/* ---------- corner buttons ---------- */
-.corner{position:fixed;top:max(10px,env(safe-area-inset-top));z-index:5;display:flex;align-items:center;gap:6px;background:rgba(20,16,30,.28);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);color:#fff;font:600 .82rem 'Mukta';padding:6px 12px;cursor:pointer;opacity:0;transition:opacity 1s}
-.go .corner{opacity:1;transition-delay:1.5s}
-#snd{left:10px}#snd svg{width:17px;height:17px}#snd .w{display:none}#snd[aria-pressed=true] .w{display:inline}#snd[aria-pressed=true] .x{display:none}
-#skip{right:10px}.final #skip{opacity:0;pointer-events:none}
-/* ---------- no 3D available ---------- */
-.nogl{background:radial-gradient(ellipse at 50% 30%,#4a3f7a,#141830 70%)}
-.nogl #start{display:none}
-/* ---------- link maker (?make) ---------- */
-#maker{position:fixed;inset:0;z-index:100;overflow:auto;background:#fbf3ec;color:#2f3b3d;padding:28px 18px 60px;display:none}
-.make #maker{display:block}
-#maker .in{max-width:520px;margin:0 auto}
-#maker h1{font:700 1.7rem 'Lora',serif;color:var(--green)}
-#maker p{margin:6px 0 16px;line-height:1.45}
-#maker h3{font:700 1.05rem 'Lora',serif;margin:22px 0 8px;color:var(--deep)}
-#maker textarea{width:100%;min-height:110px;padding:12px;font:1rem 'Mukta';border:1px solid #d6c7ad;background:#fff;resize:vertical}
-#maker .row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px;background:#fff;border:1px solid #eadfcd;margin-top:8px}
-#maker .row b{flex:1 1 100%;font-size:1.02rem}
-#maker .row code{flex:1 1 100%;font-size:.78rem;color:#6a7578;word-break:break-all}
-#maker button,#maker .mb{font:700 .9rem 'Mukta';border:0;padding:9px 14px;background:var(--btn);color:#fff;cursor:pointer;text-decoration:none}
-#maker .ghost{background:#efe6d6;color:#2f555a}
-#maker .top{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 
-/* ---------- cards pop up as floating panels ---------- */
-#sheet,#join{position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));width:min(calc(100% - 24px),440px);padding:0!important;opacity:0;visibility:hidden;transform:translate(-50%,40px) scale(.9);transition:transform .75s cubic-bezier(.2,1.35,.35,1),opacity .45s,visibility 0s .5s;pointer-events:none}
+/* ---------- cards ---------- */
+#sheet,#join{position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));width:min(calc(100% - 24px),440px);opacity:0;visibility:hidden;transform:translate(-50%,40px) scale(.9);transition:transform .75s cubic-bezier(.2,1.35,.35,1),opacity .45s,visibility 0s .5s;pointer-events:none;touch-action:pan-x}
 .final #sheet{opacity:1;visibility:visible;transform:translate(-50%,0) scale(1);transition-delay:1.2s;pointer-events:auto}
 .final.mini #sheet{transform:translate(-50%,calc(100% - 58px)) scale(1);transition-delay:0s}
 .joinon #join{opacity:1;visibility:visible;transform:translate(-50%,0) scale(1);transition-delay:0s;pointer-events:auto}
 .joinon.joinmini #join{transform:translate(-50%,calc(100% - 58px)) scale(1)}
-.card,.jc{clip-path:none!important;border-radius:24px;background:rgba(255,250,243,.93)!important;box-shadow:0 18px 50px rgba(20,10,30,.35),0 0 0 1px rgba(201,162,79,.35) inset!important;padding:30px 22px 18px!important}
-.jc h3{font:700 1.5rem/1.2 'Lora',serif;color:var(--green)}
-.jc p{margin:6px auto 0;font-weight:600;font-size:.98rem;opacity:.85}
-.jc .wa,.card .wa{border-radius:40px;padding:14px 26px;margin-top:14px;box-shadow:0 6px 18px rgba(63,122,133,.35)}
-.jc .info{margin-top:12px;font-size:.86rem;opacity:.85}
-.acts a{font-size:.88rem}
-#cont{display:inline-flex;align-items:center;gap:8px;margin:14px auto 2px;padding:11px 22px;border:0;border-radius:40px;background:linear-gradient(135deg,#1c2350,#3b3f86 60%,#6a5aa0);color:#fff3d2;font:italic 600 1rem 'Lora',serif;cursor:pointer;box-shadow:0 6px 20px rgba(30,30,80,.35),0 0 0 1px rgba(255,230,170,.35) inset}
+.card,.jc{position:relative;border-radius:24px;background:rgba(255,250,243,.95);-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2);box-shadow:0 18px 50px rgba(20,10,30,.35),0 0 0 1px rgba(201,162,79,.35) inset;padding:26px 18px 14px;color:var(--deep);text-align:center}
+.grip{position:absolute;left:50%;top:5px;transform:translateX(-50%);width:84px;height:24px;background:none;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.grip i{width:38px;height:4px;background:rgba(47,85,90,.35);border-radius:2px}
+.minil{display:none;font:italic 500 .95rem var(--serif);position:absolute;left:0;right:0;top:24px}
+.mini .card>*:not(.grip):not(.minil),.joinmini .jc>*:not(.grip):not(.minil){visibility:hidden}
+.mini .card .minil,.joinmini .jc .minil{display:block}
+.dua{padding:0 6px}
+.dua .ink{font-size:clamp(1.2rem,5.4vw,1.5rem);line-height:1.9;color:var(--ink);white-space:normal;max-width:330px;margin-bottom:2px}
+.final .dua .ink{animation:write 3.2s 2.2s ease-in-out forwards,fillin 1.2s 5s forwards}
+#eh{font:700 1.2rem/1.28 var(--serif);color:var(--green);max-width:350px;margin:0 auto}
+html[lang=ml] #eh{font-size:1.06rem;line-height:1.5}
+.cd{display:flex;gap:8px;justify-content:center;margin:10px 0 0}
+.cd div{min-width:60px;padding:6px 4px 4px;background:rgba(255,255,255,.75);box-shadow:inset 0 0 0 1px rgba(169,138,76,.45);clip-path:polygon(9px 0,calc(100% - 9px) 0,100% 9px,100% calc(100% - 9px),calc(100% - 9px) 100%,9px 100%,0 calc(100% - 9px),0 9px)}
+.cd b{display:block;font:700 1.35rem/1.1 var(--serif);color:var(--green)}
+.cd small{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+html[lang=ml] .cd small{letter-spacing:0;font-size:.66rem}
+.live .cd,.after .cd{display:none}
+.now{display:none;margin:10px auto 0;font-weight:700;color:#b5475f;align-items:center;gap:8px;justify-content:center}
+.live .now{display:flex}.now i{width:9px;height:9px;border-radius:50%;background:#e0566f;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 7px rgba(224,86,111,.15)}}
+.info{margin-top:10px;font-weight:600;font-size:.88rem;line-height:1.45}
+.pri{margin:12px auto 0;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:330px;border:0;border-radius:40px;padding:13px 20px;font:700 1rem var(--sans);color:#fff;background:linear-gradient(135deg,#43828d,#2f5f68);box-shadow:0 6px 18px rgba(63,122,133,.35);text-decoration:none;cursor:pointer}
+.pri svg{width:21px;height:21px;flex:none}
+.wa2{margin:9px auto 0;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;max-width:330px;border-radius:40px;padding:10px 18px;font:700 .95rem var(--sans);color:var(--btn);background:#fff;box-shadow:inset 0 0 0 1.5px rgba(63,122,133,.5);text-decoration:none}
+.wa2 svg{width:20px;height:20px;flex:none}
+#dirbtn{display:none}.today #dirbtn,.live #dirbtn{display:flex}.today #rsvp,.live #rsvp,.after #rsvp{display:none}
+.tools{display:flex;justify-content:space-around;margin:12px auto 0;max-width:340px}
+.tools>*{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:2px 0;color:var(--btn);font:600 .74rem var(--sans);text-decoration:none;cursor:pointer}
+.tools svg{width:40px;height:40px;padding:9px;border-radius:50%;background:rgba(63,122,133,.1)}
+.after .tools .tcal{display:none}
+.foot{margin-top:8px;font:italic 500 .9rem var(--serif)}
+html[lang=ml] .foot{font-size:.84rem;line-height:1.5}
+@media(max-height:760px){.card{padding-top:22px}.dua .ink{font-size:1.15rem;line-height:1.7}.cd{margin-top:8px}.cd div{padding:4px 4px 3px}.pri{margin-top:10px;padding:11px 18px}.wa2{margin-top:7px;padding:8px 16px}.tools{margin-top:8px}.tools svg{width:36px;height:36px;padding:8px}}
+@media(max-height:680px){.final .dua{display:none}.info{margin-top:8px}}
+/* the hall card */
+.jc h3{font:700 1.45rem/1.2 var(--serif);color:var(--green)}
+.jc p{margin:6px auto 0;max-width:330px;font-weight:600;font-size:.98rem;line-height:1.4;opacity:.85}
+.jc .info{margin-top:10px;font-size:.86rem;opacity:.85}
+.jc .pri{animation:nudge 2.6s 1.5s infinite}
+@keyframes nudge{0%,70%,100%{transform:none}80%{transform:scale(1.05)}90%{transform:scale(1)}}
+.acts{display:flex;gap:18px;justify-content:center;margin-top:8px}
+.acts a{color:var(--btn);font-weight:700;font-size:.88rem}
+#cont{display:inline-flex;align-items:center;gap:8px;margin:12px auto 2px;padding:11px 22px;border:0;border-radius:40px;background:linear-gradient(135deg,#1c2350,#3b3f86 60%,#6a5aa0);color:#fff3d2;font:italic 600 1rem var(--serif);cursor:pointer;box-shadow:0 6px 20px rgba(30,30,80,.35),0 0 0 1px rgba(255,230,170,.35) inset}
 #cont .st{color:#ffd98e;font-style:normal;animation:twk 1.6s ease-in-out infinite alternate}
 #cont .st:last-child{animation-delay:-.8s}
 @keyframes twk{from{opacity:.35;transform:scale(.8)}to{opacity:1;transform:scale(1.15)}}
-#eh{font-size:1.22rem;margin-top:2px}
-.dua .ink{margin-bottom:4px}
-.minil{top:24px!important}
-#lanhint{position:fixed;left:50%;top:max(64px,calc(env(safe-area-inset-top) + 56px));transform:translateX(-50%);background:rgba(20,16,40,.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff3d2;font:italic 500 .9rem 'Lora',serif;padding:8px 16px;border-radius:30px;white-space:nowrap;opacity:0;transition:opacity 1s;pointer-events:none}
+
+/* ---------- corner buttons, lantern hints ---------- */
+.corner{position:fixed;top:max(10px,env(safe-area-inset-top));z-index:5;display:flex;align-items:center;gap:6px;background:rgba(20,16,30,.28);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);color:#fff;font:600 .82rem var(--sans);padding:6px 12px;cursor:pointer;opacity:0;transition:opacity 1s;pointer-events:none!important}
+.go .corner{opacity:1;transition-delay:1.5s;pointer-events:auto!important}
+#snd{left:10px}#snd svg{width:17px;height:17px}#snd .w{display:none}#snd[aria-pressed=true] .w{display:inline}#snd[aria-pressed=true] .x{display:none}
+#skip{right:10px}.final #skip{opacity:0;pointer-events:none!important}
+#lang{right:10px;opacity:1;pointer-events:auto!important;transition-delay:0s}
+.go:not(.final) #lang{opacity:0;pointer-events:none!important;transition-delay:0s}
+.final #lang{transition-delay:2.2s}
+.opening:not(.final) #lang{opacity:0}
+#lanhint{position:fixed;left:50%;top:max(64px,calc(env(safe-area-inset-top) + 56px));transform:translateX(-50%);background:rgba(20,16,40,.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff3d2;font:italic 500 .9rem var(--serif);padding:8px 16px;border-radius:30px;white-space:nowrap;opacity:0;transition:opacity 1s;pointer-events:none}
 .final #lanhint{animation:hint 6s 4.5s both}
 .tapped #lanhint{animation:none;opacity:0}
 @keyframes hint{0%{opacity:0}15%,80%{opacity:1}100%{opacity:0}}
-@media(prefers-reduced-motion:reduce){.cap>*,#start,#sheet{transition:none!important;animation:none!important}.ink{-webkit-mask-image:none;mask-image:none;-webkit-text-fill-color:currentColor}}
+#duabtn{position:fixed;left:50%;top:max(60px,calc(env(safe-area-inset-top) + 52px));transform:translateX(-50%);display:none;align-items:center;gap:8px;padding:9px 18px;border:0;border-radius:30px;background:linear-gradient(135deg,rgba(28,35,80,.78),rgba(106,90,160,.78));-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff3d2;font:italic 600 .95rem var(--serif);box-shadow:0 6px 20px rgba(20,20,60,.35),0 0 0 1px rgba(255,230,170,.35) inset;cursor:pointer;white-space:nowrap}
+#duabtn .st{color:#ffd98e;font-style:normal}
+.final #duabtn{display:flex;animation:fadein 1s 10.6s both}
+.final.tapped #duabtn{animation-delay:.4s}
+.toasting #duabtn{opacity:0!important;pointer-events:none!important;transition:opacity .3s}
+#duafloats{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.duafloat{position:absolute;left:0;top:0;width:min(78vw,340px);text-align:center;font:italic 500 1.08rem/1.4 var(--serif);color:#ffe9b8;text-shadow:0 0 14px rgba(255,170,80,.7),0 2px 8px rgba(0,0,0,.65);opacity:0;will-change:transform,opacity}
+
+/* ---------- sheets for RSVP, calendar and duas ---------- */
+.modal{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(12,8,24,.5);opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s;padding:0 10px max(10px,env(safe-area-inset-bottom))}
+.modal.open{opacity:1;visibility:visible;transition-delay:0s}
+.mcard{position:relative;width:min(100%,440px);background:#fffaf3;color:var(--deep);border-radius:24px;padding:24px 20px 18px;text-align:center;transform:translateY(40px);transition:transform .5s cubic-bezier(.2,1.2,.35,1);box-shadow:0 18px 50px rgba(20,10,30,.4)}
+.modal.open .mcard{transform:none}
+.mcard h3{font:700 1.35rem/1.3 var(--serif);color:var(--green);margin:0 30px}
+.mx{position:absolute;right:10px;top:10px;width:36px;height:36px;border:0;border-radius:50%;background:rgba(63,122,133,.1);color:var(--deep);font-size:1.35rem;line-height:1;cursor:pointer}
+.seg{display:flex;gap:8px;margin-top:16px}
+.seg button{flex:1;padding:12px 6px;border-radius:14px;border:0;background:#fff;box-shadow:inset 0 0 0 1.5px rgba(63,122,133,.3);font:700 .92rem/1.3 var(--sans);color:var(--deep);cursor:pointer}
+.seg button.on{background:var(--btn);color:#fff;box-shadow:none}
+.cnt{display:flex;align-items:center;justify-content:space-between;margin-top:14px;font-weight:600}
+.cnt[hidden]{display:none}
+.step{display:flex;align-items:center;gap:6px}
+.step button{width:42px;height:42px;border-radius:50%;border:0;background:rgba(63,122,133,.12);color:var(--deep);font:700 1.3rem var(--sans);cursor:pointer}
+.step b{min-width:34px;font:700 1.35rem var(--serif);color:var(--green)}
+.mcard input,.mcard textarea{display:block;width:100%;margin-top:14px;padding:12px 14px;border-radius:14px;border:1px solid #dccbab;background:#fff;font:1rem var(--sans);color:#2f3b3d;outline-color:var(--btn)}
+.mcard textarea{min-height:96px;resize:none;font:italic 500 1.05rem/1.45 var(--serif)}
+.mcard .hint{margin-top:10px;font-size:.8rem;opacity:.7;line-height:1.4}
+.calopts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.calopts a{display:block;padding:14px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1.5px rgba(63,122,133,.3);color:var(--deep);font:700 1rem var(--sans);text-decoration:none}
+.apple .calopts .gc{order:2}
+#toast{position:fixed;left:50%;top:max(56px,calc(env(safe-area-inset-top) + 48px));z-index:15;width:max-content;max-width:calc(100% - 32px);transform:translate(-50%,-10px);display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 18px;border-radius:18px;background:rgba(20,16,40,.62);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff3d2;text-align:center;opacity:0;visibility:hidden;transition:opacity .5s,transform .5s,visibility 0s .5s}
+#toast.on{opacity:1;visibility:visible;transform:translate(-50%,0);transition-delay:0s}
+#toast b{font:italic 600 1rem var(--serif)}
+#toast a{color:#ffd98e;font-weight:700;font-size:.88rem}
+
+/* ---------- no 3D available ---------- */
+.nogl{background:radial-gradient(ellipse at 50% 30%,#4a3f7a,#141830 70%)}
+.nogl #start,.nogl #gl{display:none}
+/* ---------- link maker (?make) ---------- */
+#maker{position:fixed;inset:0;z-index:100;overflow:auto;background:#fbf3ec;color:#2f3b3d;padding:28px 18px 60px;display:none}
+.make #maker{display:block}
+#maker .in{max-width:540px;margin:0 auto}
+#maker h1{font:700 1.7rem var(--serif);color:var(--green)}
+#maker p{margin:6px 0 16px;line-height:1.45}
+#maker h3{font:700 1.05rem var(--serif);margin:22px 0 8px;color:var(--deep)}
+#maker textarea{width:100%;min-height:110px;padding:12px;font:1rem var(--sans);border:1px solid #d6c7ad;background:#fff;resize:vertical}
+#maker .row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px;background:#fff;border:1px solid #eadfcd;margin-top:8px}
+#maker .row b{flex:1 1 100%;font-size:1.02rem}
+#maker .row code{flex:1 1 100%;font-size:.78rem;color:#6a7578;word-break:break-all}
+#maker button,#maker .mb{font:700 .9rem var(--sans);border:0;padding:9px 14px;background:var(--btn);color:#fff;cursor:pointer;text-decoration:none}
+#maker .ghost{background:#efe6d6;color:#2f555a}
+#maker .top{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+#maker .langpick{display:flex;gap:0;margin:4px 0 6px}
+#maker .langpick button{background:#efe6d6;color:#2f555a}
+#maker .langpick button.on{background:var(--btn);color:#fff}
+@media(prefers-reduced-motion:reduce){.cap>*,#start,#sheet{transition:none!important;animation:none!important}.ink,.gname{-webkit-mask-image:none;mask-image:none;-webkit-text-fill-color:currentColor}}
 </style>
 </head>
 <body class="intro">
 <canvas id="gl" aria-label="An animated journey through a garden at sunset to the Walimah hall"></canvas>
+
+<section id="start">
+  <div class="envwrap">
+    <div class="et"><p id="s1" data-t="greet">Assalamu alaikum</p></div>
+    <div class="env">
+      <div class="e-back"></div>
+      <div class="e-card"><i>&#10022;</i><b data-t="c1b">Walimah</b></div>
+      <div class="e-front"><div class="e-addr"><small id="envfor" data-t="envFor">Specially for</small><b id="envname">you</b></div></div>
+      <div class="e-flap"><i class="ff"></i><i class="fb"></i></div>
+      <button class="seal" id="go" data-ta="openSound" aria-label="Open the invitation with sound">
+        <svg class="ring" viewBox="0 0 84 84" aria-hidden="true"><circle class="tr" cx="42" cy="42" r="40"/><circle class="pr" id="ringp" cx="42" cy="42" r="40"/></svg>
+        <span class="wax"><svg viewBox="-27 -27 54 54" aria-hidden="true"><g fill="none" stroke-width="2.2" stroke-linejoin="round"><path transform="translate(.9 .9)" stroke="rgba(40,0,8,.6)" d="M0-22L5.17-12.47 15.56-15.56 12.47-5.17 22 0 12.47 5.17 15.56 15.56 5.17 12.47 0 22-5.17 12.47-15.56 15.56-12.47 5.17-22 0-12.47-5.17-15.56-15.56-5.17-12.47Z"/><path transform="translate(-.6 -.6)" stroke="rgba(255,196,196,.5)" d="M0-22L5.17-12.47 15.56-15.56 12.47-5.17 22 0 12.47 5.17 15.56 15.56 5.17 12.47 0 22-5.17 12.47-15.56 15.56-12.47 5.17-22 0-12.47-5.17-15.56-15.56-5.17-12.47Z"/><circle r="6.5" transform="translate(.7 .7)" stroke="rgba(40,0,8,.6)"/><circle r="6.5" transform="translate(-.5 -.5)" stroke="rgba(255,196,196,.5)"/></g></svg></span>
+      </button>
+    </div>
+    <div class="et">
+      <p id="s4"></p>
+      <p class="envtap"><span class="p" data-t="envPrep">Preparing your invitation…</span><span class="r" data-t="envTap">Tap the seal to open</span></p>
+      <button id="quiet" data-t="envQuiet">Open without sound</button>
+      <p class="tiny" data-t="envTip">Hold your phone upright. Drag or tilt to look around.</p>
+    </div>
+  </div>
+</section>
+
 <div id="ui">
-  <section id="start"><div class="col">
-    <div id="s1">Assalamu alaikum</div>
-    <div id="s2">You are warmly invited</div>
-    <div id="s3">to the Walimah of our family</div>
-    <div id="s4"></div>
-    <div class="btns"><button class="b1" id="go">Begin with sound</button><button class="b2" id="quiet">Begin in silence</button></div>
-    <div class="tiny">Hold your phone upright. Drag or tilt to look around.</div>
-  </div></section>
+  <div class="cap" data-a="1.2" data-b="8"><span class="sm" data-t="c1a">You are warmly invited to the</span><span class="xl" data-t="c1b">Walimah</span></div>
+  <div class="cap" data-a="9" data-b="16.5"><span class="gname" data-t="couple1">Razin &amp; Sahar</span><span class="gname" data-t="couple2">Razeen &amp; Naeema</span><span class="arw" lang="ar"><span class="ink">بَارَكَ اللهُ لَكُمْ</span></span></div>
+  <div class="cap" data-a="17.5" data-b="25.5"><span class="sm" data-t="dateLong">Sunday, 10 January 2027</span><span class="lg" data-t="time">5 to 8 PM</span><span class="tx" data-t="venue">Evento Auditorium, Amarambalam</span></div>
 
-  <div class="cap" data-a="1.2" data-b="8"><span class="sm">You are warmly invited to the</span><span class="xl">Walimah</span></div>
-  <div class="cap" data-a="9" data-b="16.5"><span class="md">Razin <em>&amp;</em> Sahar</span><span class="md">Razeen <em>&amp;</em> Naeema</span><span class="arw" lang="ar"><span class="ink">بَارَكَ اللهُ لَكُمْ</span></span></div>
-  <div class="cap" data-a="17.5" data-b="25.5"><span class="sm">Sunday, 10 January 2027</span><span class="lg">5 to 8 PM</span><span class="tx">Evento Auditorium, Athani</span></div>
-
-  <div class="cap in" data-a="1" data-b="7"><span class="sm">Step inside, the celebration</span><span class="lg">is in full swing</span></div>
+  <div class="cap in" data-a="1" data-b="5.6"><span class="sm" data-t="in1">Step inside, the celebration</span><span class="lg" data-t="in2">is in full swing</span></div>
+  <div class="cap in" data-a="7.4" data-b="12.4"><span class="sm" data-t="seatCap">Your seat is waiting</span><span class="gname" id="seatname">just for you</span></div>
 
   <section id="join"><div class="jc">
-    <button id="jgrip" aria-label="Show or hide the details"><i></i></button>
-    <div class="minil">Show the details</div>
-    <h3>Join the celebration</h3>
-    <p>Take part in the programs and win prizes</p>
-    <a class="wa" id="joinwa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#fff"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#3f7a85"/></svg>Join our WhatsApp group</a>
-    <div class="info">Sun, 10 Jan 2027 · 5 to 8 PM<br>Evento Auditorium, Athani</div>
-    <div class="acts"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Evento+Auditorium+Athani+Amarambalam">Open map</a><a href="#" id="replay2">Watch again</a></div>
-    <button id="cont"><span class="st">&#10022;</span> Step outside under the stars <span class="st">&#10022;</span></button>
+    <button class="grip" id="jgrip" data-ta="showDetails" aria-label="Show or hide the details"><i></i></button>
+    <div class="minil" data-t="showDetails">Show the details</div>
+    <h3 data-t="joinH">Join the celebration</h3>
+    <p data-t="joinP">Take part in the programs and win prizes</p>
+    <a class="pri wagroup" id="joinwa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#fff"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#3f7a85"/></svg><span data-t="waJoin">Join our WhatsApp group</span></a>
+    <div class="info"><span data-t="infoDate">Sun, 10 Jan 2027 · 5 to 8 PM</span><br><span data-t="venue">Evento Auditorium, Amarambalam</span></div>
+    <div class="acts"><a class="maplink" target="_blank" rel="noopener" href="#" data-t="openMap">Open map</a><a href="#" id="replay2" data-t="watchAgain">Watch again</a></div>
+    <button id="cont"><span class="st">&#10022;</span> <span data-t="stepOut">Step outside under the stars</span> <span class="st">&#10022;</span></button>
   </div></section>
 
-  <div id="doorhint"><div class="arr"><i></i><i></i></div><p>Slide to open the doors</p><button id="dooropen">or tap here</button></div>
+  <div id="doorhint"><div class="arr"><i></i><i></i></div><p data-t="slide">Slide to open the doors</p><button id="dooropen" data-t="tapHere">or tap here</button></div>
 
   <section id="sheet"><div class="card">
-    <button id="grip" aria-label="Show or hide the details"><i></i></button>
-    <div class="minil">Show the details</div>
+    <button class="grip" id="grip" data-ta="showDetails" aria-label="Show or hide the details"><i></i></button>
+    <div class="minil" data-t="showDetails">Show the details</div>
     <div class="dua" lang="ar"><span class="ink">بَارَكَ اللهُ لَكُمْ وَبَارَكَ عَلَيْكُمْ<br>وَجَمَعَ بَيْنَكُمْ فِي خَيْرٍ</span></div>
-    <h2 id="eh">Your presence would make our joy complete</h2>
-    <div class="cd"><div><b id="cd0">0</b><small>days</small></div><div><b id="cd1">0</b><small>hours</small></div><div><b id="cd2">0</b><small>mins</small></div><div><b id="cd3">0</b><small>secs</small></div></div>
-    <div class="now"><i></i>Happening now. Come join us!</div>
-    <div class="info">Sun, 10 Jan 2027 · 5 to 8 PM<br>Evento Auditorium, Athani</div>
-    <!-- REPLACE the link below with your WhatsApp group invite link -->
-    <a class="wa" href="https://chat.whatsapp.com/YOUR_GROUP_LINK" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#fff"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#3f7a85"/></svg>Join our WhatsApp group</a>
-    <div class="acts"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Evento+Auditorium+Athani+Amarambalam">Open map</a><a href="#" id="replay">Watch again</a></div>
-    <div class="foot">With love, Abdullah Koya &amp; Raseena Kozhimannil</div>
+    <h2 id="eh">We would love to see you there</h2>
+    <div class="cd"><div><b id="cd0">0</b><small data-t="days">days</small></div><div><b id="cd1">0</b><small data-t="hours">hours</small></div><div><b id="cd2">0</b><small data-t="mins">mins</small></div><div><b id="cd3">0</b><small data-t="secs">secs</small></div></div>
+    <div class="now"><i></i><span data-t="happening">Happening now. Come join us!</span></div>
+    <div class="info"><span data-t="infoDate">Sun, 10 Jan 2027 · 5 to 8 PM</span><br><span data-t="venue">Evento Auditorium, Amarambalam</span></div>
+    <button class="pri" id="rsvp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3.5 7l8.5 6.2L20.5 7"/></svg><span id="rsvpl">Will you join us? Reply</span></button>
+    <a class="pri maplink" id="dirbtn" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span data-t="directions">Get directions</span></a>
+    <a class="wa2 wagroup" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#3f7a85"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#fff"/></svg><span data-t="waJoin">Join our WhatsApp group</span></a>
+    <div class="tools">
+      <button class="tcal" id="calbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M12 12.6l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3z" fill="currentColor" stroke="none"/></svg><span data-t="cal">Calendar</span></button>
+      <a class="maplink" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span data-t="map">Map</span></a>
+      <button id="sharebtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/></svg><span data-t="share">Share</span></button>
+      <a href="#" id="replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 1 0 2.4-5.5"/><path d="M4.5 4v4.4h4.4"/></svg><span data-t="replay">Replay</span></a>
+    </div>
+    <div class="foot" data-t="foot">With love, Abdullah Koya &amp; Raseena Kozhimannil</div>
   </div></section>
-  <div id="lanhint">Tap the sky to send up a lantern &#10022;</div>
+  <div id="lanhint" data-t="lantern">Tap the sky to send up a lantern ✦</div>
+  <button id="duabtn"><span class="st">&#10022;</span><span data-t="duaBtn">Send a dua with a lantern</span></button>
 
   <button class="corner" id="snd" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="w" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="x" d="M17 9l5 6M22 9l-5 6"/></svg><span id="sndl">Sound off</span></button>
-  <button class="corner" id="skip">Skip</button>
+  <button class="corner" id="skip" data-t="skip">Skip</button>
+  <button class="corner" id="lang" lang="ml" data-t="langBtn">മലയാളം</button>
 </div>
+<div id="duafloats"></div>
+<div id="toast" role="status"><b data-t="duaSent">Your dua is on its way ✦</b><a id="toastwa" href="#" target="_blank" rel="noopener" data-t="duaAlso">Also send it to the family</a></div>
+
+<div class="modal" id="rsvpM"><div class="mcard">
+  <button class="mx" data-close data-ta="close" aria-label="Close">&times;</button>
+  <h3 data-t="rsvpQ">Will you join us?</h3>
+  <div class="seg"><button id="ry" class="on" data-t="yes">Yes, in shaa Allah</button><button id="rn" data-t="no">Sorry, we can’t</button></div>
+  <div class="cnt" id="rcount"><span data-t="howMany">How many of you?</span><div class="step"><button id="rminus" aria-label="−">&minus;</button><b id="rnum">2</b><button id="rplus" aria-label="+">+</button></div></div>
+  <input id="rname" maxlength="48" autocomplete="name" data-tp="yourName" placeholder="Your name">
+  <a class="pri" id="rsend" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z" fill="#fff"/><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a7.6 7.6 0 0 1-3.8-3.3c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.3 3.3 0 0 0-1 2.4 5.7 5.7 0 0 0 1.2 3 13 13 0 0 0 5 4.4c1.9.8 2.6.9 3.5.7a3 3 0 0 0 2-1.4 2.4 2.4 0 0 0 .2-1.4c-.1-.1-.3-.2-.6-.3z" fill="#3f7a85"/></svg><span data-t="send">Send on WhatsApp</span></a>
+</div></div>
+<div class="modal" id="calM"><div class="mcard">
+  <button class="mx" data-close data-ta="close" aria-label="Close">&times;</button>
+  <h3 data-t="calTitle">Add to your calendar</h3>
+  <div class="calopts"><a class="gc" id="calg" href="#" target="_blank" rel="noopener" data-t="calGoogle">Google Calendar</a><a id="cali" href="walimah.ics" data-t="calApple">Apple or Outlook calendar</a></div>
+</div></div>
+<div class="modal" id="duaM"><div class="mcard">
+  <button class="mx" data-close data-ta="close" aria-label="Close">&times;</button>
+  <h3 data-t="duaTitle">Send a dua with a lantern</h3>
+  <textarea id="duatext" maxlength="90" data-tp="duaPh" placeholder="Write a short dua for the couples"></textarea>
+  <button class="pri" id="duasend" data-t="duaSend">Send it up ✦</button>
+</div></div>
 
 <!-- link maker: open this page with ?make at the end of the address -->
 <section id="maker"><div class="in">
   <h1>Invitation links</h1>
-  <p>Each name gets its own link. When they open it, the invitation greets them by name. The general link works for anyone.</p>
+  <p>Each name gets its own link. When they open it, the envelope is addressed to them, their seat in the hall carries their name, and the invitation greets them by name. The general link works for anyone.</p>
+  <h3>Language of the links and messages</h3>
+  <div class="langpick"><button id="mken" class="on">English</button><button id="mkml" lang="ml">മലയാളം</button></div>
   <h3>General link (no name)</h3>
   <div class="row" id="genrow"></div>
   <h3>Personal links</h3>
@@ -234,6 +362,137 @@ body:not(.final) #sheet *,body:not(.joinon) #join *{pointer-events:none!importan
   <div class="top"><button id="mk">Create links</button><button class="ghost" id="cpall">Copy all</button><button class="ghost" id="clr">Clear list</button></div>
   <div id="list"></div>
 </div></section>
+
+<script>
+/* =========================== Settings: edit these =========================== */
+window.INVITE = {
+  // The WhatsApp group invite link. Both "Join our WhatsApp group" buttons use it.
+  whatsappGroup: 'https://chat.whatsapp.com/YOUR_GROUP_LINK',
+  // The WhatsApp number that receives replies (RSVPs) and duas: country code and number, digits only,
+  // for example '919876543210'. Leave it empty and guests pick the contact to send to themselves.
+  rsvpNumber: '',
+  // The venue on Google Maps
+  map: 'https://maps.app.goo.gl/2S2GhS5KD63ZG9em9'
+};
+/* ============== Every word on the page, in English and Malayalam ============== */
+window.WORDS = {
+  en: {
+    greet: 'Assalamu alaikum', greetAfter: 'With heartfelt thanks',
+    envFor: 'Specially for', envGuest: 'you', envGuestAfter: 'our dear guest',
+    envPrep: 'Preparing your invitation…', envTap: 'Tap the seal to open', envQuiet: 'Open without sound', openSound: 'Open the invitation with sound',
+    envTip: 'Hold your phone upright. Drag or tilt to look around.',
+    daysToGo: function (n) { return n + ' days to go, in shaa Allah'; },
+    tomorrow: 'Tomorrow, in shaa Allah', today: 'Today is the day, in shaa Allah', liveNow: 'We are celebrating right now', thanks: 'Thank you for celebrating with us',
+    c1a: 'You are warmly invited to the', c1b: 'Walimah',
+    couple1: 'Razin & Sahar', couple2: 'Razeen & Naeema',
+    dateLong: 'Sunday, 10 January 2027', time: '5 to 8 PM', venue: 'Evento Auditorium, Amarambalam',
+    in1: 'Step inside, the celebration', in2: 'is in full swing',
+    seatCap: 'Your seat is waiting', seatAnon: 'just for you', seatFor: 'RESERVED FOR', seatGuest: 'Our dear guest',
+    slide: 'Slide to open the doors', tapHere: 'or tap here',
+    joinH: 'Join the celebration', joinP: 'Take part in the programs and win prizes', waJoin: 'Join our WhatsApp group',
+    openMap: 'Open map', watchAgain: 'Watch again', stepOut: 'Step outside under the stars', showDetails: 'Show the details',
+    eh: 'We would love to see you there', ehName: function (n) { return n + ', we would love to see you there'; },
+    ehAfter: 'JazakAllahu khairan for celebrating with us', ehAfterName: function (n) { return 'JazakAllahu khairan, ' + n; },
+    days: 'days', hours: 'hours', mins: 'mins', secs: 'secs',
+    happening: 'Happening now. Come join us!', infoDate: 'Sun, 10 Jan 2027 · 5 to 8 PM',
+    rsvpBtn: 'Will you join us? Reply', rsvpSent: 'Reply sent ✓ · change', directions: 'Get directions',
+    cal: 'Calendar', map: 'Map', share: 'Share', replay: 'Replay',
+    foot: 'With love, Abdullah Koya & Raseena Kozhimannil',
+    lantern: 'Tap the sky to send up a lantern ✦', duaBtn: 'Send a dua with a lantern',
+    soundOn: 'Sound on', soundOff: 'Sound off', skip: 'Skip', langBtn: 'മലയാളം',
+    rsvpQ: 'Will you join us?', yes: 'Yes, in shaa Allah', no: 'Sorry, we can’t', howMany: 'How many of you?', yourName: 'Your name', send: 'Send on WhatsApp', close: 'Close',
+    rsvpYes: function (name, n) { return 'Assalamu alaikum! In shaa Allah, ' + (n > 1 ? 'we will attend the Walimah on Sunday, 10 January. We are ' + n + '.' : 'I will attend the Walimah on Sunday, 10 January.') + (name ? '\n— ' + name : ''); },
+    rsvpNo: function (name) { return 'Assalamu alaikum! Sorry, we can’t make it to the Walimah. May Allah bless the couples. Barakallahu lakum!' + (name ? '\n— ' + name : ''); },
+    calTitle: 'Add to your calendar', calGoogle: 'Google Calendar', calApple: 'Apple or Outlook calendar',
+    calEvent: 'Walimah · Razin & Sahar · Razeen & Naeema',
+    calDetails: function (url, map) { return 'You are warmly invited to the Walimah of Razin & Sahar and Razeen & Naeema.\nYour invitation: ' + url + '\nMap: ' + map; },
+    shareText: 'You are warmly invited to the Walimah of Razin & Sahar and Razeen & Naeema. Sunday, 10 January 2027 · 5 to 8 PM · Evento Auditorium, Amarambalam. Open the invitation:',
+    duaTitle: 'Send a dua with a lantern', duaPh: 'Write a short dua for the couples', duaSend: 'Send it up ✦', duaSent: 'Your dua is on its way ✦', duaAlso: 'Also send it to the family',
+    duaMsg: function (dua, name) { return 'A dua for Razin & Sahar and Razeen & Naeema:\n\n“' + dua + '”' + (name ? '\n\n— ' + name : ''); }
+  },
+  ml: {
+    greet: 'അസ്സലാമു അലൈക്കും', greetAfter: 'ഹൃദയം നിറഞ്ഞ നന്ദിയോടെ',
+    envFor: 'പ്രിയപ്പെട്ട', envGuest: 'അതിഥിക്ക്', envGuestAfter: 'അതിഥിക്ക്',
+    envPrep: 'ക്ഷണക്കത്ത് ഒരുങ്ങുന്നു…', envTap: 'തുറക്കാൻ മുദ്രയിൽ തൊടൂ', envQuiet: 'ശബ്ദമില്ലാതെ തുറക്കുക', openSound: 'ശബ്ദത്തോടെ ക്ഷണക്കത്ത് തുറക്കുക',
+    envTip: 'ഫോൺ നേരെ പിടിക്കൂ. ചുറ്റും കാണാൻ വിരൽ കൊണ്ട് നീക്കുകയോ ഫോൺ ചരിക്കുകയോ ചെയ്യൂ.',
+    daysToGo: function (n) { return 'ഇനി ' + n + ' ദിവസം കൂടി, ഇൻ ഷാ അല്ലാഹ്'; },
+    tomorrow: 'നാളെയാണ്, ഇൻ ഷാ അല്ലാഹ്', today: 'ഇന്നാണ് ആ ദിനം, ഇൻ ഷാ അല്ലാഹ്', liveNow: 'ആഘോഷം ഇപ്പോൾ നടക്കുന്നു', thanks: 'ഞങ്ങളോടൊപ്പം ആഘോഷിച്ചതിന് നന്ദി',
+    c1a: 'സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു', c1b: 'വലീമ',
+    couple1: 'റസിൻ & സഹർ', couple2: 'റസീൻ & നഈമ',
+    dateLong: '2027 ജനുവരി 10, ഞായറാഴ്ച', time: 'വൈകിട്ട് 5 മുതൽ 8 വരെ', venue: 'ഇവന്റോ ഓഡിറ്റോറിയം, അമരമ്പലം',
+    in1: 'അകത്തേക്ക് വരൂ,', in2: 'ആഘോഷം തുടങ്ങിക്കഴിഞ്ഞു',
+    seatCap: 'നിങ്ങളുടെ ഇരിപ്പിടം കാത്തിരിക്കുന്നു', seatAnon: 'നിങ്ങൾക്കായി', seatFor: 'നിങ്ങൾക്കായി', seatGuest: 'പ്രിയ അതിഥി',
+    slide: 'വാതിൽ തുറക്കാൻ വശങ്ങളിലേക്ക് നീക്കൂ', tapHere: 'അല്ലെങ്കിൽ ഇവിടെ തൊടൂ',
+    joinH: 'ആഘോഷത്തിൽ പങ്കുചേരൂ', joinP: 'പരിപാടികളിൽ പങ്കെടുക്കൂ, സമ്മാനങ്ങൾ നേടൂ', waJoin: 'വാട്ട്സ്ആപ്പ് ഗ്രൂപ്പിൽ ചേരൂ',
+    openMap: 'മാപ്പ് തുറക്കുക', watchAgain: 'വീണ്ടും കാണുക', stepOut: 'നക്ഷത്രങ്ങൾക്കു താഴെ പുറത്തേക്ക്', showDetails: 'വിവരങ്ങൾ കാണിക്കുക',
+    eh: 'നിങ്ങളുടെ വരവിനായി ഞങ്ങൾ കാത്തിരിക്കുന്നു', ehName: function (n) { return 'പ്രിയ ' + n + ', നിങ്ങളുടെ വരവിനായി ഞങ്ങൾ കാത്തിരിക്കുന്നു'; },
+    ehAfter: 'ഞങ്ങളോടൊപ്പം ആഘോഷിച്ചതിന് ജസാകല്ലാഹു ഖൈറൻ', ehAfterName: function (n) { return 'ജസാകല്ലാഹു ഖൈറൻ, ' + n; },
+    days: 'ദിവസം', hours: 'മണിക്കൂർ', mins: 'മിനിറ്റ്', secs: 'സെക്കൻഡ്',
+    happening: 'ആഘോഷം ഇപ്പോൾ നടക്കുന്നു. വരൂ, ഒപ്പം ചേരൂ!', infoDate: '2027 ജനുവരി 10, ഞായർ · വൈകിട്ട് 5 – 8',
+    rsvpBtn: 'വരുമോ? മറുപടി അറിയിക്കൂ', rsvpSent: 'മറുപടി അയച്ചു ✓ · മാറ്റാം', directions: 'വഴി കാണിക്കുക',
+    cal: 'കലണ്ടർ', map: 'മാപ്പ്', share: 'ഷെയർ', replay: 'വീണ്ടും',
+    foot: 'സ്നേഹത്തോടെ, അബ്ദുല്ല കോയ & റസീന കോഴിമണ്ണിൽ',
+    lantern: 'ആകാശത്ത് തൊട്ട് ഒരു വിളക്ക് പറത്തൂ ✦', duaBtn: 'ഒരു വിളക്കിനൊപ്പം ദുആ അയക്കൂ',
+    soundOn: 'ശബ്ദം ഓൺ', soundOff: 'ശബ്ദം ഓഫ്', skip: 'സ്കിപ്പ്', langBtn: 'English',
+    rsvpQ: 'നിങ്ങൾ വരുമോ?', yes: 'വരും, ഇൻ ഷാ അല്ലാഹ്', no: 'ക്ഷമിക്കണം, വരാൻ കഴിയില്ല', howMany: 'എത്ര പേർ?', yourName: 'നിങ്ങളുടെ പേര്', send: 'വാട്ട്സ്ആപ്പിൽ അയക്കൂ', close: 'അടയ്ക്കുക',
+    rsvpYes: function (name, n) { return 'അസ്സലാമു അലൈക്കും! ജനുവരി 10 ഞായറാഴ്ചയിലെ വലീമയ്ക്ക് ' + (n > 1 ? 'ഞങ്ങൾ ' + n + ' പേർ വരും' : 'ഞാൻ വരും') + ', ഇൻ ഷാ അല്ലാഹ്.' + (name ? '\n— ' + name : ''); },
+    rsvpNo: function (name) { return 'അസ്സലാമു അലൈക്കും! ക്ഷമിക്കണം, വലീമയ്ക്ക് വരാൻ കഴിയില്ല. ദമ്പതികൾക്ക് അല്ലാഹു ബറകത്ത് ചൊരിയട്ടെ. ബാറകല്ലാഹു ലകും!' + (name ? '\n— ' + name : ''); },
+    calTitle: 'കലണ്ടറിൽ ചേർക്കുക', calGoogle: 'ഗൂഗിൾ കലണ്ടർ', calApple: 'ആപ്പിൾ / ഔട്ട്‌ലുക്ക് കലണ്ടർ',
+    calEvent: 'വലീമ · റസിൻ & സഹർ · റസീൻ & നഈമ',
+    calDetails: function (url, map) { return 'റസിൻ & സഹർ, റസീൻ & നഈമ എന്നിവരുടെ വലീമയിലേക്ക് സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു.\nക്ഷണക്കത്ത്: ' + url + '\nമാപ്പ്: ' + map; },
+    shareText: 'റസിൻ & സഹർ, റസീൻ & നഈമ എന്നിവരുടെ വലീമ സൽക്കാരത്തിലേക്ക് സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു. 2027 ജനുവരി 10, ഞായർ · വൈകിട്ട് 5 മുതൽ 8 വരെ · ഇവന്റോ ഓഡിറ്റോറിയം, അമരമ്പലം. ക്ഷണക്കത്ത് തുറക്കൂ:',
+    duaTitle: 'ഒരു വിളക്കിനൊപ്പം ദുആ അയക്കൂ', duaPh: 'ദമ്പതികൾക്കായി ഒരു ചെറിയ ദുആ എഴുതൂ', duaSend: 'ഉയർത്തി വിടൂ ✦', duaSent: 'നിങ്ങളുടെ ദുആ യാത്രയായി ✦', duaAlso: 'കുടുംബത്തിനും അയക്കൂ',
+    duaMsg: function (dua, name) { return 'റസിൻ & സഹർ, റസീൻ & നഈമ എന്നിവർക്കായി ഒരു ദുആ:\n\n“' + dua + '”' + (name ? '\n\n— ' + name : ''); }
+  }
+};
+</script>
+<script>
+/* Language, the envelope's name, the loading ring and early taps: all before the 3D has loaded. */
+(function () {
+  var P = new URLSearchParams(location.search), W = window.WORDS, subs = [];
+  var lang = P.get('lang'); if (lang !== 'ml' && lang !== 'en') { try { lang = localStorage.getItem('walimah-lang'); } catch (e) { lang = null; } }
+  var I = window.I18N = {
+    lang: lang === 'ml' ? 'ml' : 'en',
+    t: function (k) { var v = W[I.lang][k]; if (v === undefined) v = W.en[k]; return typeof v === 'function' ? v.apply(null, [].slice.call(arguments, 1)) : v; },
+    apply: function () {
+      document.documentElement.lang = I.lang;
+      [].forEach.call(document.querySelectorAll('[data-t]'), function (e) { var v = I.t(e.getAttribute('data-t')); if (typeof v === 'string') e.textContent = v; });
+      [].forEach.call(document.querySelectorAll('[data-tp]'), function (e) { e.setAttribute('placeholder', I.t(e.getAttribute('data-tp'))); });
+      [].forEach.call(document.querySelectorAll('[data-ta]'), function (e) { e.setAttribute('aria-label', I.t(e.getAttribute('data-ta'))); });
+      document.getElementById('lang').setAttribute('lang', I.lang === 'ml' ? 'en' : 'ml');
+      subs.forEach(function (f) { try { f(I.lang); } catch (e) { } });
+    },
+    set: function (l) { I.lang = l; try { localStorage.setItem('walimah-lang', l); } catch (e) { } I.apply(); },
+    on: function (f) { subs.push(f); }
+  };
+  var NAME = (P.get('to') || '').replace(/\s+/g, ' ').trim().slice(0, 48), env = document.getElementById('envname');
+  function fit() { env.style.fontSize = ''; var f = parseFloat(getComputedStyle(env).fontSize); while (env.scrollWidth > env.clientWidth + 1 && f > 15) { f -= 1; env.style.fontSize = f + 'px'; } }
+  function addr() { env.textContent = NAME || I.t('envGuest'); fit(); }
+  I.on(addr); I.apply();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  document.getElementById('lang').addEventListener('click', function () { I.set(I.lang === 'ml' ? 'en' : 'ml'); });
+  // the gold ring around the seal fills while the invitation gets ready
+  var ring = document.getElementById('ringp'), t0 = Date.now();
+  var B = window.__boot = { p: 0, set: function (p) { B.p = Math.max(B.p, Math.min(1, p)); ring.style.strokeDashoffset = (251.4 * (1 - B.p)).toFixed(1); } };
+  (function creep() { if (B.p >= .3) return; B.set(Math.min(.28, (Date.now() - t0) / 8000)); setTimeout(creep, 200); })();
+  // a tap before the 3D is ready: remember it, and unlock sound while we still have the tap
+  function open(withSound) {
+    if (window.__app) return window.__app.begin(withSound);
+    if (window.__pending) return;
+    window.__pending = withSound ? 'sound' : 'quiet'; document.body.classList.add('waiting');
+    if (!withSound) return;
+    try {
+      var C = window.AudioContext || window.webkitAudioContext; if (!C) return;
+      var ac = window.__AC || (window.__AC = new C()); if (ac.resume) ac.resume();
+      var m = window.__musicEl; if (!m) { m = window.__musicEl = new Audio(); m.src = 'nasheed.mp3'; m.loop = true; m.preload = 'auto'; m.setAttribute('playsinline', ''); m.crossOrigin = 'anonymous'; }
+      if (!window.__musicSrc) { var s = window.__musicSrc = ac.createMediaElementSource(m), g = window.__musicGain = ac.createGain(); g.gain.value = 0; s.connect(g); g.connect(ac.destination); }
+      var pr = m.play(); if (pr && pr.catch) pr.catch(function () { });
+    } catch (e) { }
+  }
+  document.getElementById('go').addEventListener('click', function () { open(true); });
+  document.getElementById('quiet').addEventListener('click', function () { open(false); });
+})();
+</script>
 <script type="module" src="app.js"></script>
 </body>
 </html>
