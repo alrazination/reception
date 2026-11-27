@@ -325,8 +325,8 @@ const camPos = new THREE.Vector3(), look = new THREE.Vector3(), tmp = new THREE.
 const doorPos = camCurve.getPointAt(1), doorLook = lookCurve.getPoint(1);
 let last = performance.now(), soundClock = 0, frames = 0, slow = 0, shown = false;
 function loop(now) {
-  requestAnimationFrame(loop);
-  const dt = Math.min(.05, (now - last) / 1000); last = now; const tt = now / 1000; U.time.value = tt; grade.uniforms.uTime.value = tt;
+  if (!window.__manual) requestAnimationFrame(loop); // __manual: frames are stepped one at a time, for rendering the video
+  const dt = window.__stepDt || Math.min(.05, (now - last) / 1000); last = now; const tt = now / 1000; U.time.value = tt; grade.uniforms.uTime.value = tt;
   if (phase !== 'intro') wt += dt;
   if (phase === 'journey') { T += dt; if (T >= TJ) { T = TJ; phase = 'door'; body.classList.add('door'); } }
   // adapt quality if the phone struggles
@@ -413,4 +413,6 @@ window.__app = { begin };
 const st = P.get('t'); if (st !== null) { body.classList.add('go', 'opening'); phase = 'journey'; T = parseFloat(st) || 0; wt = T; if (T >= TJ + 5) toFinal(true); }
 if (reduce && phase === 'intro') toFinal(true);
 if (window.__pending && phase === 'intro') begin(window.__pending === 'sound');
-window.__dbg = { W, IN, scene, renderer, camera, envs, begin, setT: t2 => { T = t2; wt = t2; if (phase === 'intro') { phase = 'journey'; body.classList.add('go', 'opening'); } }, open: openDoors, final: () => toFinal(true), adv: s => { wt += s; }, get phase() { return phase; }, get wt() { return wt; }, get programs() { return renderer.info.programs.length; } };
+let manualNow = performance.now();
+window.__dbg = { W, IN, scene, renderer, camera, envs, begin, setT: t2 => { T = t2; wt = t2; if (phase === 'intro') { phase = 'journey'; body.classList.add('go', 'opening'); } }, open: openDoors, final: () => toFinal(true), adv: s => { wt += s; }, get phase() { return phase; }, get wt() { return wt; }, get T() { return T; }, set T(v) { T = v; },
+  step: dt => { window.__manual = true; window.__stepDt = dt; manualNow += dt * 1000; loop(manualNow); }, get programs() { return renderer.info.programs.length; } };
