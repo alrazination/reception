@@ -24,7 +24,7 @@ function backdrop() {
       g.strokeStyle = 'rgba(0,0,0,.06)'; g.lineWidth = 1; g.stroke();
       g.fillStyle = 'rgba(255,255,255,.75)'; g.beginPath(); g.ellipse(x - r * .35, y - r * .4, r * .22, r * .3, -.5, 0, 2 * PI); g.fill(); }
     g.textAlign = 'center'; g.textBaseline = 'middle';
-    g.fillStyle = '#2f555a'; g.font = '700 60px Lora, Georgia, serif'; g.fillText('Walimah', w / 2, 52);
+    g.fillStyle = '#2f555a'; g.font = '700 60px Lora, Georgia, serif'; g.fillText('Reception', w / 2, 52);
     const pair = (y, a, b) => { g.font = '700 40px Lora, Georgia, serif'; const s1 = a + ' ', s2 = ' ' + b, amp = '&';
       const w1 = g.measureText(s1).width, w2 = g.measureText(s2).width; g.font = '500 40px Lora, Georgia, serif'; const wa = g.measureText(amp).width;
       let x = w / 2 - (w1 + wa + w2) / 2; g.textAlign = 'left';
