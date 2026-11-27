@@ -18,7 +18,7 @@ const apple = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
 
 export function initUI(hooks = {}) {
   const body = document.body;
-  if (NAME) document.title = 'Walimah · For ' + NAME;
+  if (NAME) document.title = 'Reception · For ' + NAME;
   if (apple) body.classList.add('apple');
   document.querySelectorAll('a.wagroup').forEach(a => a.href = CFG.whatsappGroup || '#');
   document.querySelectorAll('a.maplink').forEach(a => a.href = CFG.map || '#');
@@ -54,7 +54,7 @@ export function initUI(hooks = {}) {
   $('calbtn').onclick = () => {
     const link = personalLink(NAME, I18N.lang);
     $('calg').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(t('calEvent')) + '&dates=20270110T113000Z/20270110T143000Z&location=' + encodeURIComponent(t('venue')) + '&details=' + encodeURIComponent(t('calDetails', link, CFG.map || ''));
-    $('cali').href = I18N.lang === 'ml' ? 'walimah-ml.ics' : 'walimah.ics';
+    $('cali').href = I18N.lang === 'ml' ? 'reception-ml.ics' : 'reception.ics';
     openM('calM');
   };
   $('calM').querySelectorAll('a').forEach(a => a.addEventListener('click', () => setTimeout(() => closeM('calM'), 400)));
@@ -68,8 +68,8 @@ function maker() {
   document.documentElement.classList.add('make');
   let lang = 'en';
   const msg = (n, u) => lang === 'ml'
-    ? 'അസ്സലാമു അലൈക്കും' + (n ? ' ' + n : '') + ' 🌸\n\nറാസിൻ & സഹർ, റസീൻ & നഈമ എന്നിവരുടെ വലീമ സൽക്കാരത്തിലേക്ക് നിങ്ങളെ സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു.\n\n2027 ജനുവരി 10, ഞായറാഴ്ച · വൈകിട്ട് 5 മുതൽ 8 വരെ\nഇവന്റോ ഓഡിറ്റോറിയം, അമരമ്പലം\n\nക്ഷണക്കത്ത് തുറക്കൂ (ശബ്ദം ഓൺ ചെയ്ത് കാണുന്നതാണ് നല്ലത്):\n' + u
-    : 'Assalamu alaikum' + (n ? ' ' + n : '') + ' 🌸\n\nWith hearts full of joy, we invite you to the Walimah of Razin & Sahar and Razeen & Naeema.\n\nSunday, 10 January 2027 · 5 to 8 PM\nEvento Auditorium, Amarambalam\n\nOpen your invitation (best with sound on):\n' + u;
+    ? 'അസ്സലാമു അലൈക്കും' + (n ? ' ' + n : '') + ' 🌸\n\nറാസിൻ & സഹർ, റസീൻ & നഈമ എന്നിവരുടെ റിസപ്ഷനിലേക്ക് നിങ്ങളെ സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു.\n\n2027 ജനുവരി 10, ഞായറാഴ്ച · വൈകിട്ട് 5 മുതൽ 8 വരെ\nഇവന്റോ ഓഡിറ്റോറിയം, അമരമ്പലം\n\nക്ഷണക്കത്ത് തുറക്കൂ (ശബ്ദം ഓൺ ചെയ്ത് കാണുന്നതാണ് നല്ലത്):\n' + u
+    : 'Assalamu alaikum' + (n ? ' ' + n : '') + ' 🌸\n\nWith hearts full of joy, we invite you to the Reception of Razin & Sahar and Razeen & Naeema.\n\nSunday, 10 January 2027 · 5 to 8 PM\nEvento Auditorium, Amarambalam\n\nOpen your invitation (best with sound on):\n' + u;
   const copy = (x, b) => (navigator.clipboard ? navigator.clipboard.writeText(x) : Promise.reject()).then(() => { const o = b.textContent; b.textContent = 'Copied'; setTimeout(() => b.textContent = o, 1200); }).catch(() => prompt('Copy this:', x));
   const row = n => { const u = personalLink(n, lang), d = document.createElement('div'); d.className = 'row';
     d.innerHTML = '<b></b><code></code><button>Copy link</button><a class="mb" target="_blank" rel="noopener">Send on WhatsApp</a><a class="mb ghost" target="_blank" rel="noopener">Preview</a>';

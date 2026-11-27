@@ -1,6 +1,6 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Walimah//Invitation//EN
+PRODID:-//Reception//Invitation//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
@@ -8,20 +8,20 @@ UID:walimah-20270110@alrazination.github.io
 DTSTAMP:20261126T050000Z
 DTSTART:20270110T113000Z
 DTEND:20270110T143000Z
-SUMMARY:Walimah · Razin & Sahar · Razeen & Naeema
+SUMMARY:Reception · Razin & Sahar · Razeen & Naeema
 LOCATION:Evento Auditorium\, Amarambalam
-DESCRIPTION:You are warmly invited to the Walimah of Razin & Sahar and Raze
- en & Naeema.\nYour invitation: https://alrazination.github.io/reception/\n
- Map: https://maps.app.goo.gl/2S2GhS5KD63ZG9em9
+DESCRIPTION:You are warmly invited to the Reception of Razin & Sahar and Ra
+ zeen & Naeema.\nYour invitation: https://alrazination.github.io/reception/
+ \nMap: https://maps.app.goo.gl/2S2GhS5KD63ZG9em9
 URL:https://alrazination.github.io/reception/
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Walimah tomorrow\, 5 to 8 PM\, in shaa Allah
+DESCRIPTION:Reception tomorrow\, 5 to 8 PM\, in shaa Allah
 TRIGGER:-P1D
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Walimah in 2 hours: Evento Auditorium\, Amarambalam
+DESCRIPTION:Reception in 2 hours: Evento Auditorium\, Amarambalam
 TRIGGER:-PT2H
 END:VALARM
 END:VEVENT

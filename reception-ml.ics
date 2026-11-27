@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Reception//Invitation//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:walimah-20270110@alrazination.github.io
+DTSTAMP:20261126T050000Z
+DTSTART:20270110T113000Z
+DTEND:20270110T143000Z
+SUMMARY:റിസപ്ഷൻ · റാസിൻ & സഹർ · റസീ
+ ൻ & നഈമ
+LOCATION:ഇവന്റോ ഓഡിറ്റോറിയം\, അമര
+ മ്പലം
+DESCRIPTION:റാസിൻ & സഹർ\, റസീൻ & നഈമ എന
+ ്നിവരുടെ റിസപ്ഷനിലേക്ക് സ്
+ നേഹപൂർവ്വം ക്ഷണിക്കുന്നു.\n
+ ക്ഷണക്കത്ത്: https://alrazination.github.io/receptio
+ n/?lang=ml\nമാപ്പ്: https://maps.app.goo.gl/2S2GhS5KD63ZG9em9
+URL:https://alrazination.github.io/reception/?lang=ml
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:നാളെ റിസപ്ഷൻ\, വൈകിട്ട് 5
+  മുതൽ 8 വരെ\, ഇൻ ഷാ അല്ലാഹ്
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:2 മണിക്കൂറിനുള്ളിൽ റിസപ
+ ്ഷൻ: ഇവന്റോ ഓഡിറ്റോറിയം\, അമ
+ രമ്പലം
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR
