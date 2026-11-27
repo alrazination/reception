@@ -161,7 +161,7 @@ html[lang=ml] .cd small{letter-spacing:0;font-size:.66rem}
 .pri svg{width:21px;height:21px;flex:none}
 .foot{margin-top:8px;font:italic 500 .9rem var(--serif)}
 html[lang=ml] .foot{font-size:.84rem;line-height:1.5}
-@media(max-height:760px){.jc{padding-top:22px!important}.jc .pri{margin-top:10px;padding:11px 18px}.tools{margin-top:10px}.ic{width:50px;height:50px}.moves{margin-top:10px}}
+@media(max-height:760px){.jc{padding-top:22px!important}.jc .pri{margin-top:10px;padding:11px 18px}.dl{margin-top:10px;padding:8px 18px}.tools{margin-top:10px}.ic{width:50px;height:50px}.moves{margin-top:10px}}
 /* the hall card */
 .jc h3{font:700 1.45rem/1.2 var(--serif);color:var(--green)}
 .jc p{margin:6px auto 0;max-width:330px;font-weight:600;font-size:.98rem;line-height:1.4;opacity:.85}
@@ -183,7 +183,9 @@ html[lang=ml] .foot{font-size:.84rem;line-height:1.5}
 .iccal b{display:block;width:100%;background:#e8453c;color:#fff;font:700 .66rem/1.7 var(--sans);letter-spacing:.08em}
 .iccal i{font:700 1.5rem/1.3 var(--sans);font-style:normal;color:#222}
 .icre{background:linear-gradient(135deg,#43828d,#2f5f68)}.icre svg{width:28px;height:28px}
-.moves{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:14px}
+.dl{display:inline-flex;align-items:center;gap:8px;margin:14px auto 0;padding:10px 20px;border-radius:40px;background:linear-gradient(135deg,#c99a45,#e7c06e);color:#3a2a14;font:700 .95rem var(--sans);text-decoration:none;box-shadow:0 5px 14px rgba(160,120,50,.35)}
+.dl svg{width:20px;height:20px}
+.moves{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:12px}
 #walk{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border:0;border-radius:40px;background:#fff;box-shadow:inset 0 0 0 1.5px rgba(63,122,133,.55);color:var(--btn);font:700 .96rem var(--sans);cursor:pointer}
 #walk svg{width:20px;height:20px;fill:currentColor}
 #goin,.final #walk,.final #cont{display:none}.final #goin{display:inline-flex}
@@ -284,6 +286,7 @@ html[lang=ml] .foot{font-size:.84rem;line-height:1.5}
       <button class="tl" id="calbtn"><span class="ic iccal"><b data-t="calMon">JAN</b><i>10</i></span><span data-t="cal">Calendar</span></button>
       <a class="tl" href="#" id="replay2"><span class="ic icre"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 1 0 2.4-5.5"/><path d="M4.5 4v4.4h4.4"/></svg></span><span data-t="watchAgain">Watch again</span></a>
     </div>
+    <a class="dl" href="reception-reel.mp4" download="Reception invitation.mp4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11.5M7 10.5l5 5 5-5M4.5 19.5h15"/></svg><span data-t="dlVideo">Download video version</span></a>
     <div class="moves">
       <button id="walk"><svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg><span data-t="walk">Walk around the hall</span></button>
       <button id="cont" class="star"><span class="st">&#10022;</span> <span data-t="stepOut">Step outside under the stars</span> <span class="st">&#10022;</span></button>
@@ -354,7 +357,7 @@ window.WORDS = {
     happening: 'Happening now. Come join us!', infoDate: 'Sun, 10 Jan 2027 · 5 to 8 PM',
     cal: 'Calendar', map: 'Map',
     foot: 'With love, Abdullah Koya & Raseena Kozhimannil',
-    lantern: 'Tap the sky to send up a lantern ✦', goIn: 'Go inside', walk: 'Walk around the hall', calMon: 'JAN',
+    lantern: 'Tap the sky to send up a lantern ✦', goIn: 'Go inside', dlVideo: 'Download video version', walk: 'Walk around the hall', calMon: 'JAN',
     strollHint: 'Drag to look around · use the pad to walk · tap the floor to go there',
     soundOn: 'Sound on', soundOff: 'Sound off', skip: 'Skip', langBtn: 'മലയാളം',
     calTitle: 'Add to your calendar', calGoogle: 'Google Calendar', calApple: 'Apple or Outlook calendar',
@@ -380,7 +383,7 @@ window.WORDS = {
     happening: 'ആഘോഷം ഇപ്പോൾ നടക്കുന്നു. വരൂ, ഒപ്പം ചേരൂ!', infoDate: '2027 ജനുവരി 10, ഞായർ · വൈകിട്ട് 5 – 8',
     cal: 'കലണ്ടർ', map: 'മാപ്പ്',
     foot: 'സ്നേഹത്തോടെ, അബ്ദുല്ല കോയ & റസീന കോഴിമണ്ണിൽ',
-    lantern: 'ആകാശത്ത് തൊട്ട് ഒരു വിളക്ക് പറത്തൂ ✦', goIn: 'അകത്തേക്ക് പോകാം', walk: 'ഹാളിൽ ചുറ്റി നടക്കാം', calMon: 'ജനു',
+    lantern: 'ആകാശത്ത് തൊട്ട് ഒരു വിളക്ക് പറത്തൂ ✦', goIn: 'അകത്തേക്ക് പോകാം', dlVideo: 'വീഡിയോ പതിപ്പ് ഡൗൺലോഡ് ചെയ്യൂ', walk: 'ഹാളിൽ ചുറ്റി നടക്കാം', calMon: 'ജനു',
     strollHint: 'ചുറ്റും കാണാൻ വിരൽ കൊണ്ട് നീക്കൂ · നടക്കാൻ പാഡ് ഉപയോഗിക്കൂ · പോകേണ്ടിടത്ത് തറയിൽ തൊടൂ',
     soundOn: 'ശബ്ദം ഓൺ', soundOff: 'ശബ്ദം ഓഫ്', skip: 'സ്കിപ്പ്', langBtn: 'English',
     calTitle: 'കലണ്ടറിൽ ചേർക്കുക', calGoogle: 'ഗൂഗിൾ കലണ്ടർ', calApple: 'ആപ്പിൾ / ഔട്ട്‌ലുക്ക് കലണ്ടർ',
